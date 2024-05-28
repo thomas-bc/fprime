@@ -14,7 +14,7 @@ fi
 for folder in $folders; do
     echo "[INFO] Processing folder: $folder"
     find $folder -name "*.cpp" -o -name "*.hpp" | fprime-util format --stdin --no-backup -q
-    find $folder -name "*.cpp" -o -name "*.hpp" | xargs git diff --exit-code
+    find $folder -name "*.cpp" -o -name "*.hpp" | xargs git diff --exit-code --name-only
     if [ $? -ne 0 ]; then
         echo "[ERROR] Files in the folder $folder are not formatted correctly."
         FORMAT_ERROR=1

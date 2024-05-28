@@ -22,5 +22,5 @@ jobs:
         pip install fprime-tools
     - name: Check formatting
       env:
-        FOLDERS_LIST: "config"
+        FOLDERS_LIST: "Fw/Types"
       run: ./.github/actions/check-cpp-format.sh
