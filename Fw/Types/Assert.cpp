@@ -33,11 +33,12 @@ void defaultReportAssert(FILE_NAME_ARG file,
             (void)snprintf(destBuffer, static_cast<size_t>(buffSize), fileIdFs, file, lineNo);
             break;
         case 1:
-            (void)snprintf(destBuffer, static_cast<size_t>(buffSize), fileIdFs " %" PRI_FwAssertArgType, file, lineNo, arg1);
+            (void)snprintf(destBuffer, static_cast<size_t>(buffSize), fileIdFs " %" PRI_FwAssertArgType, file, lineNo,
+                           arg1);
             break;
         case 2:
-            (void)snprintf(destBuffer, static_cast<size_t>(buffSize), fileIdFs " %" PRI_FwAssertArgType " %" PRI_FwAssertArgType, file,
-                           lineNo, arg1, arg2);
+            (void)snprintf(destBuffer, static_cast<size_t>(buffSize),
+                           fileIdFs " %" PRI_FwAssertArgType " %" PRI_FwAssertArgType, file, lineNo, arg1, arg2);
             break;
         case 3:
             (void)snprintf(destBuffer, static_cast<size_t>(buffSize),

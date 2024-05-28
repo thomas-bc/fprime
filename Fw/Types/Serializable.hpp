@@ -197,7 +197,6 @@ class SerializeBufferBase {
     // Copy constructor can be used only by the implementation
     SerializeBufferBase(const SerializeBufferBase& src);  //!< constructor with buffer as source
 
-
     void copyFrom(const SerializeBufferBase& src);  //!< copy data from source buffer
     Serializable::SizeType m_serLoc;                //!< current offset in buffer of serialized data
     Serializable::SizeType m_deserLoc;              //!< current offset for deserialization
