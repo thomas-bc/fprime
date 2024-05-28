@@ -15,6 +15,9 @@ if [[ -z $RUNNER_DEBUG ]]; then
     GIT_DIFF_FLAGS="--name-only"
 fi
 
+echo "[INFO] Checking format for the following folders: $folders"
+echo "[INFO] Using clang-format version: $(clang-format --version)"
+
 # Loop over the folders
 for folder in $folders; do
     echo "[INFO] Processing folder: $folder"
