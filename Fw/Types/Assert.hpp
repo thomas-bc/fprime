@@ -107,8 +107,8 @@ namespace Fw {
 // Base class for declaring an assert hook
 class AssertHook {
   public:
-    AssertHook() : previousHook(nullptr) {};  //!< constructor
-    virtual ~AssertHook() {};                 //!< destructor
+    AssertHook() : previousHook(nullptr){};  //!< constructor
+    virtual ~AssertHook() {};                //!< destructor
     // override this function to intercept asserts
     virtual void reportAssert(FILE_NAME_ARG file,
                               NATIVE_UINT_TYPE lineNo,
