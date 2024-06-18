@@ -22,6 +22,9 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/SerializableFile/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Test/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Types/")
 
+# CCSDS subdirectories
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Ccsds/Cfdp/")
+
 # Setup an interface target for Fw for efficiency
 add_library(Fw INTERFACE)
 add_dependencies(Fw ${FPRIME_FRAMEWORK_MODULES})
