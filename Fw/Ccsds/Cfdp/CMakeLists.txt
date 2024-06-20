@@ -17,6 +17,6 @@ register_fprime_module()
 
 set(UT_SOURCE_FILES
     "${CMAKE_CURRENT_LIST_DIR}/test/ut/TestFilePacket.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/test/ut/TestFilePacketHeader.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/test/ut/TestHeader.cpp"
 )
 register_fprime_ut()

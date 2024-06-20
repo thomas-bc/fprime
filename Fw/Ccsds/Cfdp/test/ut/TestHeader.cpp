@@ -1,6 +1,6 @@
 //! ============================================================================
-//! @file   TestFilePacketHeader.cpp
-//! @brief  CFDP PDU file packet header test file.
+//! @file   TestHeader.cpp
+//! @brief  CFDP PDU header test file.
 //! @author chownw
 //! ============================================================================
 
