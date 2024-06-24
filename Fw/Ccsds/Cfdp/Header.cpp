@@ -33,8 +33,6 @@ void serialize_value(U8* data, U64 value, U8 size)
 //! @param data A pointer to the start of the data.
 //! @param size The number of bytes required to store the value.
 //!
-//! @returns The value read.
-//!
 U64 deserialize_value(U8* data, U8 size)
 {
   U32 output = 0;
@@ -285,6 +283,17 @@ void FilePacket::Header::
   this->destEntityId = deserialize_value(
     &data[4 + this->entityIdLength + this->transSeqNumLength],
     this->entityIdLength
+  );
+}
+
+U32 FilePacket::Header::
+  getSerializedLength()
+{
+  return (
+    FixedSize::BYTES
+    + this->entityIdLength
+    + this->transSeqNumLength
+    + this->entityIdLength
   );
 }
 

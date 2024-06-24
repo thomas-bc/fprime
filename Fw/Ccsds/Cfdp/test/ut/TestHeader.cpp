@@ -30,6 +30,7 @@ enum SerializedTestHeader1 : U8
   OCTET_10 = 0x00, // |0 0 0 0 0 0 0 0| - Destination entity ID octet 0
   OCTET_11 = 0x00, // |0 0 0 0 0 0 0 0| - Destination entity ID octet 1
   OCTET_12 = 0x07, // |0 0 0 0 0 1 1 1| - Destination entity ID octet 2
+  LENGTH = 13,
 };
 
 //! @brief Construct a header that serializes to SerializedTestHeader1.
@@ -201,8 +202,8 @@ TEST(FilePacketHeader, GetFields)
 TEST(FilePacketHeader, Serialize)
 {
   // Allocate buffer for serialized header
-  U8 data[13];
-  Fw::Buffer buffer(data, 13);
+  U8 data[SerializedTestHeader1::LENGTH];
+  Fw::Buffer buffer(data, SerializedTestHeader1::LENGTH);
 
   // Create header
   FilePacket::Header header = createTestHeader1();
@@ -268,8 +269,8 @@ TEST(FilePacketHeader, Serialize)
 TEST(FilePacketHeader, Deserialize)
 {
   // Allocate buffer for serialized header
-  U8 data[13];
-  Fw::Buffer buffer(data, 13);
+  U8 data[SerializedTestHeader1::LENGTH];
+  Fw::Buffer buffer(data, SerializedTestHeader1::LENGTH);
 
   // Create an empty header to fill with deserialized data
   FilePacket::Header header;
@@ -348,6 +349,18 @@ TEST(FilePacketHeader, Deserialize)
   EXPECT_EQ(
     header.destEntityId,
     7
+  );
+}
+
+TEST(FilePacketHeader, SerializedLength)
+{
+  // Create header
+  FilePacket::Header header = createTestHeader1();
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    header.getSerializedLength(),
+    SerializedTestHeader1::LENGTH
   );
 }
 

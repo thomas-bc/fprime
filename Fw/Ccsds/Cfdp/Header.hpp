@@ -208,7 +208,47 @@ class FilePacket::Header
     //!
     void deserialize(Fw::Buffer& buf, U32 offset);
 
+    //! @brief Get the length in octets of this header when serialized.
+    //!
+    U32 getSerializedLength();
+
   PRIVATE:
+    //! @brief Length in bits of fixed-size header fields.
+    //!
+    enum FieldLength : U32
+    {
+      VERSION = 3,
+      TYPE = 1,
+      DIRECTION = 1,
+      TRANSMISSION_MODE = 1,
+      CRC_FLAG = 1,
+      LARGE_FILE_FLAG = 1,
+      DATA_FIELD_LENGTH = 16,
+      SEGMENTATION_CONTROL = 1,
+      ENTITY_ID_LENGTH = 3,
+      SEGMENT_METADATA_FLAG = 1,
+      TRANS_SEQ_NUM_LENGTH = 3,
+    };
+
+    //! @brief Total length of fixed-size header fields.
+    //!
+    enum FixedSize : U32
+    {
+      BITS =
+        FieldLength::VERSION
+        + FieldLength::TYPE
+        + FieldLength::DIRECTION
+        + FieldLength::TRANSMISSION_MODE
+        + FieldLength::CRC_FLAG
+        + FieldLength::LARGE_FILE_FLAG
+        + FieldLength::DATA_FIELD_LENGTH
+        + FieldLength::SEGMENTATION_CONTROL
+        + FieldLength::ENTITY_ID_LENGTH
+        + FieldLength::SEGMENT_METADATA_FLAG
+        + FieldLength::TRANS_SEQ_NUM_LENGTH,
+      BYTES = BITS / 8,
+    };
+
     //! @brief The protocol version.
     //!
     U8 version;
