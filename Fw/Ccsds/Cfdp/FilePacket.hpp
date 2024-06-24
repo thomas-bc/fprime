@@ -71,6 +71,10 @@ class FilePacket
         //!
         const U8* value;
 
+        //! @brief Get the length in octets of LV obejct when serialized.
+        //!
+        U32 getSerializedLength();
+
       PROTECTED:
         //! @brief Serialize this LV object.
         //!
@@ -139,6 +143,10 @@ class FilePacket
         //! @param offset The byte offset to start deserialization from.
         //!
         void deserialize(Fw::Buffer& buf, U32 offset);
+
+        //! @brief Get the length in octets of TLV obejct when serialized.
+        //!
+        U32 getSerializedLength();
     };
 
   public:

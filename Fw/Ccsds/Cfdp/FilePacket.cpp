@@ -61,6 +61,12 @@ void FilePacket::LengthValue::
   this->value = &data[1];
 }
 
+U32 FilePacket::LengthValue::
+  getSerializedLength()
+{
+  return this->length + 1;
+}
+
 FilePacket::TypeLengthValue::
   TypeLengthValue(
     FilePacket::TypeLengthValue::TlvType type,
@@ -99,6 +105,12 @@ void FilePacket::TypeLengthValue::
 
   // Deserialize length and value fields
   FilePacket::LengthValue::deserialize(buf, 1);
+}
+
+U32 FilePacket::TypeLengthValue::
+  getSerializedLength()
+{
+  return this->length + 2;
 }
 
 FilePacket::
