@@ -191,11 +191,11 @@ U64 FilePacket::Header::
 }
 
 void FilePacket::Header::
-  serialize(Fw::Buffer& buf)
+  serialize(Fw::Buffer& buf, U32 offset)
 {
-  // TODO: Check buffer size is >= header size
+  // TODO: Check buffer size is >= header size + offset
 
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   // Serialize octet 0
   data[0] = 0;
@@ -242,9 +242,9 @@ void FilePacket::Header::
 }
 
 void FilePacket::Header::
-  deserialize(Fw::Buffer& buf)
+  deserialize(Fw::Buffer& buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   // Deserialize octet 0
   this->version = data[0] >> 5;

@@ -132,18 +132,20 @@ class FilePacket
         //!
         const U8* value;
 
-      PRIVATE:
+      PROTECTED:
         //! @brief Serialize this LV object.
         //!
         //! @param buf The buffer to hold the serialized data.
+        //! @param offset The byte offset to start serialization from.
         //!
-        void serialize(Fw::Buffer& buf);
+        void serialize(Fw::Buffer& buf, U32 offset);
 
         //! @brief Deserialize a buffer containing a serialized LV object.
         //!
         //! @param buf The buffer containing serialized data.
+        //! @param offset The byte offset to start deserialization from.
         //!
-        void deserialize(Fw::Buffer& buf);
+        void deserialize(Fw::Buffer& buf, U32 offset);
     };
 
     //! @brief A class defining the Type Length Value (TLV) object format.
@@ -154,6 +156,8 @@ class FilePacket
     class TypeLengthValue : public LengthValue
     {
       public:
+        //! @brief Possible TLV types and their corresponding type field values.
+        //!
         enum class TlvType
         {
           FILESTORE_REQUEST = 0x00, //!< The Filestore Request TLV type.
@@ -186,14 +190,16 @@ class FilePacket
         //! @brief Serialize this TLV object.
         //!
         //! @param buf The buffer to hold the serialized data.
+        //! @param offset The byte offset to start serialization from.
         //!
-        void serialize(Fw::Buffer& buf);
+        void serialize(Fw::Buffer& buf, U32 offset);
 
         //! @brief Deserialize a buffer containing a serialized TLV object.
         //!
         //! @param buf The buffer containing serialized data.
+        //! @param offset The byte offset to start deserialization from.
         //!
-        void deserialize(Fw::Buffer& buf);
+        void deserialize(Fw::Buffer& buf, U32 offset);
     };
 
   public:

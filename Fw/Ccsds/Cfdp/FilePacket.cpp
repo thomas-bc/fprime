@@ -35,9 +35,9 @@ const U8* FilePacket::LengthValue::
 }
 
 void FilePacket::LengthValue::
-  serialize(Fw::Buffer& buf)
+  serialize(Fw::Buffer& buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   // Octet 0
   data[0] = this->length;
@@ -50,9 +50,9 @@ void FilePacket::LengthValue::
 }
 
 void FilePacket::LengthValue::
-  deserialize(Fw::Buffer& buf)
+  deserialize(Fw::Buffer& buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   // Octet 0
   this->length = data[0];
@@ -78,35 +78,27 @@ FilePacket::TypeLengthValue::TlvType FilePacket::TypeLengthValue::
 }
 
 void FilePacket::TypeLengthValue::
-  serialize(Fw::Buffer& buf)
+  serialize(Fw::Buffer& buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
+  // Octet 0
   data[0] = static_cast<U8>(this->type);
 
-  // Octet 1
-  data[1] = this->length;
-
-  // Copy value into the buffer starting at octet 2
-  for (int i = 0; i < this->length; ++i)
-  {
-    data[i + 2] = this->value[i];
-  }
+  // Serialize length and value fields
+  FilePacket::LengthValue::serialize(buf, 1);
 }
 
 void FilePacket::TypeLengthValue::
-  deserialize(Fw::Buffer& buf)
+  deserialize(Fw::Buffer& buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   // Octet 0
   this->type = static_cast<FilePacket::TypeLengthValue::TlvType>(data[0]);
 
-  // Octet 1
-  this->length = data[1];
-
-  // Get a pointer to octet 2 which is the start of the value in the buffer
-  this->value = &data[2];
+  // Deserialize length and value fields
+  FilePacket::LengthValue::deserialize(buf, 1);
 }
 
 FilePacket::

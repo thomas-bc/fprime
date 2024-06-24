@@ -33,8 +33,8 @@ TEST(FilePacketFieldFormats, LengthValue)
   EXPECT_EQ(lv.length, strlen(value));
   EXPECT_EQ(lv.value, reinterpret_cast<const U8*>(value));
 
-  lv.serialize(buffer);
-  lv.deserialize(buffer);
+  lv.serialize(buffer, 0);
+  lv.deserialize(buffer, 0);
 
   // Verify deserialization resulted in the correct length, a pointer to the
   // start of the value in the serialized buffer, and that serialization
@@ -74,8 +74,8 @@ TEST(FilePacketFieldFormats, TypeLengthValue)
   EXPECT_EQ(tlv.length, strlen(value));
   EXPECT_EQ(tlv.value, reinterpret_cast<const U8*>(value));
 
-  tlv.serialize(buffer);
-  tlv.deserialize(buffer);
+  tlv.serialize(buffer, 0);
+  tlv.deserialize(buffer, 0);
 
   // Verify deserialization resulted in the correct length, a pointer to the
   // start of the value in the serialized buffer, and that serialization

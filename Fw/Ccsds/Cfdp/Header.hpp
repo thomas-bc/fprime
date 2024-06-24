@@ -124,14 +124,16 @@ class FilePacket::Header
     //! @brief Serialize this header into a buffer.
     //!
     //! @param buf The buffer to hold the serialized data.
+    //! @param offset The byte offset to start serialization from.
     //!
-    void serialize(Fw::Buffer& buf);
+    void serialize(Fw::Buffer& buf, U32 offset);
 
     //! @brief Deserialize a buffer containing serialized header data.
     //!
     //! @param buf The buffer containing serialized data.
+    //! @param offset The byte offset to start deserialization from.
     //!
-    void deserialize(Fw::Buffer& buf);
+    void deserialize(Fw::Buffer& buf, U32 offset);
 
   PRIVATE:
     //! @brief The protocol version.

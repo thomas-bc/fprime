@@ -208,7 +208,7 @@ TEST(FilePacketHeader, Serialize)
   FilePacket::Header header = createTestHeader1();
 
   // Call header serialization function
-  header.serialize(buffer);
+  header.serialize(buffer, 0);
 
   // Verify buffer contains data in the expected format
   EXPECT_EQ(
@@ -290,7 +290,7 @@ TEST(FilePacketHeader, Deserialize)
   data[12] = SerializedTestHeader1::OCTET_12;
 
   // Call header serialization function
-  header.deserialize(buffer);
+  header.deserialize(buffer, 0);
 
   // Verify buffer contains data in the expected format
   EXPECT_EQ(
