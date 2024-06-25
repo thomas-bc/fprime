@@ -16,6 +16,13 @@ namespace Cfdp
 {
 
 FilePacket::LengthValue::
+  LengthValue()
+{
+  this->length = 0;
+  this->value = NULL;
+}
+
+FilePacket::LengthValue::
   LengthValue(U8 length, const U8* value)
 {
   this->length = length;
@@ -42,7 +49,7 @@ void FilePacket::LengthValue::
   // Octet 0
   data[0] = this->length;
 
-  // Copy value into the buffer starting at octet 1
+  // Copy value into the buffer starting at octet 1, skip if length is 0
   for (int i = 0; i < this->length; ++i)
   {
     data[i + 1] = this->value[i];
@@ -57,60 +64,22 @@ void FilePacket::LengthValue::
   // Octet 0
   this->length = data[0];
 
-  // Get a pointer to octet 1 which is the start of the value in the buffer
-  this->value = &data[1];
+  if (this->length == 0)
+  {
+    // Length is 0, there is no value field to deserialize
+    this->value = NULL;
+  }
+  else
+  {
+    // Get pointer to octet 1 which is the start of value field in the buffer
+    this->value = &data[1];
+  }
 }
 
 U32 FilePacket::LengthValue::
   getSerializedLength()
 {
   return this->length + 1;
-}
-
-FilePacket::TypeLengthValue::
-  TypeLengthValue(
-    FilePacket::TypeLengthValue::TlvType type,
-    U8 length,
-    const U8* value
-  ) : LengthValue(length, value)
-{
-  this->type = type;
-}
-
-FilePacket::TypeLengthValue::TlvType FilePacket::TypeLengthValue::
-  getType()
-{
-  return this->type;
-}
-
-void FilePacket::TypeLengthValue::
-  serialize(Fw::Buffer& buf, U32 offset)
-{
-  U8* data = buf.getData() + offset;
-
-  // Octet 0
-  data[0] = static_cast<U8>(this->type);
-
-  // Serialize length and value fields
-  FilePacket::LengthValue::serialize(buf, 1);
-}
-
-void FilePacket::TypeLengthValue::
-  deserialize(Fw::Buffer& buf, U32 offset)
-{
-  U8* data = buf.getData() + offset;
-
-  // Octet 0
-  this->type = static_cast<FilePacket::TypeLengthValue::TlvType>(data[0]);
-
-  // Deserialize length and value fields
-  FilePacket::LengthValue::deserialize(buf, 1);
-}
-
-U32 FilePacket::TypeLengthValue::
-  getSerializedLength()
-{
-  return this->length + 2;
 }
 
 FilePacket::

@@ -47,6 +47,10 @@ class FilePacket
     class LengthValue
     {
       public:
+        //! @brief Construct an empty LV object.
+        //!
+        LengthValue();
+
         //! @brief Construct an LV object.
         //!
         //! @param length The length of value in octets.
@@ -71,10 +75,6 @@ class FilePacket
         //!
         const U8* value;
 
-        //! @brief Get the length in octets of LV obejct when serialized.
-        //!
-        U32 getSerializedLength();
-
       PROTECTED:
         //! @brief Serialize this LV object.
         //!
@@ -89,62 +89,8 @@ class FilePacket
         //! @param offset The byte offset to start deserialization from.
         //!
         void deserialize(Fw::Buffer& buf, U32 offset);
-    };
 
-    //! @brief A class defining the Type Length Value (TLV) object format.
-    //!
-    //! A TLV object is an LV object with an added 8-bit type field describing
-    //! the nature of the value.
-    //!
-    class TypeLengthValue : public LengthValue
-    {
-      public:
-        //! @brief Possible TLV types and their corresponding type field values.
-        //!
-        enum class TlvType
-        {
-          FILESTORE_REQUEST = 0x00, //!< The Filestore Request TLV type.
-          FILESTORE_RESPONSE = 0x01, //!< The Filestore Response TLV type.
-          MESSAGE_TO_USER = 0x02, //!< The Message to User TLV type.
-          FAULT_HANDLER_OVR = 0x04, //!< The Fault Handler Override TLV type.
-          FLOW_LABEL = 0x05, //!< The Flow Label TLV type.
-          ENTITY_ID = 0x06, //!< The Entity ID TLV type.
-        };
-
-      public:
-        //! @brief Construct a TLV object.
-        //!
-        //! @param type The type of the value.
-        //! @param length The length of value in octets.
-        //! @param value A pointer to the value.
-        //!
-        TypeLengthValue(TlvType type, U8 length, const U8* value);
-
-        //! @brief Get the type of value.
-        //!
-        TlvType getType();
-
-      PRIVATE:
-        //! @brief The type of value.
-        //!
-        TlvType type;
-
-      PRIVATE:
-        //! @brief Serialize this TLV object.
-        //!
-        //! @param buf The buffer to hold the serialized data.
-        //! @param offset The byte offset to start serialization from.
-        //!
-        void serialize(Fw::Buffer& buf, U32 offset);
-
-        //! @brief Deserialize a buffer containing a serialized TLV object.
-        //!
-        //! @param buf The buffer containing serialized data.
-        //! @param offset The byte offset to start deserialization from.
-        //!
-        void deserialize(Fw::Buffer& buf, U32 offset);
-
-        //! @brief Get the length in octets of TLV obejct when serialized.
+        //! @brief Get the length in octets of LV obejct when serialized.
         //!
         U32 getSerializedLength();
     };
