@@ -18,11 +18,16 @@ namespace Cfdp
 
 //! @brief A CFDP PDU file packet.
 //!
+//! This implementation does not currently support Type Length Value (TLV)
+//! fields. Fields with TLV format are ignored and consequently the PDUs do not
+//! currently support filestore responses, messages to user, fault handler
+//! overrides, flow labels, or other features that require TLV fields.
+//!
 class FilePacket
 {
 
   /*
-   * Enum declarations.
+   * Enum forward declarations.
    */
   public:
     // Header related enums
@@ -34,14 +39,54 @@ class FilePacket
     enum class SegmentationControl;
     enum class SegmentMetadataFlag;
 
+  /*
+   * Nested class forward declarations.
+   */
   public:
+    class Header;
+
+  /*
+   * Public functions.
+   */
+  public:
+    //! @brief Construct a CFDP file packet.
+    //!
+    FilePacket(Header& header);
+
+    //! @brief Serialize this file packet into a buffer.
+    //!
+    //! Buffer data should have enough memory allocated to hold the serialized
+    //! header.
+    //!
+    //! @param buf The buffer to hold the serialized data.
+    //!
+    void serialize(Fw::Buffer& buf);
+
+    //! @brief Deserialize a buffer containing serialized file packet data.
+    //!
+    //! @param buf The buffer containing serialized data.
+    //!
+    void deserialize(Fw::Buffer& buf);
+
+  /*
+   * Public member variables.
+   */
+  public:
+    //! @brief The PDU header.
+    //!
+    Header& header;
+
+  /*
+   * Internal variable-length field formats.
+   */
+  PRIVATE:
     //! @brief A class defining the Length Value (LV) object format.
     //!
-    //! An LV object is a variable length object with an 8-bit length field and
-    //! a value field containing length number of octets.
+    //! An LV object is a variable length object with an 8-bit 'length' field
+    //! and a 'value' field containing 'length' number of octets.
     //!
-    //! Pre-serialization, the value field will hold a pointer to the value
-    //! supplied during construction. Post-deserialization, value will hold a
+    //! Pre-serialization, the 'value' field will hold a pointer to the value
+    //! supplied during construction. Post-deserialization, 'value' will hold a
     //! pointer to the value in the serialized buffer.
     //!
     class LengthValue
@@ -66,7 +111,7 @@ class FilePacket
         //!
         const U8* getValue();
 
-      PROTECTED:
+      PRIVATE:
         //! @brief The length of value in octets.
         //!
         U8 length;
@@ -75,7 +120,7 @@ class FilePacket
         //!
         const U8* value;
 
-      PROTECTED:
+      PRIVATE:
         //! @brief Serialize this LV object.
         //!
         //! @param buf The buffer to hold the serialized data.
@@ -94,34 +139,6 @@ class FilePacket
         //!
         U32 getSerializedLength();
     };
-
-  public:
-    class Header;
-
-  public:
-    //! @brief Serialize this file packet into a buffer.
-    //!
-    //! Buffer data should have enough memory allocated to hold the serialized
-    //! header.
-    //!
-    //! @param buf The buffer to hold the serialized data.
-    //!
-    void serialize(Fw::Buffer& buf);
-
-    //! @brief Deserialize a buffer containing serialized file packet data.
-    //!
-    //! @param buf The buffer containing serialized data.
-    //!
-    void deserialize(Fw::Buffer& buf);
-
-  public:
-    //! @brief Construct a CFDP file packet.
-    //!
-    FilePacket(Header& header);
-
-    //! @brief The PDU header.
-    //!
-    Header& header;
 };
 
 } // namespace Cfdp
