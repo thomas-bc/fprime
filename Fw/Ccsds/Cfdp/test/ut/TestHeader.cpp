@@ -70,64 +70,61 @@ TEST(FilePacketHeader, ConstructDirective)
   // Create header
   FilePacket::Header header = createTestHeader1();
 
-  // Create file packet with header
-  FilePacket filePacket(header);
-
   // Verify private header fields contain the expected values
   EXPECT_EQ(
-    filePacket.header.version,
+    header.version,
     0x001
   );
   EXPECT_EQ(
-    filePacket.header.type,
+    header.type,
     FilePacket::Type::FILE_DIRECTIVE
   );
   EXPECT_EQ(
-    filePacket.header.direction,
+    header.direction,
     FilePacket::Direction::TOWARD_RECEIVER
   );
   EXPECT_EQ(
-    filePacket.header.transmissionMode,
+    header.transmissionMode,
     FilePacket::TransmissionMode::UNACKNOWLEDGED
   );
   EXPECT_EQ(
-    filePacket.header.crcFlag,
+    header.crcFlag,
     FilePacket::CrcFlag::NOT_PRESENT
   );
   EXPECT_EQ(
-    filePacket.header.largeFileFlag,
+    header.largeFileFlag,
     FilePacket::LargeFileFlag::SMALL_FILE
   );
   EXPECT_EQ(
-    filePacket.header.dataFieldLength,
+    header.dataFieldLength,
     4
   );
   EXPECT_EQ(
-    filePacket.header.segmentationControl,
+    header.segmentationControl,
     FilePacket::SegmentationControl::NOT_PRESERVED
   );
   EXPECT_EQ(
-    filePacket.header.entityIdLength,
+    header.entityIdLength,
     3
   );
   EXPECT_EQ(
-    filePacket.header.segmentMetadataFlag,
+    header.segmentMetadataFlag,
     FilePacket::SegmentMetadataFlag::NOT_PRESENT
   );
   EXPECT_EQ(
-    filePacket.header.transSeqNumLength,
+    header.transSeqNumLength,
     3
   );
   EXPECT_EQ(
-    filePacket.header.sourceEntityId,
+    header.sourceEntityId,
     6
   );
   EXPECT_EQ(
-    filePacket.header.transSeqNumber,
+    header.transSeqNumber,
     5
   );
   EXPECT_EQ(
-    filePacket.header.destEntityId,
+    header.destEntityId,
     7
   );
 }
@@ -137,64 +134,61 @@ TEST(FilePacketHeader, GetFields)
   // Create header
   FilePacket::Header header = createTestHeader1();
 
-  // Create file packet with header
-  FilePacket filePacket(header);
-
   // Verify getter functions return the expected values
   EXPECT_EQ(
-    filePacket.header.getVersion(),
+    header.getVersion(),
     0x001
   );
   EXPECT_EQ(
-    filePacket.header.getType(),
+    header.getType(),
     FilePacket::Type::FILE_DIRECTIVE
   );
   EXPECT_EQ(
-    filePacket.header.getDirection(),
+    header.getDirection(),
     FilePacket::Direction::TOWARD_RECEIVER
   );
   EXPECT_EQ(
-    filePacket.header.getTransmissionMode(),
+    header.getTransmissionMode(),
     FilePacket::TransmissionMode::UNACKNOWLEDGED
   );
   EXPECT_EQ(
-    filePacket.header.getCrcFlag(),
+    header.getCrcFlag(),
     FilePacket::CrcFlag::NOT_PRESENT
   );
   EXPECT_EQ(
-    filePacket.header.getLargeFileFlag(),
+    header.getLargeFileFlag(),
     FilePacket::LargeFileFlag::SMALL_FILE
   );
   EXPECT_EQ(
-    filePacket.header.getDataFieldLength(),
+    header.getDataFieldLength(),
     4
   );
   EXPECT_EQ(
-    filePacket.header.getSegmentationControl(),
+    header.getSegmentationControl(),
     FilePacket::SegmentationControl::NOT_PRESERVED
   );
   EXPECT_EQ(
-    filePacket.header.getEntityIdLength(),
+    header.getEntityIdLength(),
     3
   );
   EXPECT_EQ(
-    filePacket.header.getSegmentMetadataFlag(),
+    header.getSegmentMetadataFlag(),
     FilePacket::SegmentMetadataFlag::NOT_PRESENT
   );
   EXPECT_EQ(
-    filePacket.header.getTransSeqNumLength(),
+    header.getTransSeqNumLength(),
     3
   );
   EXPECT_EQ(
-    filePacket.header.getSourceEntityId(),
+    header.getSourceEntityId(),
     6
   );
   EXPECT_EQ(
-    filePacket.header.getTransSeqNumber(),
+    header.getTransSeqNumber(),
     5
   );
   EXPECT_EQ(
-    filePacket.header.getDestEntityId(),
+    header.getDestEntityId(),
     7
   );
 }

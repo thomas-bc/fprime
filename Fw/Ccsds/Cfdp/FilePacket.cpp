@@ -83,7 +83,11 @@ U32 FilePacket::LengthValue::
 }
 
 FilePacket::
-  FilePacket(Header& header) : header(header)
+  FilePacket
+  (
+    Header& header,
+    DataField& dataField
+  ) : header(header), dataField(dataField)
 {
 
 }
