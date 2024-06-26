@@ -9,43 +9,6 @@
 #include <Fw/Ccsds/Cfdp/FilePacket.hpp>
 #include <Fw/Ccsds/Cfdp/Header.hpp>
 
-namespace
-{
-
-//! @brief Serialize an integer value in big-endian format.
-//!
-//! @param data A pointer to the start of the data.
-//! @param value The integer value to write.
-//! @param size The number of bytes required to store the value.
-//!
-void serialize_value(U8* data, U64 value, U8 size)
-{
-  U64 input = value;
-  for (U8 i = 0; i < size; ++i)
-  {
-    data[size - i - 1] = input & 0xFF;
-    input >>= 8;
-  }
-}
-
-//! @brief Read a serialized integer value in big-endian format.
-//!
-//! @param data A pointer to the start of the data.
-//! @param size The number of bytes required to store the value.
-//!
-U64 deserialize_value(U8* data, U8 size)
-{
-  U32 output = 0;
-  for (U8 i = 0; i < size; ++i)
-  {
-    output <<= 8;
-    output |= data[i];
-  }
-  return output;
-}
-
-} //
-
 namespace Fw
 {
 
@@ -218,21 +181,21 @@ void FilePacket::Header::
   data[3] |= ((this->transSeqNumLength & 7) - 1); // TODO: - 1?
 
   // Push source entity ID onto buffer in big-endian format
-  serialize_value(
+  FilePacket::serialize_value(
     &data[4],
     this->sourceEntityId,
     this->entityIdLength
   );
 
   // Push transaction sequence number onto buffer in big-endian format
-  serialize_value(
+  FilePacket::serialize_value(
     &data[4 + this->entityIdLength],
     this->transSeqNumber,
     this->transSeqNumLength
   );
 
   // Push destination entity ID onto buffer in big-endian format
-  serialize_value(
+  FilePacket::serialize_value(
     &data[4 + this->entityIdLength + this->transSeqNumLength],
     this->destEntityId,
     this->entityIdLength
@@ -268,19 +231,19 @@ void FilePacket::Header::
   this->transSeqNumLength = (data[3] & 7) + 1;
 
   // Deserialize source entity ID bytes
-  this->sourceEntityId = deserialize_value(
+  this->sourceEntityId = FilePacket::deserialize_value(
     &data[4],
     this->entityIdLength
   );
 
   // Deserialize transaction sequence number bytes
-  this->transSeqNumber = deserialize_value(
+  this->transSeqNumber = FilePacket::deserialize_value(
     &data[4 + this->entityIdLength],
     this->transSeqNumLength
   );
 
   // Deserialize destination entity ID bytes
-  this->destEntityId = deserialize_value(
+  this->destEntityId = FilePacket::deserialize_value(
     &data[4 + this->entityIdLength + this->transSeqNumLength],
     this->entityIdLength
   );

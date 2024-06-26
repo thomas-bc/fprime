@@ -40,7 +40,7 @@ enum class FilePacket::ChecksumType
 //!
 class FilePacket::Metadata : DataField
 {
-  friend class FilePacket;
+  friend FilePacket;
 
   public:
     //! @brief Construct an empty CFDP Metadata PDU.
@@ -158,7 +158,7 @@ class FilePacket::Metadata : DataField
 
     //! @brief The file size in octets.
     //!
-    U64 fileSize;
+    FileSizeSensitive fileSize;
 
     //! @brief The source file name.
     //!

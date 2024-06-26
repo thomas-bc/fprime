@@ -122,6 +122,238 @@ TEST(FilePacketMetadata, Serialize)
     buffer.getData()[0],
     SerializedTestMetadata1::OCTET_00
   );
+  EXPECT_EQ(
+    buffer.getData()[1],
+    SerializedTestMetadata1::OCTET_01
+  );
+  EXPECT_EQ(
+    buffer.getData()[2],
+    SerializedTestMetadata1::OCTET_02
+  );
+  EXPECT_EQ(
+    buffer.getData()[3],
+    SerializedTestMetadata1::OCTET_03
+  );
+  EXPECT_EQ(
+    buffer.getData()[4],
+    SerializedTestMetadata1::OCTET_04
+  );
+  EXPECT_EQ(
+    buffer.getData()[5],
+    SerializedTestMetadata1::OCTET_05
+  );
+  EXPECT_EQ(
+    buffer.getData()[6],
+    SerializedTestMetadata1::OCTET_06
+  );
+  EXPECT_EQ(
+    buffer.getData()[7],
+    SerializedTestMetadata1::OCTET_07
+  );
+  EXPECT_EQ(
+    buffer.getData()[8],
+    SerializedTestMetadata1::OCTET_08
+  );
+  EXPECT_EQ(
+    buffer.getData()[9],
+    SerializedTestMetadata1::OCTET_09
+  );
+  EXPECT_EQ(
+    buffer.getData()[10],
+    SerializedTestMetadata1::OCTET_10
+  );
+  EXPECT_EQ(
+    buffer.getData()[11],
+    SerializedTestMetadata1::OCTET_11
+  );
+  EXPECT_EQ(
+    buffer.getData()[12],
+    SerializedTestMetadata1::OCTET_12
+  );
+  EXPECT_EQ(
+    buffer.getData()[13],
+    SerializedTestMetadata1::OCTET_13
+  );
+  EXPECT_EQ(
+    buffer.getData()[14],
+    SerializedTestMetadata1::OCTET_14
+  );
+  EXPECT_EQ(
+    buffer.getData()[15],
+    SerializedTestMetadata1::OCTET_15
+  );
+  EXPECT_EQ(
+    buffer.getData()[16],
+    SerializedTestMetadata1::OCTET_16
+  );
+  EXPECT_EQ(
+    buffer.getData()[17],
+    SerializedTestMetadata1::OCTET_17
+  );
+  EXPECT_EQ(
+    buffer.getData()[18],
+    SerializedTestMetadata1::OCTET_18
+  );
+  EXPECT_EQ(
+    buffer.getData()[19],
+    SerializedTestMetadata1::OCTET_19
+  );
+  EXPECT_EQ(
+    buffer.getData()[20],
+    SerializedTestMetadata1::OCTET_20
+  );
+  EXPECT_EQ(
+    buffer.getData()[21],
+    SerializedTestMetadata1::OCTET_21
+  );
+  EXPECT_EQ(
+    buffer.getData()[22],
+    SerializedTestMetadata1::OCTET_22
+  );
+  EXPECT_EQ(
+    buffer.getData()[23],
+    SerializedTestMetadata1::OCTET_23
+  );
+  EXPECT_EQ(
+    buffer.getData()[24],
+    SerializedTestMetadata1::OCTET_24
+  );
+  EXPECT_EQ(
+    buffer.getData()[25],
+    SerializedTestMetadata1::OCTET_25
+  );
+  EXPECT_EQ(
+    buffer.getData()[26],
+    SerializedTestMetadata1::OCTET_26
+  );
+  EXPECT_EQ(
+    buffer.getData()[27],
+    SerializedTestMetadata1::OCTET_27
+  );
+  EXPECT_EQ(
+    buffer.getData()[28],
+    SerializedTestMetadata1::OCTET_28
+  );
+  EXPECT_EQ(
+    buffer.getData()[29],
+    SerializedTestMetadata1::OCTET_29
+  );
+  EXPECT_EQ(
+    buffer.getData()[30],
+    SerializedTestMetadata1::OCTET_30
+  );
+  EXPECT_EQ(
+    buffer.getData()[31],
+    SerializedTestMetadata1::OCTET_31
+  );
+  EXPECT_EQ(
+    buffer.getData()[32],
+    SerializedTestMetadata1::OCTET_32
+  );
+}
+
+TEST(FilePacketMetadata, Deserialize)
+{
+  // Allocate buffer for serialized metadata
+  U8 data[SerializedTestMetadata1::LENGTH];
+  Fw::Buffer buffer(data, SerializedTestMetadata1::LENGTH);
+
+  // Create "deserialized" header
+  FilePacket::Header header = createTestHeader1();
+
+  // Create an empty metadata to fill with deserialized data
+  FilePacket::Metadata metadata;
+
+  // Define serialized metadata
+  data[0] = SerializedTestMetadata1::OCTET_00;
+  data[1] = SerializedTestMetadata1::OCTET_01;
+  data[2] = SerializedTestMetadata1::OCTET_02;
+  data[3] = SerializedTestMetadata1::OCTET_03;
+  data[4] = SerializedTestMetadata1::OCTET_04;
+  data[5] = SerializedTestMetadata1::OCTET_05;
+  data[6] = SerializedTestMetadata1::OCTET_06;
+  data[7] = SerializedTestMetadata1::OCTET_07;
+  data[8] = SerializedTestMetadata1::OCTET_08;
+  data[9] = SerializedTestMetadata1::OCTET_09;
+  data[10] = SerializedTestMetadata1::OCTET_10;
+  data[11] = SerializedTestMetadata1::OCTET_11;
+  data[12] = SerializedTestMetadata1::OCTET_12;
+  data[13] = SerializedTestMetadata1::OCTET_13;
+  data[14] = SerializedTestMetadata1::OCTET_14;
+  data[15] = SerializedTestMetadata1::OCTET_15;
+  data[16] = SerializedTestMetadata1::OCTET_16;
+  data[17] = SerializedTestMetadata1::OCTET_17;
+  data[18] = SerializedTestMetadata1::OCTET_18;
+  data[19] = SerializedTestMetadata1::OCTET_19;
+  data[20] = SerializedTestMetadata1::OCTET_20;
+  data[21] = SerializedTestMetadata1::OCTET_21;
+  data[22] = SerializedTestMetadata1::OCTET_22;
+  data[23] = SerializedTestMetadata1::OCTET_23;
+  data[24] = SerializedTestMetadata1::OCTET_24;
+  data[25] = SerializedTestMetadata1::OCTET_25;
+  data[26] = SerializedTestMetadata1::OCTET_26;
+  data[27] = SerializedTestMetadata1::OCTET_27;
+  data[28] = SerializedTestMetadata1::OCTET_28;
+  data[29] = SerializedTestMetadata1::OCTET_29;
+  data[30] = SerializedTestMetadata1::OCTET_30;
+  data[31] = SerializedTestMetadata1::OCTET_31;
+  data[32] = SerializedTestMetadata1::OCTET_32;
+
+  // Call metadata deserialization function
+  metadata.deserialize(buffer, 0, header);
+
+  // Verify buffer contains data in the expected format
+  EXPECT_EQ(
+    metadata.reserved0,
+    0
+  );
+  EXPECT_EQ(
+    metadata.getClosureRequested(),
+    FilePacket::ClosureRequested::REQUESTED
+  );
+  EXPECT_EQ(
+    metadata.reserved1,
+    0
+  );
+  EXPECT_EQ(
+    metadata.getChecksumType(),
+    FilePacket::ChecksumType::NULL_CHECKSUM
+  );
+  EXPECT_EQ(
+    metadata.getFileSize(),
+    16
+  );
+  EXPECT_EQ(
+    strncmp(
+      metadata.getSourceFilename(),
+      "SourceFilename",
+      metadata.getSourceFilenameLength()
+    ),
+    0
+  );
+  EXPECT_EQ(
+    strncmp(
+      metadata.getDestFilename(),
+      "DestFilename",
+      metadata.getDestFilenameLength()
+    ),
+    0
+  );
+}
+
+TEST(FilePacketMetadata, SerializedLength)
+{
+  // Create header
+  FilePacket::Header header = createTestHeader1();
+
+  // Create metadata
+  FilePacket::Metadata metadata = createTestMetadata1();
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    metadata.getSerializedLength(header),
+    SerializedTestMetadata1::LENGTH
+  );
 }
 
 }

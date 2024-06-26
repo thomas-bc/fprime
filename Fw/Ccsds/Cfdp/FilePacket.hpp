@@ -54,34 +54,60 @@ class FilePacket
    * Variable-length field formats.
    */
   public:
-    //! @brief
+    //! @brief A class defining the File Size Sensitive (FSS) object format.
     //!
-    //! Serialization functions depend on the large file flag in the header.
+    //! The serialized size of an FSS object is dependent on the large file flag
+    //! in the header. If the large file flag indicates a small file, the
+    //! value of an FSS object can be represented by a 32-bit unsigned integer
+    //! and its serialized size is 4 octets. If the large file flag indicates
+    //! a large file, the value of an FSS object can be represented by a 64-bit
+    //! unsigned integer and its serialized size is 8 octets.
     //!
-    // class FileSizeSensitive
-    // {
-    //   PRIVATE:
-    //     //! @brief Serialize this FSS object.
-    //     //!
-    //     //! @param buf The buffer to hold the serialized data.
-    //     //! @param offset The byte offset to start serialization from.
-    //     //!
-    //     void serialize(Fw::Buffer& buf, U32 offset, Header& header);
+    class FileSizeSensitive
+    {
+      friend Metadata;
 
-    //     //! @brief Deserialize a buffer containing a serialized LV object.
-    //     //!
-    //     //! @param buf The buffer containing serialized data.
-    //     //! @param offset The byte offset to start deserialization from.
-    //     //!
-    //     void deserialize(Fw::Buffer& buf, U32 offset, Header& header);
+      public:
+        //! @brief Default constructor for an FSS object.
+        //!
+        FileSizeSensitive();
 
-    //     //! @brief Get the length in octets of LV obejct when serialized.
-    //     //!
-    //     U32 getSerializedLength(Header& header);
+        //! @brief Construct an FSS object.
+        //!
+        //! @param value The value of the FSS object.
+        //!
+        FileSizeSensitive(U64 value);
 
-    //   PRIVATE:
-    //     U64 value;
-    // };
+        //! @brief Get the value.
+        //!
+        U64 getValue();
+
+      PRIVATE:
+        //! @brief The value.
+        //!
+        //! The value is at most a 64-bit unsigned integer.
+        //!
+        U64 value;
+
+      PRIVATE:
+        //! @brief Serialize this FSS object.
+        //!
+        //! @param buf The buffer to hold the serialized data.
+        //! @param offset The byte offset to start serialization from.
+        //!
+        void serialize(Fw::Buffer& buf, U32 offset, Header& header);
+
+        //! @brief Deserialize a buffer containing a serialized FSS object.
+        //!
+        //! @param buf The buffer containing serialized data.
+        //! @param offset The byte offset to start deserialization from.
+        //!
+        void deserialize(Fw::Buffer& buf, U32 offset, Header& header);
+
+        //! @brief Get the length in octets when serialized.
+        //!
+        U32 getSerializedLength(Header& header);
+    };
 
     //! @brief A class defining the Length Value (LV) object format.
     //!
@@ -94,6 +120,8 @@ class FilePacket
     //!
     class LengthValue
     {
+      friend Metadata;
+
       public:
         //! @brief Maximum length for the value field in an LV object.
         //!
@@ -210,6 +238,22 @@ class FilePacket
     Header& header;
 
     DataField& dataField;
+
+  PRIVATE:
+    //! @brief Serialize an integer value in big-endian format.
+    //!
+    //! @param data A pointer to the start of the data.
+    //! @param value The integer value to write.
+    //! @param size The number of bytes required to store the value.
+    //!
+    static void serialize_value(U8* data, U64 value, U8 size);
+
+    //! @brief Read a serialized integer value in big-endian format.
+    //!
+    //! @param data A pointer to the start of the data.
+    //! @param size The number of bytes required to store the value.
+    //!
+    static U64 deserialize_value(U8* data, U8 size);
 };
 
 } // namespace Cfdp

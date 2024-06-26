@@ -94,7 +94,7 @@ enum class FilePacket::SegmentMetadataFlag
 //!
 class FilePacket::Header
 {
-  friend class FilePacket;
+  friend FilePacket;
 
   public:
     //! @brief Construct an empty CFDP PDU header.

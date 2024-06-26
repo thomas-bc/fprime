@@ -38,7 +38,7 @@ FilePacket::Metadata::
 
   this->closureRequested = closureRequested;
   this->checksumType = checksumType;
-  this->fileSize = fileSize;
+  this->fileSize = FileSizeSensitive(fileSize);
 
   this->sourceFilename = FilePacket::LengthValue(
     strnlen(sourceFilename, FilePacket::LengthValue::MAX_LENGTH),
@@ -66,7 +66,7 @@ FilePacket::ChecksumType FilePacket::Metadata::
 U64 FilePacket::Metadata::
   getFileSize()
 {
-  return this->fileSize;
+  return this->fileSize.getValue();
 }
 
 const char* FilePacket::Metadata::
@@ -98,31 +98,57 @@ void FilePacket::Metadata::
 {
   U8* data = buf.getData() + offset;
 
+  // Serialize octet 0
   data[0] = 0;
   data[0] |= (static_cast<U8>(this->closureRequested) & 1) << 6;
   data[0] |= (static_cast<U8>(this->checksumType) & 15);
+
+  // Serialize the FSS field file size
+  this->fileSize.serialize(buf, 1, header);
+
+  // Serialize the LV field source file name
+  U32 sourceFilenameOffset = 1 + this->fileSize.getSerializedLength(header);
+  this->sourceFilename.serialize(buf, sourceFilenameOffset);
+
+  // Serialize the LV field destination file name
+  U32 destFilenameOffset =
+    sourceFilenameOffset + sourceFilename.getSerializedLength();
+  this->destFilename.serialize(buf, destFilenameOffset);
 }
 
 void FilePacket::Metadata::
   deserialize(Fw::Buffer& buf, U32 offset, Header& header)
 {
+  U8* data = buf.getData() + offset;
 
+  // Deserialize octet 0
+  this->reserved0 = (data[0] >> 7) & 1;
+  this->closureRequested =
+    static_cast<FilePacket::ClosureRequested>((data[0] >> 6) & 1);
+  this->reserved1 = (data[0] >> 4) & 3;
+  this->checksumType = static_cast<FilePacket::ChecksumType>(data[0] & 15);
+
+  // Deserialize the FSS field file size
+  this->fileSize.deserialize(buf, 1, header);
+
+  // Deserialize the LV field source file name
+  U32 sourceFilenameOffset = 1 + this->fileSize.getSerializedLength(header);
+  this->sourceFilename.deserialize(buf, sourceFilenameOffset);
+
+  // Deserialize the LV field destination file name
+  U32 destFilenameOffset =
+    sourceFilenameOffset + sourceFilename.getSerializedLength();
+  this->destFilename.deserialize(buf, destFilenameOffset);
 }
 
 U32 FilePacket::Metadata::
   getSerializedLength(Header& header)
 {
-  // The file size field length depends on the large file flag
-  U32 fileSizeLength =
-    (header.getLargeFileFlag() == FilePacket::LargeFileFlag::LARGE_FILE)
-      ? sizeof(U64)
-      : sizeof(U32);
-
   return (
     FixedSize::BYTES
-    + fileSizeLength
-    + this->sourceFilename.getLength()
-    + this->destFilename.getLength()
+    + this->fileSize.getSerializedLength(header)
+    + this->sourceFilename.getSerializedLength()
+    + this->destFilename.getSerializedLength()
   );
 }
 
