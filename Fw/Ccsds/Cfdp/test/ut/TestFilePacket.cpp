@@ -159,6 +159,28 @@ TEST(FilePacket, LengthValueEmpty)
   );
 }
 
+TEST(FilePacket, Serialize)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Create source file packet from header and metadata
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::Metadata metadata = TestMetadata1::create();
+  FilePacket sourceFilePacket(header, metadata);
+
+  // Serialize file packet
+  sourceFilePacket.serialize(buffer, 0);
+
+  // Verify buffer
+  TestHeader1::verifyBuffer(buffer, 0);
+  TestMetadata1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
+}
+
 } // namespace Cfdp
 
 } // namespace Fw

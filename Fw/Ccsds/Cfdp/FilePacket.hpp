@@ -187,6 +187,8 @@ class FilePacket
     //!
     class DataField
     {
+      friend FilePacket;
+
       /*
        * Funtions that all data field types should have.
        */
@@ -220,14 +222,16 @@ class FilePacket
     //! header.
     //!
     //! @param buf The buffer to hold the serialized data.
+    //! @param offset The byte offset to start serialization from.
     //!
-    void serialize(Fw::Buffer& buf);
+    void serialize(Fw::Buffer& buf, U32 offset);
 
     //! @brief Deserialize a buffer containing serialized file packet data.
     //!
     //! @param buf The buffer containing serialized data.
+    //! @param offset The byte offset to start deserialization from.
     //!
-    void deserialize(Fw::Buffer& buf);
+    void deserialize(Fw::Buffer& buf, U32 offset);
 
   /*
    * Public member variables.
@@ -237,6 +241,8 @@ class FilePacket
     //!
     Header& header;
 
+    //! @brief The PDU data field.
+    //!
     DataField& dataField;
 
   PRIVATE:

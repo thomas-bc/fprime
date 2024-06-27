@@ -177,15 +177,27 @@ FilePacket::
 }
 
 void FilePacket::
-  serialize(Fw::Buffer& buf)
+  serialize(Fw::Buffer& buf, U32 offset)
 {
-  // this->header.serialize();
+  this->header.serialize(buf, offset);
+
+  this->dataField.serialize(
+    buf,
+    this->header.getSerializedLength(),
+    this->header
+  );
 }
 
 void FilePacket::
-  deserialize(Fw::Buffer& buf)
+  deserialize(Fw::Buffer& buf, U32 offset)
 {
-  // this->header.deserialize();
+  this->header.deserialize(buf, offset);
+
+  this->dataField.deserialize(
+    buf,
+    this->header.getSerializedLength(),
+    this->header
+  );
 }
 
 } // namespace Cfdp

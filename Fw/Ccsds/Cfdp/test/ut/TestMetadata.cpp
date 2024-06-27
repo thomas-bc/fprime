@@ -74,167 +74,148 @@ void TestMetadata1::
   data[32] = TestMetadata1::Serialized::OCTET_32;
 }
 
-TEST(FilePacketMetadata, Serialize)
+void TestMetadata1::
+  verifyBuffer(Buffer& buf, U32 offset)
 {
-  // Allocate buffer for serialization
-  U8 data[TestMetadata1::Serialized::LENGTH];
-  Fw::Buffer buffer(data, TestMetadata1::Serialized::LENGTH);
+  U8* data = buf.getData() + offset;
 
-  FilePacket::Header header = TestHeader1::create();
-  FilePacket::Metadata metadata = TestMetadata1::create();
-  metadata.serialize(buffer, 0, header);
-
-  // Verify buffer contains data in the expected format
   EXPECT_EQ(
-    buffer.getData()[0],
+    data[0],
     TestMetadata1::Serialized::OCTET_00
   );
   EXPECT_EQ(
-    buffer.getData()[1],
+    data[1],
     TestMetadata1::Serialized::OCTET_01
   );
   EXPECT_EQ(
-    buffer.getData()[2],
+    data[2],
     TestMetadata1::Serialized::OCTET_02
   );
   EXPECT_EQ(
-    buffer.getData()[3],
+    data[3],
     TestMetadata1::Serialized::OCTET_03
   );
   EXPECT_EQ(
-    buffer.getData()[4],
+    data[4],
     TestMetadata1::Serialized::OCTET_04
   );
   EXPECT_EQ(
-    buffer.getData()[5],
+    data[5],
     TestMetadata1::Serialized::OCTET_05
   );
   EXPECT_EQ(
-    buffer.getData()[6],
+    data[6],
     TestMetadata1::Serialized::OCTET_06
   );
   EXPECT_EQ(
-    buffer.getData()[7],
+    data[7],
     TestMetadata1::Serialized::OCTET_07
   );
   EXPECT_EQ(
-    buffer.getData()[8],
+    data[8],
     TestMetadata1::Serialized::OCTET_08
   );
   EXPECT_EQ(
-    buffer.getData()[9],
+    data[9],
     TestMetadata1::Serialized::OCTET_09
   );
   EXPECT_EQ(
-    buffer.getData()[10],
+    data[10],
     TestMetadata1::Serialized::OCTET_10
   );
   EXPECT_EQ(
-    buffer.getData()[11],
+    data[11],
     TestMetadata1::Serialized::OCTET_11
   );
   EXPECT_EQ(
-    buffer.getData()[12],
+    data[12],
     TestMetadata1::Serialized::OCTET_12
   );
   EXPECT_EQ(
-    buffer.getData()[13],
+    data[13],
     TestMetadata1::Serialized::OCTET_13
   );
   EXPECT_EQ(
-    buffer.getData()[14],
+    data[14],
     TestMetadata1::Serialized::OCTET_14
   );
   EXPECT_EQ(
-    buffer.getData()[15],
+    data[15],
     TestMetadata1::Serialized::OCTET_15
   );
   EXPECT_EQ(
-    buffer.getData()[16],
+    data[16],
     TestMetadata1::Serialized::OCTET_16
   );
   EXPECT_EQ(
-    buffer.getData()[17],
+    data[17],
     TestMetadata1::Serialized::OCTET_17
   );
   EXPECT_EQ(
-    buffer.getData()[18],
+    data[18],
     TestMetadata1::Serialized::OCTET_18
   );
   EXPECT_EQ(
-    buffer.getData()[19],
+    data[19],
     TestMetadata1::Serialized::OCTET_19
   );
   EXPECT_EQ(
-    buffer.getData()[20],
+    data[20],
     TestMetadata1::Serialized::OCTET_20
   );
   EXPECT_EQ(
-    buffer.getData()[21],
+    data[21],
     TestMetadata1::Serialized::OCTET_21
   );
   EXPECT_EQ(
-    buffer.getData()[22],
+    data[22],
     TestMetadata1::Serialized::OCTET_22
   );
   EXPECT_EQ(
-    buffer.getData()[23],
+    data[23],
     TestMetadata1::Serialized::OCTET_23
   );
   EXPECT_EQ(
-    buffer.getData()[24],
+    data[24],
     TestMetadata1::Serialized::OCTET_24
   );
   EXPECT_EQ(
-    buffer.getData()[25],
+    data[25],
     TestMetadata1::Serialized::OCTET_25
   );
   EXPECT_EQ(
-    buffer.getData()[26],
+    data[26],
     TestMetadata1::Serialized::OCTET_26
   );
   EXPECT_EQ(
-    buffer.getData()[27],
+    data[27],
     TestMetadata1::Serialized::OCTET_27
   );
   EXPECT_EQ(
-    buffer.getData()[28],
+    data[28],
     TestMetadata1::Serialized::OCTET_28
   );
   EXPECT_EQ(
-    buffer.getData()[29],
+    data[29],
     TestMetadata1::Serialized::OCTET_29
   );
   EXPECT_EQ(
-    buffer.getData()[30],
+    data[30],
     TestMetadata1::Serialized::OCTET_30
   );
   EXPECT_EQ(
-    buffer.getData()[31],
+    data[31],
     TestMetadata1::Serialized::OCTET_31
   );
   EXPECT_EQ(
-    buffer.getData()[32],
+    data[32],
     TestMetadata1::Serialized::OCTET_32
   );
 }
 
-TEST(FilePacketMetadata, Deserialize)
+void TestMetadata1::
+  verifyMetadata(FilePacket::Metadata& metadata)
 {
-  // Allocate buffer for serialization
-  U8 data[TestMetadata1::Serialized::LENGTH];
-  Fw::Buffer buffer(data, TestMetadata1::Serialized::LENGTH);
-
-
-  // Fill buffer with serialization
-  TestMetadata1::fillBuffer(buffer);
-
-  // Call deserialize function
-  FilePacket::Header header = TestHeader1::create();
-  FilePacket::Metadata metadata;
-  metadata.deserialize(buffer, 0, header);
-
-  // Verify metadata contains expected values after deserialization
   EXPECT_EQ(
     metadata.reserved0,
     TestMetadata1::Values::reserved0
@@ -279,6 +260,59 @@ TEST(FilePacketMetadata, Deserialize)
     ),
     0
   );
+}
+
+TEST(FilePacketMetadata, Serialize)
+{
+  // Allocate buffer for serialization
+  U8 data[TestMetadata1::Serialized::LENGTH];
+  Fw::Buffer buffer(data, TestMetadata1::Serialized::LENGTH);
+
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::Metadata metadata = TestMetadata1::create();
+  metadata.serialize(buffer, 0, header);
+
+  // Verify buffer
+  TestMetadata1::verifyBuffer(buffer, 0);
+}
+
+TEST(FilePacketMetadata, Deserialize)
+{
+  // Allocate buffer for serialization
+  U8 data[TestMetadata1::Serialized::LENGTH];
+  Fw::Buffer buffer(data, TestMetadata1::Serialized::LENGTH);
+
+  // Fill buffer with serialization
+  TestMetadata1::fillBuffer(buffer);
+
+  // Call deserialize function
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::Metadata metadata;
+  metadata.deserialize(buffer, 0, header);
+
+  // Verify metadata
+  TestMetadata1::verifyMetadata(metadata);
+}
+
+TEST(FilePacketMetadata, Offset)
+{
+  // Test (de)serialization of metadata with arbitrary offset in the buffer
+  U32 offset = 7;
+
+  // Allocate buffer for serialization
+  U8 data[TestMetadata1::Serialized::LENGTH + offset];
+  Fw::Buffer buffer(data, TestMetadata1::Serialized::LENGTH + offset);
+
+  // Test serialize function
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::Metadata sourceMetadata = TestMetadata1::create();
+  sourceMetadata.serialize(buffer, offset, header);
+  TestMetadata1::verifyBuffer(buffer, offset);
+
+  // Test deserialize function
+  FilePacket::Metadata destMetadata;
+  destMetadata.deserialize(buffer, offset, header);
+  TestMetadata1::verifyMetadata(destMetadata);
 }
 
 TEST(FilePacketMetadata, SerializedLength)

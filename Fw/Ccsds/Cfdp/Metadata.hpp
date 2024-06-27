@@ -38,7 +38,7 @@ enum class FilePacket::ChecksumType
 
 //! @brief A CFDP Metadata PDU.
 //!
-class FilePacket::Metadata : DataField
+class FilePacket::Metadata : public DataField
 {
   friend FilePacket;
 

@@ -88,6 +88,12 @@ namespace TestHeader1
 
   // Fill buffer with serialized values.
   void fillBuffer(Buffer& buf);
+
+  // Verify buffer contains data in the expected format
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify header contains expected values after deserialization
+  void verifyHeader(FilePacket::Header& header);
 };
 
 /*
@@ -230,6 +236,12 @@ namespace TestMetadata1
 
   // Fill buffer with serialized values.
   void fillBuffer(Buffer& buf);
+
+  // Verify buffer contains data in the expected format
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify metadata contains expected values after deserialization
+  void verifyMetadata(FilePacket::Metadata& metadata);
 };
 
 } // namespace Cfdp

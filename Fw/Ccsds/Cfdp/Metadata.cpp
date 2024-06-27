@@ -104,10 +104,12 @@ void FilePacket::Metadata::
   data[0] |= (static_cast<U8>(this->checksumType) & 15);
 
   // Serialize the FSS field file size
-  this->fileSize.serialize(buf, 1, header);
+  U32 fileSizeOffset = offset + 1;
+  this->fileSize.serialize(buf, fileSizeOffset, header);
 
   // Serialize the LV field source file name
-  U32 sourceFilenameOffset = 1 + this->fileSize.getSerializedLength(header);
+  U32 sourceFilenameOffset =
+    fileSizeOffset + this->fileSize.getSerializedLength(header);
   this->sourceFilename.serialize(buf, sourceFilenameOffset);
 
   // Serialize the LV field destination file name
@@ -129,10 +131,12 @@ void FilePacket::Metadata::
   this->checksumType = static_cast<FilePacket::ChecksumType>(data[0] & 15);
 
   // Deserialize the FSS field file size
-  this->fileSize.deserialize(buf, 1, header);
+  U32 fileSizeOffset = offset + 1;
+  this->fileSize.deserialize(buf, fileSizeOffset, header);
 
   // Deserialize the LV field source file name
-  U32 sourceFilenameOffset = 1 + this->fileSize.getSerializedLength(header);
+  U32 sourceFilenameOffset =
+    fileSizeOffset + this->fileSize.getSerializedLength(header);
   this->sourceFilename.deserialize(buf, sourceFilenameOffset);
 
   // Deserialize the LV field destination file name
