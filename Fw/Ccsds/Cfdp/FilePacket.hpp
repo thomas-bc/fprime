@@ -246,14 +246,14 @@ class FilePacket
     //! @param value The integer value to write.
     //! @param size The number of bytes required to store the value.
     //!
-    static void serialize_value(U8* data, U64 value, U8 size);
+    static void serializeValue(U8* data, U64 value, U8 size);
 
     //! @brief Read a serialized integer value in big-endian format.
     //!
     //! @param data A pointer to the start of the data.
     //! @param size The number of bytes required to store the value.
     //!
-    static U64 deserialize_value(U8* data, U8 size);
+    static U64 deserializeValue(U8* data, U8 size);
 };
 
 } // namespace Cfdp

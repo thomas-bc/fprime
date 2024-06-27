@@ -16,7 +16,7 @@ namespace Cfdp
 {
 
 void FilePacket::
-  serialize_value(U8* data, U64 value, U8 size)
+  serializeValue(U8* data, U64 value, U8 size)
 {
   U64 input = value;
 
@@ -28,9 +28,9 @@ void FilePacket::
 }
 
 U64 FilePacket::
-  deserialize_value(U8* data, U8 size)
+  deserializeValue(U8* data, U8 size)
 {
-  U32 output = 0;
+  U64 output = 0;
 
   for (U8 i = 0; i < size; ++i)
   {
@@ -66,11 +66,11 @@ void FilePacket::FileSizeSensitive::
 
   if (header.getLargeFileFlag() == FilePacket::LargeFileFlag::SMALL_FILE)
   {
-    FilePacket::serialize_value(data, this->value, sizeof(U32));
+    FilePacket::serializeValue(data, this->value, 4);
   }
   else
   {
-    FilePacket::serialize_value(data, this->value, sizeof(U64));
+    FilePacket::serializeValue(data, this->value, 8);
   }
 }
 
@@ -81,11 +81,11 @@ void FilePacket::FileSizeSensitive::
 
   if (header.getLargeFileFlag() == FilePacket::LargeFileFlag::SMALL_FILE)
   {
-    this->value = FilePacket::deserialize_value(data, sizeof(U32));
+    this->value = FilePacket::deserializeValue(data, 4);
   }
   else
   {
-    this->value = FilePacket::deserialize_value(data, sizeof(U64));
+    this->value = FilePacket::deserializeValue(data, 8);
   }
 }
 
@@ -94,8 +94,8 @@ U32 FilePacket::FileSizeSensitive::
 {
   return (
     (header.getLargeFileFlag() == FilePacket::LargeFileFlag::SMALL_FILE)
-      ? sizeof(U32)
-      : sizeof(U64)
+      ? 4 // 32-bits for small files
+      : 8 // 64-bits for large files
   );
 }
 

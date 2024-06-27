@@ -181,21 +181,21 @@ void FilePacket::Header::
   data[3] |= ((this->transSeqNumLength & 7) - 1); // TODO: - 1?
 
   // Push source entity ID onto buffer in big-endian format
-  FilePacket::serialize_value(
+  FilePacket::serializeValue(
     &data[4],
     this->sourceEntityId,
     this->entityIdLength
   );
 
   // Push transaction sequence number onto buffer in big-endian format
-  FilePacket::serialize_value(
+  FilePacket::serializeValue(
     &data[4 + this->entityIdLength],
     this->transSeqNumber,
     this->transSeqNumLength
   );
 
   // Push destination entity ID onto buffer in big-endian format
-  FilePacket::serialize_value(
+  FilePacket::serializeValue(
     &data[4 + this->entityIdLength + this->transSeqNumLength],
     this->destEntityId,
     this->entityIdLength
@@ -231,19 +231,19 @@ void FilePacket::Header::
   this->transSeqNumLength = (data[3] & 7) + 1;
 
   // Deserialize source entity ID bytes
-  this->sourceEntityId = FilePacket::deserialize_value(
+  this->sourceEntityId = FilePacket::deserializeValue(
     &data[4],
     this->entityIdLength
   );
 
   // Deserialize transaction sequence number bytes
-  this->transSeqNumber = FilePacket::deserialize_value(
+  this->transSeqNumber = FilePacket::deserializeValue(
     &data[4 + this->entityIdLength],
     this->transSeqNumLength
   );
 
   // Deserialize destination entity ID bytes
-  this->destEntityId = FilePacket::deserialize_value(
+  this->destEntityId = FilePacket::deserializeValue(
     &data[4 + this->entityIdLength + this->transSeqNumLength],
     this->entityIdLength
   );
