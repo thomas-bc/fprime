@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   TestHeader.cpp
-//! @brief  CFDP PDU header test file.
+//! @brief  CFDP file packet Header test file.
 //! @author chownw
 //! ============================================================================
 
@@ -10,54 +10,8 @@
 #include <Fw/Buffer/Buffer.hpp>
 #include <Fw/Ccsds/Cfdp/FilePacket.hpp>
 #include <Fw/Ccsds/Cfdp/Header.hpp>
+#include <Fw/Ccsds/Cfdp/test/ut/TestFilePacket.hpp>
 #include <Fw/Types/Assert.hpp>
-
-namespace
-{
-
-enum SerializedTestHeader1 : U8
-{
-  OCTET_00 = 0x24, // |0 0 1|0|0|1|0|0| - Version through large file flag
-  OCTET_01 = 0x00, // |0 0 0 0 0 0 0 0| - Data field length bits 0-7
-  OCTET_02 = 0x04, // |0 0 0 0 0 1 0 0| - Data field length bits 8-15
-  OCTET_03 = 0x22, // |0|0 1 0|0|0 1 0| - Seg control through seq num length
-  OCTET_04 = 0x00, // |0 0 0 0 0 0 0 0| - Source entity ID octet 0
-  OCTET_05 = 0x00, // |0 0 0 0 0 0 0 0| - Source entity ID octet 1
-  OCTET_06 = 0x06, // |0 0 0 0 0 1 1 0| - Source entity ID octet 2
-  OCTET_07 = 0x00, // |0 0 0 0 0 0 0 0| - Seq num octet 0
-  OCTET_08 = 0x00, // |0 0 0 0 0 0 0 0| - Seq num octet 1
-  OCTET_09 = 0x05, // |0 0 0 0 0 1 0 1| - Seq num octet 2
-  OCTET_10 = 0x00, // |0 0 0 0 0 0 0 0| - Destination entity ID octet 0
-  OCTET_11 = 0x00, // |0 0 0 0 0 0 0 0| - Destination entity ID octet 1
-  OCTET_12 = 0x07, // |0 0 0 0 0 1 1 1| - Destination entity ID octet 2
-  LENGTH = 13,
-};
-
-//! @brief Construct a header that serializes to SerializedTestHeader1.
-//!
-Fw::Cfdp::FilePacket::Header
-  createTestHeader1()
-{
-  Fw::Cfdp::FilePacket::Header header(
-    Fw::Cfdp::FilePacket::Type::FILE_DIRECTIVE,
-    Fw::Cfdp::FilePacket::Direction::TOWARD_RECEIVER,
-    Fw::Cfdp::FilePacket::TransmissionMode::UNACKNOWLEDGED,
-    Fw::Cfdp::FilePacket::CrcFlag::NOT_PRESENT,
-    Fw::Cfdp::FilePacket::LargeFileFlag::SMALL_FILE,
-    Fw::Cfdp::FilePacket::SegmentationControl::NOT_PRESERVED,
-    Fw::Cfdp::FilePacket::SegmentMetadataFlag::NOT_PRESENT,
-    3,
-    5,
-    3,
-    6,
-    7,
-    4
-  );
-
-  return header;
-}
-
-} //
 
 namespace Fw
 {
@@ -65,296 +19,234 @@ namespace Fw
 namespace Cfdp
 {
 
-TEST(FilePacketHeader, ConstructDirective)
+FilePacket::Header TestHeader1::
+  create()
 {
-  // Create header
-  FilePacket::Header header = createTestHeader1();
+  Fw::Cfdp::FilePacket::Header header(
+    TestHeader1::Values::type,
+    TestHeader1::Values::direction,
+    TestHeader1::Values::transmissionMode,
+    TestHeader1::Values::crcFlag,
+    TestHeader1::Values::largeFileFlag,
+    TestHeader1::Values::segmentationControl,
+    TestHeader1::Values::segmentMetadataFlag,
+    TestHeader1::Values::transSeqNumLength,
+    TestHeader1::Values::transSeqNumber,
+    TestHeader1::Values::entityIdLength,
+    TestHeader1::Values::sourceEntityId,
+    TestHeader1::Values::destEntityId,
+    TestHeader1::Values::dataFieldLength
+  );
 
-  // Verify private header fields contain the expected values
-  EXPECT_EQ(
-    header.version,
-    0x001
-  );
-  EXPECT_EQ(
-    header.type,
-    FilePacket::Type::FILE_DIRECTIVE
-  );
-  EXPECT_EQ(
-    header.direction,
-    FilePacket::Direction::TOWARD_RECEIVER
-  );
-  EXPECT_EQ(
-    header.transmissionMode,
-    FilePacket::TransmissionMode::UNACKNOWLEDGED
-  );
-  EXPECT_EQ(
-    header.crcFlag,
-    FilePacket::CrcFlag::NOT_PRESENT
-  );
-  EXPECT_EQ(
-    header.largeFileFlag,
-    FilePacket::LargeFileFlag::SMALL_FILE
-  );
-  EXPECT_EQ(
-    header.dataFieldLength,
-    4
-  );
-  EXPECT_EQ(
-    header.segmentationControl,
-    FilePacket::SegmentationControl::NOT_PRESERVED
-  );
-  EXPECT_EQ(
-    header.entityIdLength,
-    3
-  );
-  EXPECT_EQ(
-    header.segmentMetadataFlag,
-    FilePacket::SegmentMetadataFlag::NOT_PRESENT
-  );
-  EXPECT_EQ(
-    header.transSeqNumLength,
-    3
-  );
-  EXPECT_EQ(
-    header.sourceEntityId,
-    6
-  );
-  EXPECT_EQ(
-    header.transSeqNumber,
-    5
-  );
-  EXPECT_EQ(
-    header.destEntityId,
-    7
-  );
+  return header;
 }
 
-TEST(FilePacketHeader, GetFields)
+void TestHeader1::
+  fillBuffer(Buffer &buf)
 {
-  // Create header
-  FilePacket::Header header = createTestHeader1();
+  U8* data = buf.getData();
 
-  // Verify getter functions return the expected values
-  EXPECT_EQ(
-    header.getVersion(),
-    0x001
+  data[0] = TestHeader1::Serialized::OCTET_00;
+  data[1] = TestHeader1::Serialized::OCTET_01;
+  data[2] = TestHeader1::Serialized::OCTET_02;
+  data[3] = TestHeader1::Serialized::OCTET_03;
+  data[4] = TestHeader1::Serialized::OCTET_04;
+  data[5] = TestHeader1::Serialized::OCTET_05;
+  data[6] = TestHeader1::Serialized::OCTET_06;
+  data[7] = TestHeader1::Serialized::OCTET_07;
+  data[8] = TestHeader1::Serialized::OCTET_08;
+  data[9] = TestHeader1::Serialized::OCTET_09;
+  data[10] = TestHeader1::Serialized::OCTET_10;
+  data[11] = TestHeader1::Serialized::OCTET_11;
+  data[12] = TestHeader1::Serialized::OCTET_12;
+}
+
+FilePacket::Header TestHeader2::
+  create()
+{
+  Fw::Cfdp::FilePacket::Header header(
+    TestHeader2::Values::type,
+    TestHeader2::Values::direction,
+    TestHeader2::Values::transmissionMode,
+    TestHeader2::Values::crcFlag,
+    TestHeader2::Values::largeFileFlag,
+    TestHeader2::Values::segmentationControl,
+    TestHeader2::Values::segmentMetadataFlag,
+    TestHeader2::Values::transSeqNumLength,
+    TestHeader2::Values::transSeqNumber,
+    TestHeader2::Values::entityIdLength,
+    TestHeader2::Values::sourceEntityId,
+    TestHeader2::Values::destEntityId,
+    TestHeader2::Values::dataFieldLength
   );
-  EXPECT_EQ(
-    header.getType(),
-    FilePacket::Type::FILE_DIRECTIVE
-  );
-  EXPECT_EQ(
-    header.getDirection(),
-    FilePacket::Direction::TOWARD_RECEIVER
-  );
-  EXPECT_EQ(
-    header.getTransmissionMode(),
-    FilePacket::TransmissionMode::UNACKNOWLEDGED
-  );
-  EXPECT_EQ(
-    header.getCrcFlag(),
-    FilePacket::CrcFlag::NOT_PRESENT
-  );
-  EXPECT_EQ(
-    header.getLargeFileFlag(),
-    FilePacket::LargeFileFlag::SMALL_FILE
-  );
-  EXPECT_EQ(
-    header.getDataFieldLength(),
-    4
-  );
-  EXPECT_EQ(
-    header.getSegmentationControl(),
-    FilePacket::SegmentationControl::NOT_PRESERVED
-  );
-  EXPECT_EQ(
-    header.getEntityIdLength(),
-    3
-  );
-  EXPECT_EQ(
-    header.getSegmentMetadataFlag(),
-    FilePacket::SegmentMetadataFlag::NOT_PRESENT
-  );
-  EXPECT_EQ(
-    header.getTransSeqNumLength(),
-    3
-  );
-  EXPECT_EQ(
-    header.getSourceEntityId(),
-    6
-  );
-  EXPECT_EQ(
-    header.getTransSeqNumber(),
-    5
-  );
-  EXPECT_EQ(
-    header.getDestEntityId(),
-    7
-  );
+
+  return header;
+}
+
+void TestHeader2::
+  fillBuffer(Buffer &buf)
+{
+  U8* data = buf.getData();
+
+  data[0] = TestHeader2::Serialized::OCTET_00;
+  data[1] = TestHeader2::Serialized::OCTET_01;
+  data[2] = TestHeader2::Serialized::OCTET_02;
+  data[3] = TestHeader2::Serialized::OCTET_03;
+  data[4] = TestHeader2::Serialized::OCTET_04;
+  data[5] = TestHeader2::Serialized::OCTET_05;
+  data[6] = TestHeader2::Serialized::OCTET_06;
+  data[7] = TestHeader2::Serialized::OCTET_07;
+  data[8] = TestHeader2::Serialized::OCTET_08;
+  data[9] = TestHeader2::Serialized::OCTET_09;
+  data[10] = TestHeader2::Serialized::OCTET_10;
+  data[11] = TestHeader2::Serialized::OCTET_11;
+  data[12] = TestHeader2::Serialized::OCTET_12;
 }
 
 TEST(FilePacketHeader, Serialize)
 {
-  // Allocate buffer for serialized header
-  U8 data[SerializedTestHeader1::LENGTH];
-  Fw::Buffer buffer(data, SerializedTestHeader1::LENGTH);
+  // Allocate buffer for serialization
+  U8 data[TestHeader1::Serialized::LENGTH];
+  Fw::Buffer buffer(data, TestHeader1::Serialized::LENGTH);
 
-  // Create header
-  FilePacket::Header header = createTestHeader1();
-
-  // Call header serialization function
+  FilePacket::Header header = TestHeader1::create();
   header.serialize(buffer, 0);
 
   // Verify buffer contains data in the expected format
   EXPECT_EQ(
     buffer.getData()[0],
-    SerializedTestHeader1::OCTET_00
+    TestHeader1::Serialized::OCTET_00
   );
   EXPECT_EQ(
     buffer.getData()[1],
-    SerializedTestHeader1::OCTET_01
+    TestHeader1::Serialized::OCTET_01
   );
   EXPECT_EQ(
     buffer.getData()[2],
-    SerializedTestHeader1::OCTET_02
+    TestHeader1::Serialized::OCTET_02
   );
   EXPECT_EQ(
     buffer.getData()[3],
-    SerializedTestHeader1::OCTET_03
+    TestHeader1::Serialized::OCTET_03
   );
   EXPECT_EQ(
     buffer.getData()[4],
-    SerializedTestHeader1::OCTET_04
+    TestHeader1::Serialized::OCTET_04
   );
   EXPECT_EQ(
     buffer.getData()[5],
-    SerializedTestHeader1::OCTET_05
+    TestHeader1::Serialized::OCTET_05
   );
   EXPECT_EQ(
     buffer.getData()[6],
-    SerializedTestHeader1::OCTET_06
+    TestHeader1::Serialized::OCTET_06
   );
   EXPECT_EQ(
     buffer.getData()[7],
-    SerializedTestHeader1::OCTET_07
+    TestHeader1::Serialized::OCTET_07
   );
   EXPECT_EQ(
     buffer.getData()[8],
-    SerializedTestHeader1::OCTET_08
+    TestHeader1::Serialized::OCTET_08
   );
   EXPECT_EQ(
     buffer.getData()[9],
-    SerializedTestHeader1::OCTET_09
+    TestHeader1::Serialized::OCTET_09
   );
   EXPECT_EQ(
     buffer.getData()[10],
-    SerializedTestHeader1::OCTET_10
+    TestHeader1::Serialized::OCTET_10
   );
   EXPECT_EQ(
     buffer.getData()[11],
-    SerializedTestHeader1::OCTET_11
+    TestHeader1::Serialized::OCTET_11
   );
   EXPECT_EQ(
     buffer.getData()[12],
-    SerializedTestHeader1::OCTET_12
+    TestHeader1::Serialized::OCTET_12
   );
 }
 
 TEST(FilePacketHeader, Deserialize)
 {
-  // Allocate buffer for serialized header
-  U8 data[SerializedTestHeader1::LENGTH];
-  Fw::Buffer buffer(data, SerializedTestHeader1::LENGTH);
+  // Allocate buffer for serialization
+  U8 data[TestHeader1::Serialized::LENGTH];
+  Fw::Buffer buffer(data, TestHeader1::Serialized::LENGTH);
 
-  // Create an empty header to fill with deserialized data
+  // Fill buffer with serialization
+  TestHeader1::fillBuffer(buffer);
+
+  // Call deserialize function
   FilePacket::Header header;
-
-  // Define serialized header
-  data[0] = SerializedTestHeader1::OCTET_00;
-  data[1] = SerializedTestHeader1::OCTET_01;
-  data[2] = SerializedTestHeader1::OCTET_02;
-  data[3] = SerializedTestHeader1::OCTET_03;
-  data[4] = SerializedTestHeader1::OCTET_04;
-  data[5] = SerializedTestHeader1::OCTET_05;
-  data[6] = SerializedTestHeader1::OCTET_06;
-  data[7] = SerializedTestHeader1::OCTET_07;
-  data[8] = SerializedTestHeader1::OCTET_08;
-  data[9] = SerializedTestHeader1::OCTET_09;
-  data[10] = SerializedTestHeader1::OCTET_10;
-  data[11] = SerializedTestHeader1::OCTET_11;
-  data[12] = SerializedTestHeader1::OCTET_12;
-
-  // Call header serialization function
   header.deserialize(buffer, 0);
 
-  // Verify buffer contains data in the expected format
+  // Verify header contains expected values after deserialization
   EXPECT_EQ(
-    header.version,
-    0x001
+    header.getVersion(),
+    TestHeader1::Values::version
   );
   EXPECT_EQ(
-    header.type,
-    FilePacket::Type::FILE_DIRECTIVE
+    header.getType(),
+    TestHeader1::Values::type
   );
   EXPECT_EQ(
-    header.direction,
-    FilePacket::Direction::TOWARD_RECEIVER
+    header.getDirection(),
+    TestHeader1::Values::direction
   );
   EXPECT_EQ(
-    header.transmissionMode,
-    FilePacket::TransmissionMode::UNACKNOWLEDGED
+    header.getTransmissionMode(),
+    TestHeader1::Values::transmissionMode
   );
   EXPECT_EQ(
-    header.crcFlag,
-    FilePacket::CrcFlag::NOT_PRESENT
+    header.getCrcFlag(),
+    TestHeader1::Values::crcFlag
   );
   EXPECT_EQ(
-    header.largeFileFlag,
-    FilePacket::LargeFileFlag::SMALL_FILE
+    header.getLargeFileFlag(),
+    TestHeader1::Values::largeFileFlag
   );
   EXPECT_EQ(
-    header.dataFieldLength,
-    4
+    header.getDataFieldLength(),
+    TestHeader1::Values::dataFieldLength
   );
   EXPECT_EQ(
-    header.segmentationControl,
-    FilePacket::SegmentationControl::NOT_PRESERVED
+    header.getSegmentationControl(),
+    TestHeader1::Values::segmentationControl
   );
   EXPECT_EQ(
-    header.entityIdLength,
-    3
+    header.getEntityIdLength(),
+    TestHeader1::Values::entityIdLength
   );
   EXPECT_EQ(
-    header.segmentMetadataFlag,
-    FilePacket::SegmentMetadataFlag::NOT_PRESENT
+    header.getSegmentMetadataFlag(),
+    TestHeader1::Values::segmentMetadataFlag
   );
   EXPECT_EQ(
-    header.transSeqNumLength,
-    3
+    header.getTransSeqNumLength(),
+    TestHeader1::Values::transSeqNumLength
   );
   EXPECT_EQ(
-    header.sourceEntityId,
-    6
+    header.getSourceEntityId(),
+    TestHeader1::Values::sourceEntityId
   );
   EXPECT_EQ(
-    header.transSeqNumber,
-    5
+    header.getTransSeqNumber(),
+    TestHeader1::Values::transSeqNumber
   );
   EXPECT_EQ(
-    header.destEntityId,
-    7
+    header.getDestEntityId(),
+    TestHeader1::Values::destEntityId
   );
 }
 
 TEST(FilePacketHeader, SerializedLength)
 {
-  // Create header
-  FilePacket::Header header = createTestHeader1();
+  FilePacket::Header header = TestHeader1::create();
 
   // Verify getSerializedLength returns the expected length
   EXPECT_EQ(
     header.getSerializedLength(),
-    SerializedTestHeader1::LENGTH
+    TestHeader1::Serialized::LENGTH
   );
 }
 

@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   TestFilePacket.cpp
-//! @brief  CFDP PDU file packet main test file.
+//! @brief  CFDP file packet FilePacket test file.
 //! @author chownw
 //! ============================================================================
 
@@ -9,6 +9,8 @@
 #include <FpConfig.hpp>
 #include <Fw/Buffer/Buffer.hpp>
 #include <Fw/Ccsds/Cfdp/FilePacket.hpp>
+#include <Fw/Ccsds/Cfdp/Header.hpp>
+#include <Fw/Ccsds/Cfdp/test/ut/TestFilePacket.hpp>
 #include <Fw/Types/Assert.hpp>
 
 namespace Fw
@@ -17,28 +19,94 @@ namespace Fw
 namespace Cfdp
 {
 
-TEST(FilePacketFieldFormats, LengthValue)
+TEST(FilePacket, FileSizeSensitiveSmallFile)
 {
-  // Allocate buffer for serialized LV object
+  // Allocate buffer for serialization
+  U8 data[4];
+  Fw::Buffer buffer(data, 4);
+
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::FileSizeSensitive fss(UINT32_MAX);
+
+  // Verify values before serialization
+  EXPECT_EQ(
+    fss.getValue(),
+    UINT32_MAX
+  );
+
+  // Call serialize and deserialize functions
+  fss.serialize(buffer, 0, header);
+  fss.deserialize(buffer, 0, header);
+
+  // Verify fss contains expected values after deserialization
+  EXPECT_EQ(
+    fss.getValue(),
+    UINT32_MAX
+  );
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    fss.getSerializedLength(header),
+    4
+  );
+}
+
+TEST(FilePacket, FileSizeSensitiveLargeFile)
+{
+  // Allocate buffer for serialization
+  U8 data[8];
+  Fw::Buffer buffer(data, 8);
+
+  FilePacket::Header header = TestHeader2::create();
+  FilePacket::FileSizeSensitive fss(UINT64_MAX);
+
+  // Verify values before serialization
+  EXPECT_EQ(
+    fss.getValue(),
+    UINT64_MAX
+  );
+
+  // Call serialize and deserialize functions
+  fss.serialize(buffer, 0, header);
+  fss.deserialize(buffer, 0, header);
+
+  // Verify fss contains expected values after deserialization
+  EXPECT_EQ(
+    fss.getValue(),
+    UINT64_MAX
+  );
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    fss.getSerializedLength(header),
+    8
+  );
+}
+
+TEST(FilePacket, LengthValue)
+{
+  // Allocate buffer for serialization
   U8 data[11];
   Fw::Buffer buffer(data, 11);
 
-  // Test LV value
   const char* value = "test/value";
-
-  // Create LV object
   FilePacket::LengthValue lv(strlen(value), reinterpret_cast<const U8*>(value));
 
-  // Verify constructor
-  EXPECT_EQ(lv.length, strlen(value));
-  EXPECT_EQ(lv.value, reinterpret_cast<const U8*>(value));
+  // Verify values before serialization
+  EXPECT_EQ(
+    lv.getLength(),
+    strlen(value)
+  );
+  EXPECT_EQ(
+    lv.getValue(),
+    reinterpret_cast<const U8*>(value)
+  );
 
+  // Call serialize and deserialize functions
   lv.serialize(buffer, 0);
   lv.deserialize(buffer, 0);
 
-  // Verify deserialization resulted in the correct length, a pointer to the
-  // start of the value in the serialized buffer, and that serialization
-  // correctly copied the value into the buffer
+  // Verify lv contains expected values after deserialization
   EXPECT_EQ(
     lv.getLength(),
     strlen(value)
@@ -47,16 +115,48 @@ TEST(FilePacketFieldFormats, LengthValue)
     strncmp(
       reinterpret_cast<const char*>(lv.getValue()),
       value,
-      strlen(value)
+      lv.getLength()
     ),
     0
   );
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    lv.getSerializedLength(),
+    strlen(value) + 1
+  );
 }
 
-int main(int argc, char **argv)
+TEST(FilePacket, LengthValueEmpty)
 {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  // Allocate buffer for serialization
+  U8 data[11];
+  Fw::Buffer buffer(data, 11);
+
+  // Call default constructor which should initialize an empty LV object
+  FilePacket::LengthValue lv;
+
+  // Verify values before serialization
+  EXPECT_EQ(
+    lv.getLength(),
+    0
+  );
+
+  // Call serialize and deserialize functions
+  lv.serialize(buffer, 0);
+  lv.deserialize(buffer, 0);
+
+  // Verify lv contains expected values after deserialization
+  EXPECT_EQ(
+    lv.getLength(),
+    0
+  );
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    lv.getSerializedLength(),
+    1 // Serialization should just contain the 'length' byte
+  );
 }
 
 } // namespace Cfdp
