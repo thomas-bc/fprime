@@ -87,7 +87,7 @@ namespace TestHeader1
   FilePacket::Header create();
 
   // Fill buffer with serialized values.
-  void fillBuffer(Buffer& buf);
+  void fillBuffer(Buffer& buf, U32 offset);
 
   // Verify buffer contains data in the expected format
   void verifyBuffer(Buffer& buf, U32 offset);
@@ -162,7 +162,7 @@ namespace TestHeader2
   FilePacket::Header create();
 
   // Fill buffer with serialized values.
-  void fillBuffer(Buffer& buf);
+  void fillBuffer(Buffer& buf, U32 offset);
 };
 
 /*
@@ -195,47 +195,48 @@ namespace TestMetadata1
 
   enum Serialized : U8
   {
-    OCTET_00 = 0x4F, // |0|1|0|0|1|1|1|1| - Reserved through checksum type.
-    OCTET_01 = 0x00, // |0 0 0 0 0 0 0 0| - Small file size octet 0.
-    OCTET_02 = 0x00, // |0 0 0 0 0 0 0 0| - Small file size octet 1.
-    OCTET_03 = 0x00, // |0 0 0 0 0 0 0 0| - Small file size octet 2.
-    OCTET_04 = 0x10, // |0 0 0 1 0 0 0 0| - Small file size octet 3.
-    OCTET_05 = 0x0E, // |0 0 0 0 1 1 1 0| - Source file name LV length.
-    OCTET_06 = 0x53, // |0 1 0 1 0 0 1 1| - Source file name LV value octet 0.
-    OCTET_07 = 0x6F, // |0 1 1 0 1 1 1 1| - Source file name LV value octet 1.
-    OCTET_08 = 0x75, // |0 1 1 1 0 1 0 1| - Source file name LV value octet 2.
-    OCTET_09 = 0x72, // |0 1 1 1 0 0 1 0| - Source file name LV value octet 3.
-    OCTET_10 = 0x63, // |0 1 1 0 0 0 1 1| - Source file name LV value octet 4.
-    OCTET_11 = 0x65, // |0 1 1 0 0 1 0 1| - Source file name LV value octet 5.
-    OCTET_12 = 0x46, // |0 1 0 0 0 1 1 0| - Source file name LV value octet 6.
-    OCTET_13 = 0x69, // |0 1 1 0 1 0 0 1| - Source file name LV value octet 7.
-    OCTET_14 = 0x6C, // |0 1 1 0 1 1 0 0| - Source file name LV value octet 8.
-    OCTET_15 = 0x65, // |0 1 1 0 0 1 0 1| - Source file name LV value octet 9.
-    OCTET_16 = 0x6E, // |0 1 1 0 1 1 1 0| - Source file name LV value octet 10.
-    OCTET_17 = 0x61, // |0 1 1 0 0 0 0 1| - Source file name LV value octet 11.
-    OCTET_18 = 0x6D, // |0 1 1 0 1 1 0 1| - Source file name LV value octet 12.
-    OCTET_19 = 0x65, // |0 1 1 0 0 1 0 1| - Source file name LV value octet 13.
-    OCTET_20 = 0x0C, // |0 0 0 0 1 1 0 0| - Dest file name LV length.
-    OCTET_21 = 0x44, // |0 1 0 0 0 1 0 0| - Dest file name LV value octet 0.
-    OCTET_22 = 0x65, // |0 1 1 0 0 1 0 1| - Dest file name LV value octet 1.
-    OCTET_23 = 0x73, // |0 1 1 1 0 0 1 1| - Dest file name LV value octet 2.
-    OCTET_24 = 0x74, // |0 1 1 1 0 1 0 0| - Dest file name LV value octet 3.
-    OCTET_25 = 0x46, // |0 1 0 0 0 1 1 0| - Dest file name LV value octet 4.
-    OCTET_26 = 0x69, // |0 1 1 0 1 0 0 1| - Dest file name LV value octet 5.
-    OCTET_27 = 0x6C, // |0 1 1 0 1 1 0 0| - Dest file name LV value octet 6.
-    OCTET_28 = 0x65, // |0 1 1 0 0 1 0 1| - Dest file name LV value octet 7.
-    OCTET_29 = 0x6E, // |0 1 1 0 1 1 1 0| - Dest file name LV value octet 8.
-    OCTET_30 = 0x61, // |0 1 1 0 0 0 0 1| - Dest file name LV value octet 9.
-    OCTET_31 = 0x6D, // |0 1 1 0 1 1 0 1| - Dest file name LV value octet 10.
-    OCTET_32 = 0x65, // |0 1 1 0 0 1 0 1| - Dest file name LV value octet 11.
-    LENGTH = 33,
+    OCTET_00 = 0x07, // |0 0 0 0 0 1 1 1| - Metadata directive code.
+    OCTET_01 = 0x4F, // |0|1|0|0|1|1|1|1| - Reserved through checksum type.
+    OCTET_02 = 0x00, // |0 0 0 0 0 0 0 0| - Small file size octet 0.
+    OCTET_03 = 0x00, // |0 0 0 0 0 0 0 0| - Small file size octet 1.
+    OCTET_04 = 0x00, // |0 0 0 0 0 0 0 0| - Small file size octet 2.
+    OCTET_05 = 0x10, // |0 0 0 1 0 0 0 0| - Small file size octet 3.
+    OCTET_06 = 0x0E, // |0 0 0 0 1 1 1 0| - Source file name LV length.
+    OCTET_07 = 0x53, // |0 1 0 1 0 0 1 1| - Source file name LV value octet 0.
+    OCTET_08 = 0x6F, // |0 1 1 0 1 1 1 1| - Source file name LV value octet 1.
+    OCTET_09 = 0x75, // |0 1 1 1 0 1 0 1| - Source file name LV value octet 2.
+    OCTET_10 = 0x72, // |0 1 1 1 0 0 1 0| - Source file name LV value octet 3.
+    OCTET_11 = 0x63, // |0 1 1 0 0 0 1 1| - Source file name LV value octet 4.
+    OCTET_12 = 0x65, // |0 1 1 0 0 1 0 1| - Source file name LV value octet 5.
+    OCTET_13 = 0x46, // |0 1 0 0 0 1 1 0| - Source file name LV value octet 6.
+    OCTET_14 = 0x69, // |0 1 1 0 1 0 0 1| - Source file name LV value octet 7.
+    OCTET_15 = 0x6C, // |0 1 1 0 1 1 0 0| - Source file name LV value octet 8.
+    OCTET_16 = 0x65, // |0 1 1 0 0 1 0 1| - Source file name LV value octet 9.
+    OCTET_17 = 0x6E, // |0 1 1 0 1 1 1 0| - Source file name LV value octet 10.
+    OCTET_18 = 0x61, // |0 1 1 0 0 0 0 1| - Source file name LV value octet 11.
+    OCTET_19 = 0x6D, // |0 1 1 0 1 1 0 1| - Source file name LV value octet 12.
+    OCTET_20 = 0x65, // |0 1 1 0 0 1 0 1| - Source file name LV value octet 13.
+    OCTET_21 = 0x0C, // |0 0 0 0 1 1 0 0| - Dest file name LV length.
+    OCTET_22 = 0x44, // |0 1 0 0 0 1 0 0| - Dest file name LV value octet 0.
+    OCTET_23 = 0x65, // |0 1 1 0 0 1 0 1| - Dest file name LV value octet 1.
+    OCTET_24 = 0x73, // |0 1 1 1 0 0 1 1| - Dest file name LV value octet 2.
+    OCTET_25 = 0x74, // |0 1 1 1 0 1 0 0| - Dest file name LV value octet 3.
+    OCTET_26 = 0x46, // |0 1 0 0 0 1 1 0| - Dest file name LV value octet 4.
+    OCTET_27 = 0x69, // |0 1 1 0 1 0 0 1| - Dest file name LV value octet 5.
+    OCTET_28 = 0x6C, // |0 1 1 0 1 1 0 0| - Dest file name LV value octet 6.
+    OCTET_29 = 0x65, // |0 1 1 0 0 1 0 1| - Dest file name LV value octet 7.
+    OCTET_30 = 0x6E, // |0 1 1 0 1 1 1 0| - Dest file name LV value octet 8.
+    OCTET_31 = 0x61, // |0 1 1 0 0 0 0 1| - Dest file name LV value octet 9.
+    OCTET_32 = 0x6D, // |0 1 1 0 1 1 0 1| - Dest file name LV value octet 10.
+    OCTET_33 = 0x65, // |0 1 1 0 0 1 0 1| - Dest file name LV value octet 11.
+    LENGTH = 34,
   };
 
   // Create a metadata with the above values.
   FilePacket::Metadata create();
 
   // Fill buffer with serialized values.
-  void fillBuffer(Buffer& buf);
+  void fillBuffer(Buffer& buf, U32 offset);
 
   // Verify buffer contains data in the expected format
   void verifyBuffer(Buffer& buf, U32 offset);

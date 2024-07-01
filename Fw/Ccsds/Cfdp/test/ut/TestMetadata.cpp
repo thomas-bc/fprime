@@ -35,9 +35,9 @@ FilePacket::Metadata TestMetadata1::
 }
 
 void TestMetadata1::
-  fillBuffer(Buffer &buf)
+  fillBuffer(Buffer &buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   data[0] = TestMetadata1::Serialized::OCTET_00;
   data[1] = TestMetadata1::Serialized::OCTET_01;
@@ -72,6 +72,7 @@ void TestMetadata1::
   data[30] = TestMetadata1::Serialized::OCTET_30;
   data[31] = TestMetadata1::Serialized::OCTET_31;
   data[32] = TestMetadata1::Serialized::OCTET_32;
+  data[33] = TestMetadata1::Serialized::OCTET_33;
 }
 
 void TestMetadata1::
@@ -211,11 +212,19 @@ void TestMetadata1::
     data[32],
     TestMetadata1::Serialized::OCTET_32
   );
+  EXPECT_EQ(
+    data[33],
+    TestMetadata1::Serialized::OCTET_33
+  );
 }
 
 void TestMetadata1::
   verifyMetadata(FilePacket::Metadata& metadata)
 {
+  EXPECT_EQ(
+    metadata.directiveCode,
+    FilePacket::DirectiveType::METADATA
+  );
   EXPECT_EQ(
     metadata.reserved0,
     TestMetadata1::Values::reserved0
@@ -262,6 +271,26 @@ void TestMetadata1::
   );
 }
 
+TEST(FilePacket, GetDirectiveFromBuffer)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Fill buffer with a serialized test packet
+  TestHeader1::fillBuffer(buffer, 0);
+  TestMetadata1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
+
+  // Verify function returns the expected directive type
+  EXPECT_EQ(
+    FilePacket::getDirectiveFromBuffer(buffer, 0),
+    FilePacket::DirectiveType::METADATA
+  );
+}
+
 TEST(FilePacketMetadata, Serialize)
 {
   // Allocate buffer for serialization
@@ -283,7 +312,7 @@ TEST(FilePacketMetadata, Deserialize)
   Fw::Buffer buffer(data, TestMetadata1::Serialized::LENGTH);
 
   // Fill buffer with serialization
-  TestMetadata1::fillBuffer(buffer);
+  TestMetadata1::fillBuffer(buffer, 0);
 
   // Call deserialize function
   FilePacket::Header header = TestHeader1::create();

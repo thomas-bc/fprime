@@ -25,6 +25,17 @@ namespace Cfdp
 //!
 class FilePacket
 {
+  public:
+    enum class DirectiveType
+    {
+      END_OF_FILE = 0x04,
+      FINISHED = 0x05,
+      ACK = 0x06,
+      METADATA = 0x07,
+      NAK = 0x08,
+      PROMPT = 0x09,
+      KEEP_ALIVE = 0x0C
+    };
 
   /*
    * Enum forward declarations.
@@ -234,6 +245,24 @@ class FilePacket
     void deserialize(Fw::Buffer& buf, U32 offset);
 
   /*
+   * Public static functions.
+   */
+  public:
+    //! @brief Gets whether buffer holds a file directive or file data packet.
+    //!
+    //! @param buf The buffer holding a serialized packet.
+    //! @param offset The byte offset to the beginning of the serialized packet.
+    //!
+    static Type getTypeFromBuffer(Fw::Buffer& buf, U32 offset);
+
+    //! @brief Gets the file directive type of the packet in the buffer.
+    //!
+    //! @param buf The buffer holding a serialized packet.
+    //! @param offset The byte offset to the beginning of the serialized packet.
+    //!
+    static DirectiveType getDirectiveFromBuffer(Fw::Buffer& buf, U32 offset);
+
+  /*
    * Public member variables.
    */
   public:
@@ -245,6 +274,9 @@ class FilePacket
     //!
     DataField& dataField;
 
+  /*
+   * Private static functions.
+   */
   PRIVATE:
     //! @brief Serialize an integer value in big-endian format.
     //!

@@ -123,6 +123,7 @@ class FilePacket::Metadata : public DataField
     //!
     enum FieldLength : U32
     {
+      DIRECTIVE_CODE = 8,
       RESERVED0 = 1,
       CLOSURE_REQUESTED = 1,
       RESERVED1 = 2,
@@ -134,12 +135,17 @@ class FilePacket::Metadata : public DataField
     enum FixedSize : U32
     {
       BITS =
-        FieldLength::RESERVED0
+        FieldLength::DIRECTIVE_CODE
+        + FieldLength::RESERVED0
         + FieldLength::CLOSURE_REQUESTED
         + FieldLength::RESERVED1
         + FieldLength::CHECKSUM_TYPE,
       BYTES = BITS / 8,
     };
+
+    //! @brief Indicates that the data field contains a metadata PDU.
+    //!
+    static DirectiveType directiveCode;
 
     //! @brief Reserved for future use.
     //!

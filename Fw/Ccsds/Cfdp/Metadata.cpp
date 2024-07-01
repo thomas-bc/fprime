@@ -18,6 +18,9 @@ namespace Fw
 namespace Cfdp
 {
 
+FilePacket::DirectiveType FilePacket::Metadata::directiveCode =
+  FilePacket::DirectiveType::METADATA;
+
 FilePacket::Metadata::
   Metadata()
 {
@@ -99,12 +102,15 @@ void FilePacket::Metadata::
   U8* data = buf.getData() + offset;
 
   // Serialize octet 0
-  data[0] = 0;
-  data[0] |= (static_cast<U8>(this->closureRequested) & 1) << 6;
-  data[0] |= (static_cast<U8>(this->checksumType) & 15);
+  data[0] = static_cast<U8>(this->directiveCode);
+
+  // Serialize octet 1
+  data[1] = 0;
+  data[1] |= (static_cast<U8>(this->closureRequested) & 1) << 6;
+  data[1] |= (static_cast<U8>(this->checksumType) & 15);
 
   // Serialize the FSS field file size
-  U32 fileSizeOffset = offset + 1;
+  U32 fileSizeOffset = offset + 2;
   this->fileSize.serialize(buf, fileSizeOffset, header);
 
   // Serialize the LV field source file name
@@ -123,15 +129,15 @@ void FilePacket::Metadata::
 {
   U8* data = buf.getData() + offset;
 
-  // Deserialize octet 0
-  this->reserved0 = (data[0] >> 7) & 1;
+  // Deserialize octet 1
+  this->reserved0 = (data[1] >> 7) & 1;
   this->closureRequested =
-    static_cast<FilePacket::ClosureRequested>((data[0] >> 6) & 1);
-  this->reserved1 = (data[0] >> 4) & 3;
-  this->checksumType = static_cast<FilePacket::ChecksumType>(data[0] & 15);
+    static_cast<FilePacket::ClosureRequested>((data[1] >> 6) & 1);
+  this->reserved1 = (data[1] >> 4) & 3;
+  this->checksumType = static_cast<FilePacket::ChecksumType>(data[1] & 15);
 
   // Deserialize the FSS field file size
-  U32 fileSizeOffset = offset + 1;
+  U32 fileSizeOffset = offset + 2;
   this->fileSize.deserialize(buf, fileSizeOffset, header);
 
   // Deserialize the LV field source file name

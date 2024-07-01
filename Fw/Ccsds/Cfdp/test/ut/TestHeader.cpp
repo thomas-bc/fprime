@@ -42,9 +42,9 @@ FilePacket::Header TestHeader1::
 }
 
 void TestHeader1::
-  fillBuffer(Buffer &buf)
+  fillBuffer(Buffer &buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   data[0] = TestHeader1::Serialized::OCTET_00;
   data[1] = TestHeader1::Serialized::OCTET_01;
@@ -204,9 +204,9 @@ FilePacket::Header TestHeader2::
 }
 
 void TestHeader2::
-  fillBuffer(Buffer &buf)
+  fillBuffer(Buffer &buf, U32 offset)
 {
-  U8* data = buf.getData();
+  U8* data = buf.getData() + offset;
 
   data[0] = TestHeader2::Serialized::OCTET_00;
   data[1] = TestHeader2::Serialized::OCTET_01;
@@ -221,6 +221,26 @@ void TestHeader2::
   data[10] = TestHeader2::Serialized::OCTET_10;
   data[11] = TestHeader2::Serialized::OCTET_11;
   data[12] = TestHeader2::Serialized::OCTET_12;
+}
+
+TEST(FilePacket, GetTypeFromBuffer)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Fill buffer with a serialized test packet
+  TestHeader1::fillBuffer(buffer, 0);
+  TestMetadata1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
+
+  // Verify function returns the expected type
+  EXPECT_EQ(
+    FilePacket::getTypeFromBuffer(buffer, 0),
+    TestHeader1::Values::type
+  );
 }
 
 TEST(FilePacketHeader, Serialize)
@@ -243,7 +263,7 @@ TEST(FilePacketHeader, Deserialize)
   Fw::Buffer buffer(data, TestHeader1::Serialized::LENGTH);
 
   // Fill buffer with serialization
-  TestHeader1::fillBuffer(buffer);
+  TestHeader1::fillBuffer(buffer, 0);
 
   // Call deserialize function
   FilePacket::Header header;

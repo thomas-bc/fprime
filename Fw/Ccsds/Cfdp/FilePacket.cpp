@@ -200,6 +200,31 @@ void FilePacket::
   );
 }
 
+FilePacket::Type FilePacket::
+  getTypeFromBuffer(Fw::Buffer& buf, U32 offset)
+{
+  U8* data = buf.getData() + offset;
+
+  // Deserialize the type field from octet 0
+  return static_cast<FilePacket::Type>((data[0] >> 4) & 1);
+}
+
+FilePacket::DirectiveType FilePacket::
+  getDirectiveFromBuffer(Fw::Buffer& buf, U32 offset)
+{
+  // TODO: getTypeFromBuffer and assert FILE_DIRECTIVE
+
+  // Deserialize the header so we can get its length
+  Header header;
+  header.deserialize(buf, offset);
+
+  // Get pointer to the start of the data field
+  U8* data = buf.getData() + offset + header.getSerializedLength();
+
+  // Deserialize the directive code which should be in octet 0 of the data field
+  return static_cast<FilePacket::DirectiveType>(data[0]);
+}
+
 } // namespace Cfdp
 
 } // namespace Fw
