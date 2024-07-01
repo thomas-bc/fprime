@@ -22,7 +22,7 @@ FilePacket::Header::
 
 FilePacket::Header::
   Header(
-    FilePacket::Type type,
+    FilePacket::DataType type,
     FilePacket::Direction direction,
     FilePacket::TransmissionMode transmissionMode,
     FilePacket::CrcFlag crcFlag,
@@ -55,7 +55,7 @@ FilePacket::Header::
   this->dataFieldLength = dataFieldLength;
 
   // These fields are always '0' and should be ignored for file directive PDUs
-  if (this->type == FilePacket::Type::FILE_DIRECTIVE)
+  if (this->type == FilePacket::DataType::FILE_DIRECTIVE)
   {
     this->segmentationControl = FilePacket::SegmentationControl::NOT_PRESERVED;
     this->segmentMetadataFlag = FilePacket::SegmentMetadataFlag::NOT_PRESENT;
@@ -73,7 +73,7 @@ U8 FilePacket::Header::
   return this->version;
 }
 
-FilePacket::Type FilePacket::Header::
+FilePacket::DataType FilePacket::Header::
   getType()
 {
   return this->type;
@@ -209,7 +209,7 @@ void FilePacket::Header::
 
   // Deserialize octet 0
   this->version = data[0] >> 5;
-  this->type = static_cast<FilePacket::Type>((data[0] >> 4) & 1);
+  this->type = static_cast<FilePacket::DataType>((data[0] >> 4) & 1);
   this->direction = static_cast<FilePacket::Direction>((data[0] >> 3) & 1);
   this->transmissionMode =
     static_cast<FilePacket::TransmissionMode>((data[0] >> 2) & 1);

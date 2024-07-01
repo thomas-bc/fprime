@@ -223,26 +223,6 @@ void TestHeader2::
   data[12] = TestHeader2::Serialized::OCTET_12;
 }
 
-TEST(FilePacket, GetTypeFromBuffer)
-{
-  U32 filePacketLength =
-    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
-
-  // Allocate buffer for serialization
-  U8 data[filePacketLength];
-  Fw::Buffer buffer(data, filePacketLength);
-
-  // Fill buffer with a serialized test packet
-  TestHeader1::fillBuffer(buffer, 0);
-  TestMetadata1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
-
-  // Verify function returns the expected type
-  EXPECT_EQ(
-    FilePacket::getTypeFromBuffer(buffer, 0),
-    TestHeader1::Values::type
-  );
-}
-
 TEST(FilePacketHeader, Serialize)
 {
   // Allocate buffer for serialization

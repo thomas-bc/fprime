@@ -31,8 +31,8 @@ namespace TestHeader1
     const U8 version =
         0x001;
 
-    const FilePacket::Type type =
-      FilePacket::Type::FILE_DIRECTIVE;
+    const FilePacket::DataType type =
+      FilePacket::DataType::FILE_DIRECTIVE;
 
     const FilePacket::Direction direction =
       FilePacket::Direction::TOWARD_RECEIVER;
@@ -106,8 +106,8 @@ namespace TestHeader2
     const U8 version =
         0x001;
 
-    const FilePacket::Type type =
-      FilePacket::Type::FILE_DIRECTIVE;
+    const FilePacket::DataType type =
+      FilePacket::DataType::FILE_DIRECTIVE;
 
     const FilePacket::Direction direction =
       FilePacket::Direction::TOWARD_RECEIVER;

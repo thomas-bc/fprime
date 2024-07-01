@@ -17,14 +17,6 @@ namespace Fw
 namespace Cfdp
 {
 
-//! @brief PDU type options.
-//!
-enum class FilePacket::Type
-{
-  FILE_DIRECTIVE = 0, //!< Indicates a file directive PDU.
-  FILE_DATA = 1, //!< Indicates a file data PDU.
-};
-
 //! @brief PDU direction options.
 //!
 //! Used to perform PDU forwarding.
@@ -122,7 +114,7 @@ class FilePacket::Header
     //! @param dataFieldLength The data field length in octets.
     //!
     Header(
-      Type type,
+      DataType type,
       Direction direction,
       TransmissionMode transmissionMode,
       CrcFlag crcFlag,
@@ -143,7 +135,7 @@ class FilePacket::Header
 
     //! @brief Get the PDU type.
     //!
-    Type getType();
+    DataType getType();
 
     //! @brief Get the direction used to perform PDU forwarding.
     //!
@@ -255,7 +247,7 @@ class FilePacket::Header
 
     //! @brief The PDU type.
     //!
-    Type type;
+    DataType type;
 
     //! @brief The direction.
     //!

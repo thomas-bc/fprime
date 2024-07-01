@@ -271,26 +271,6 @@ void TestMetadata1::
   );
 }
 
-TEST(FilePacket, GetDirectiveFromBuffer)
-{
-  U32 filePacketLength =
-    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
-
-  // Allocate buffer for serialization
-  U8 data[filePacketLength];
-  Fw::Buffer buffer(data, filePacketLength);
-
-  // Fill buffer with a serialized test packet
-  TestHeader1::fillBuffer(buffer, 0);
-  TestMetadata1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
-
-  // Verify function returns the expected directive type
-  EXPECT_EQ(
-    FilePacket::getDirectiveFromBuffer(buffer, 0),
-    FilePacket::DirectiveType::METADATA
-  );
-}
-
 TEST(FilePacketMetadata, Serialize)
 {
   // Allocate buffer for serialization

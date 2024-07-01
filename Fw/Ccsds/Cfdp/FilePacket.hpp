@@ -26,6 +26,16 @@ namespace Cfdp
 class FilePacket
 {
   public:
+    //! @brief Packet data field type options.
+    //!
+    enum class DataType
+    {
+      FILE_DIRECTIVE = 0, //!< Indicates a file directive PDU.
+      FILE_DATA = 1, //!< Indicates a file data PDU.
+    };
+
+    //! @brief File directive type options.
+    //!
     enum class DirectiveType
     {
       END_OF_FILE = 0x04,
@@ -34,7 +44,39 @@ class FilePacket
       METADATA = 0x07,
       NAK = 0x08,
       PROMPT = 0x09,
-      KEEP_ALIVE = 0x0C
+      KEEP_ALIVE = 0x0C,
+    };
+
+    //! @brief File packet type options.
+    //!
+    //! The F Prime file packet type is a combination of the data field type and
+    //! the directive type.
+    //!
+    enum class Type
+    {
+      FILE_DATA_PACKET =
+        static_cast<U8>(DataType::FILE_DATA) << 8,
+      EOF_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::END_OF_FILE),
+      FINISHED_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::FINISHED),
+      ACK_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::ACK),
+      METADATA_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::METADATA),
+      NAK_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::NAK),
+      PROMPT_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::PROMPT),
+      KEEP_ALIVE_PACKET =
+        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+        | static_cast<U8>(DirectiveType::KEEP_ALIVE),
     };
 
   /*
@@ -42,7 +84,6 @@ class FilePacket
    */
   public:
     // Header related enums
-    enum class Type;
     enum class Direction;
     enum class TransmissionMode;
     enum class CrcFlag;
@@ -248,19 +289,12 @@ class FilePacket
    * Public static functions.
    */
   public:
-    //! @brief Gets whether buffer holds a file directive or file data packet.
+    //! @brief Gets the type of the serialized packet in the buffer.
     //!
     //! @param buf The buffer holding a serialized packet.
     //! @param offset The byte offset to the beginning of the serialized packet.
     //!
     static Type getTypeFromBuffer(Fw::Buffer& buf, U32 offset);
-
-    //! @brief Gets the file directive type of the packet in the buffer.
-    //!
-    //! @param buf The buffer holding a serialized packet.
-    //! @param offset The byte offset to the beginning of the serialized packet.
-    //!
-    static DirectiveType getDirectiveFromBuffer(Fw::Buffer& buf, U32 offset);
 
   /*
    * Public member variables.
