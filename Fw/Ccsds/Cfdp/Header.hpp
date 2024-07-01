@@ -131,59 +131,59 @@ class FilePacket::Header
 
     //! @brief Get the protocol version.
     //!
-    U8 getVersion();
+    U8 getVersion() const;
 
     //! @brief Get the PDU type.
     //!
-    DataType getType();
+    DataType getType() const;
 
     //! @brief Get the direction used to perform PDU forwarding.
     //!
-    Direction getDirection();
+    Direction getDirection() const;
 
     //! @brief Get the transmission mode.
     //!
-    TransmissionMode getTransmissionMode();
+    TransmissionMode getTransmissionMode() const;
 
     //! @brief Get the CRC flag.
     //!
-    CrcFlag getCrcFlag();
+    CrcFlag getCrcFlag() const;
 
     //! @brief Get the large file flag.
     //!
-    LargeFileFlag getLargeFileFlag();
+    LargeFileFlag getLargeFileFlag() const;
 
     //! @brief Get the PDU data field length in octets.
     //!
-    U16 getDataFieldLength();
+    U16 getDataFieldLength() const;
 
     //! @brief Get whether record boundaries are preserved in data segmentation.
     //!
-    SegmentationControl getSegmentationControl();
+    SegmentationControl getSegmentationControl() const;
 
     //! @brief Get the number of octets in the entity ID less one.
     //!
-    U8 getEntityIdLength();
+    U8 getEntityIdLength() const;
 
     //! @brief Get whether segment metadata is present in the PDU.
     //!
-    SegmentMetadataFlag getSegmentMetadataFlag();
+    SegmentMetadataFlag getSegmentMetadataFlag() const;
 
     //! @brief Get the number of octets in the sequence number less one.
     //!
-    U8 getTransSeqNumLength();
+    U8 getTransSeqNumLength() const;
 
     //! @brief Get the source protocol entity ID.
     //!
-    U64 getSourceEntityId();
+    U64 getSourceEntityId() const;
 
     //! @brief Get the transaction sequence number.
     //!
-    U64 getTransSeqNumber();
+    U64 getTransSeqNumber() const;
 
     //! @brief Get the destination protocol entity ID.
     //!
-    U64 getDestEntityId();
+    U64 getDestEntityId() const;
 
   PRIVATE:
     //! @brief Serialize this header into a buffer.
@@ -191,18 +191,18 @@ class FilePacket::Header
     //! @param buf The buffer to hold the serialized data.
     //! @param offset The byte offset to start serialization from.
     //!
-    void serialize(Fw::Buffer& buf, U32 offset);
+    void serialize(const Fw::Buffer& buf, U32 offset) const;
 
     //! @brief Deserialize a buffer containing serialized header data.
     //!
     //! @param buf The buffer containing serialized data.
     //! @param offset The byte offset to start deserialization from.
     //!
-    void deserialize(Fw::Buffer& buf, U32 offset);
+    void deserialize(const Fw::Buffer& buf, U32 offset);
 
     //! @brief Get the length in octets of this header when serialized.
     //!
-    U32 getSerializedLength();
+    U32 getSerializedLength() const;
 
   PRIVATE:
     //! @brief Length in bits of fixed-size header fields.

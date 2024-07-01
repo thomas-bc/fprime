@@ -55,49 +55,49 @@ FilePacket::Metadata::
 }
 
 FilePacket::ClosureRequested FilePacket::Metadata::
-  getClosureRequested()
+  getClosureRequested() const
 {
   return this->closureRequested;
 }
 
 FilePacket::ChecksumType FilePacket::Metadata::
-  getChecksumType()
+  getChecksumType() const
 {
   return this->checksumType;
 }
 
 U64 FilePacket::Metadata::
-  getFileSize()
+  getFileSize() const
 {
   return this->fileSize.getValue();
 }
 
 const char* FilePacket::Metadata::
-  getSourceFilename()
+  getSourceFilename() const
 {
   return reinterpret_cast<const char*>(this->sourceFilename.getValue());
 }
 
 U8 FilePacket::Metadata::
-  getSourceFilenameLength()
+  getSourceFilenameLength() const
 {
   return this->sourceFilename.getLength();
 }
 
 const char* FilePacket::Metadata::
-  getDestFilename()
+  getDestFilename() const
 {
   return reinterpret_cast<const char*>(this->destFilename.getValue());
 }
 
 U8 FilePacket::Metadata::
-  getDestFilenameLength()
+  getDestFilenameLength() const
 {
   return this->destFilename.getLength();
 }
 
 void FilePacket::Metadata::
-  serialize(Fw::Buffer& buf, U32 offset, Header& header)
+  serialize(const Fw::Buffer& buf, U32 offset, const Header& header) const
 {
   U8* data = buf.getData() + offset;
 
@@ -125,7 +125,7 @@ void FilePacket::Metadata::
 }
 
 void FilePacket::Metadata::
-  deserialize(Fw::Buffer& buf, U32 offset, Header& header)
+  deserialize(const Fw::Buffer& buf, U32 offset, const Header& header)
 {
   U8* data = buf.getData() + offset;
 
@@ -152,7 +152,7 @@ void FilePacket::Metadata::
 }
 
 U32 FilePacket::Metadata::
-  getSerializedLength(Header& header)
+  getSerializedLength(const Header& header) const
 {
   return (
     FixedSize::BYTES

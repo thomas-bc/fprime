@@ -28,7 +28,7 @@ void FilePacket::
 }
 
 U64 FilePacket::
-  deserializeValue(U8* data, U8 size)
+  deserializeValue(const U8* data, U8 size)
 {
   U64 output = 0;
 
@@ -54,13 +54,13 @@ FilePacket::FileSizeSensitive::
 }
 
 U64 FilePacket::FileSizeSensitive::
-  getValue()
+  getValue() const
 {
   return this->value;
 }
 
 void FilePacket::FileSizeSensitive::
-  serialize(Fw::Buffer& buf, U32 offset, Header& header)
+  serialize(const Fw::Buffer& buf, U32 offset, const Header& header) const
 {
   U8* data = buf.getData() + offset;
 
@@ -75,7 +75,7 @@ void FilePacket::FileSizeSensitive::
 }
 
 void FilePacket::FileSizeSensitive::
-  deserialize(Fw::Buffer& buf, U32 offset, Header& header)
+  deserialize(const Fw::Buffer& buf, U32 offset, const Header& header)
 {
   U8* data = buf.getData() + offset;
 
@@ -90,7 +90,7 @@ void FilePacket::FileSizeSensitive::
 }
 
 U32 FilePacket::FileSizeSensitive::
-  getSerializedLength(Header& header)
+  getSerializedLength(const Header& header) const
 {
   return (
     (header.getLargeFileFlag() == FilePacket::LargeFileFlag::SMALL_FILE)
@@ -114,19 +114,19 @@ FilePacket::LengthValue::
 }
 
 U8 FilePacket::LengthValue::
-  getLength()
+  getLength() const
 {
   return this->length;
 }
 
 const U8* FilePacket::LengthValue::
-  getValue()
+  getValue() const
 {
   return this->value;
 }
 
 void FilePacket::LengthValue::
-  serialize(Fw::Buffer& buf, U32 offset)
+  serialize(const Fw::Buffer& buf, U32 offset) const
 {
   U8* data = buf.getData() + offset;
 
@@ -141,7 +141,7 @@ void FilePacket::LengthValue::
 }
 
 void FilePacket::LengthValue::
-  deserialize(Fw::Buffer& buf, U32 offset)
+  deserialize(const Fw::Buffer& buf, U32 offset)
 {
   U8* data = buf.getData() + offset;
 
@@ -161,7 +161,7 @@ void FilePacket::LengthValue::
 }
 
 U32 FilePacket::LengthValue::
-  getSerializedLength()
+  getSerializedLength() const
 {
   return this->length + 1;
 }
@@ -177,7 +177,7 @@ FilePacket::
 }
 
 void FilePacket::
-  serialize(Fw::Buffer& buf, U32 offset)
+  serialize(const Fw::Buffer& buf, U32 offset) const
 {
   this->header.serialize(buf, offset);
 
@@ -189,7 +189,7 @@ void FilePacket::
 }
 
 void FilePacket::
-  deserialize(Fw::Buffer& buf, U32 offset)
+  deserialize(const Fw::Buffer& buf, U32 offset)
 {
   this->header.deserialize(buf, offset);
 
@@ -201,7 +201,7 @@ void FilePacket::
 }
 
 FilePacket::Type FilePacket::
-  getTypeFromBuffer(Fw::Buffer& buf, U32 offset)
+  getTypeFromBuffer(const Fw::Buffer& buf, U32 offset)
 {
   // Deserialize the header
   Header header;

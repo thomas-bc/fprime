@@ -132,7 +132,7 @@ class FilePacket
 
         //! @brief Get the value.
         //!
-        U64 getValue();
+        U64 getValue() const;
 
       PRIVATE:
         //! @brief The value.
@@ -147,18 +147,26 @@ class FilePacket
         //! @param buf The buffer to hold the serialized data.
         //! @param offset The byte offset to start serialization from.
         //!
-        void serialize(Fw::Buffer& buf, U32 offset, Header& header);
+        void serialize(
+          const Fw::Buffer& buf,
+          U32 offset,
+          const Header& header
+        ) const;
 
         //! @brief Deserialize a buffer containing a serialized FSS object.
         //!
         //! @param buf The buffer containing serialized data.
         //! @param offset The byte offset to start deserialization from.
         //!
-        void deserialize(Fw::Buffer& buf, U32 offset, Header& header);
+        void deserialize(
+          const Fw::Buffer& buf,
+          U32 offset,
+          const Header& header
+        );
 
         //! @brief Get the length in octets when serialized.
         //!
-        U32 getSerializedLength(Header& header);
+        U32 getSerializedLength(const Header& header) const;
     };
 
     //! @brief A class defining the Length Value (LV) object format.
@@ -196,11 +204,11 @@ class FilePacket
 
         //! @brief Get the length of value.
         //!
-        U8 getLength();
+        U8 getLength() const;
 
         //! @brief Get a pointer to the value.
         //!
-        const U8* getValue();
+        const U8* getValue() const;
 
       PRIVATE:
         //! @brief The length of value in octets.
@@ -217,18 +225,18 @@ class FilePacket
         //! @param buf The buffer to hold the serialized data.
         //! @param offset The byte offset to start serialization from.
         //!
-        void serialize(Fw::Buffer& buf, U32 offset);
+        void serialize(const Fw::Buffer& buf, U32 offset) const;
 
         //! @brief Deserialize a buffer containing a serialized LV object.
         //!
         //! @param buf The buffer containing serialized data.
         //! @param offset The byte offset to start deserialization from.
         //!
-        void deserialize(Fw::Buffer& buf, U32 offset);
+        void deserialize(const Fw::Buffer& buf, U32 offset);
 
         //! @brief Get the length in octets of LV obejct when serialized.
         //!
-        U32 getSerializedLength();
+        U32 getSerializedLength() const;
     };
 
   /*
@@ -246,18 +254,18 @@ class FilePacket
        */
       PRIVATE:
         virtual void serialize(
-          Fw::Buffer& buf,
+          const Fw::Buffer& buf,
           U32 offset,
-          Header& header
-        ) = 0;
+          const Header& header
+        ) const = 0;
 
         virtual void deserialize(
-          Fw::Buffer& buf,
+          const Fw::Buffer& buf,
           U32 offset,
-          Header& header
+          const Header& header
         ) = 0;
 
-        virtual U32 getSerializedLength(Header& header) = 0;
+        virtual U32 getSerializedLength(const Header& header) const = 0;
     };
 
   /*
@@ -276,14 +284,14 @@ class FilePacket
     //! @param buf The buffer to hold the serialized data.
     //! @param offset The byte offset to start serialization from.
     //!
-    void serialize(Fw::Buffer& buf, U32 offset);
+    void serialize(const Fw::Buffer& buf, U32 offset) const;
 
     //! @brief Deserialize a buffer containing serialized file packet data.
     //!
     //! @param buf The buffer containing serialized data.
     //! @param offset The byte offset to start deserialization from.
     //!
-    void deserialize(Fw::Buffer& buf, U32 offset);
+    void deserialize(const Fw::Buffer& buf, U32 offset);
 
   /*
    * Public static functions.
@@ -294,7 +302,7 @@ class FilePacket
     //! @param buf The buffer holding a serialized packet.
     //! @param offset The byte offset to the beginning of the serialized packet.
     //!
-    static Type getTypeFromBuffer(Fw::Buffer& buf, U32 offset);
+    static Type getTypeFromBuffer(const Fw::Buffer& buf, U32 offset);
 
   /*
    * Public member variables.
@@ -325,7 +333,7 @@ class FilePacket
     //! @param data A pointer to the start of the data.
     //! @param size The number of bytes required to store the value.
     //!
-    static U64 deserializeValue(U8* data, U8 size);
+    static U64 deserializeValue(const U8* data, U8 size);
 };
 
 } // namespace Cfdp

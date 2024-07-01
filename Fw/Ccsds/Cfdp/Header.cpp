@@ -68,91 +68,91 @@ FilePacket::Header::
 }
 
 U8 FilePacket::Header::
-  getVersion()
+  getVersion() const
 {
   return this->version;
 }
 
 FilePacket::DataType FilePacket::Header::
-  getType()
+  getType() const
 {
   return this->type;
 }
 
 FilePacket::Direction FilePacket::Header::
-  getDirection()
+  getDirection() const
 {
   return this->direction;
 }
 
 FilePacket::TransmissionMode FilePacket::Header::
-  getTransmissionMode()
+  getTransmissionMode() const
 {
   return this->transmissionMode;
 }
 
 FilePacket::CrcFlag FilePacket::Header::
-  getCrcFlag()
+  getCrcFlag() const
 {
   return this->crcFlag;
 }
 
 FilePacket::LargeFileFlag FilePacket::Header::
-  getLargeFileFlag()
+  getLargeFileFlag() const
 {
   return this->largeFileFlag;
 }
 
 U16 FilePacket::Header::
-  getDataFieldLength()
+  getDataFieldLength() const
 {
   return this->dataFieldLength;
 }
 
 FilePacket::SegmentationControl FilePacket::Header::
-  getSegmentationControl()
+  getSegmentationControl() const
 {
   return this->segmentationControl;
 }
 
 U8 FilePacket::Header::
-  getEntityIdLength()
+  getEntityIdLength() const
 {
   return this->entityIdLength;
 }
 
 FilePacket::SegmentMetadataFlag FilePacket::Header::
-  getSegmentMetadataFlag()
+  getSegmentMetadataFlag() const
 {
   return this->segmentMetadataFlag;
 }
 
 U8 FilePacket::Header::
-  getTransSeqNumLength()
+  getTransSeqNumLength() const
 {
   return this->transSeqNumLength;
 }
 
 U64 FilePacket::Header::
-  getSourceEntityId()
+  getSourceEntityId() const
 {
   return this->sourceEntityId;
 }
 
 U64 FilePacket::Header::
-  getTransSeqNumber()
+  getTransSeqNumber() const
 {
   return this->transSeqNumber;
 }
 
 U64 FilePacket::Header::
-  getDestEntityId()
+  getDestEntityId() const
 {
   return this->destEntityId;
 }
 
 void FilePacket::Header::
-  serialize(Fw::Buffer& buf, U32 offset)
+  serialize(const Fw::Buffer& buf, U32 offset) const
 {
   // TODO: Check buffer size is >= header size + offset
 
@@ -203,7 +203,7 @@ void FilePacket::Header::
 }
 
 void FilePacket::Header::
-  deserialize(Fw::Buffer& buf, U32 offset)
+  deserialize(const Fw::Buffer& buf, U32 offset)
 {
   U8* data = buf.getData() + offset;
 
@@ -250,7 +250,7 @@ void FilePacket::Header::
 }
 
 U32 FilePacket::Header::
-  getSerializedLength()
+  getSerializedLength() const
 {
   return (
     FixedSize::BYTES

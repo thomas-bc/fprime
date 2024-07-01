@@ -69,31 +69,31 @@ class FilePacket::Metadata : public DataField
 
     //! @brief Get whether closure is requested.
     //!
-    ClosureRequested getClosureRequested();
+    ClosureRequested getClosureRequested() const;
 
     //! @brief Get the checksum type.
     //!
-    ChecksumType getChecksumType();
+    ChecksumType getChecksumType() const;
 
     //! @brief Get the file size.
     //!
-    U64 getFileSize();
+    U64 getFileSize() const;
 
     //! @brief Get the source file name.
     //!
-    const char* getSourceFilename();
+    const char* getSourceFilename() const;
 
     //! @brief Get the source file name length in bytes.
     //!
-    U8 getSourceFilenameLength();
+    U8 getSourceFilenameLength() const;
 
     //! @brief Get the destination file name.
     //!
-    const char* getDestFilename();
+    const char* getDestFilename() const;
 
     //! @brief Get the destination file name length in bytes.
     //!
-    U8 getDestFilenameLength();
+    U8 getDestFilenameLength() const;
 
   PRIVATE:
     //! @brief Serialize this Metadata PDU into a buffer.
@@ -102,7 +102,11 @@ class FilePacket::Metadata : public DataField
     //! @param offset The byte offset to start serialization from.
     //! @param header The header attached to this PDU.
     //!
-    void serialize(Fw::Buffer& buf, U32 offset, Header& header);
+    void serialize(
+      const Fw::Buffer& buf,
+      U32 offset,
+      const Header& header
+    ) const;
 
     //! @brief Deserialize a buffer containing serialized Metadata PDU data.
     //!
@@ -110,13 +114,17 @@ class FilePacket::Metadata : public DataField
     //! @param offset The byte offset to start deserialization from.
     //! @param header The header attached to this PDU.
     //!
-    void deserialize(Fw::Buffer& buf, U32 offset, Header& header);
+    void deserialize(
+      const Fw::Buffer& buf,
+      U32 offset,
+      const Header& header
+    );
 
     //! @brief Get the length in octets of this Metadata PDU when serialized.
     //!
     //! @param header The header attached to this PDU.
     //!
-    U32 getSerializedLength(Header& header);
+    U32 getSerializedLength(const Header& header) const;
 
   PRIVATE:
     //! @brief Length in bits of fixed-size Metadata PDU fields.
