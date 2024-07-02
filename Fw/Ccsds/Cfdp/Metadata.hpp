@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   Metadata.hpp
-//! @brief  hpp file for a CFDP Metadata PDU.
+//! @brief  hpp file for a CFDP file packet Metadata data field.
 //! @author chownw
 //! ============================================================================
 

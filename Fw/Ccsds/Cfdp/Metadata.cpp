@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   Metadata.cpp
-//! @brief  cpp file for a CFDP Metadata PDU.
+//! @brief  cpp file for a CFDP file packet Metadata data field.
 //! @author chownw
 //! ============================================================================
 
@@ -35,11 +35,9 @@ FilePacket::Metadata::
     const char* destFilename
   )
 {
-  // Set reserved fields to 0
   this->reserved0 = 0;
-  this->reserved1 = 0;
-
   this->closureRequested = closureRequested;
+  this->reserved1 = 0;
   this->checksumType = checksumType;
   this->fileSize = FileSizeSensitive(fileSize);
 
@@ -110,7 +108,7 @@ void FilePacket::Metadata::
   data[1] |= (static_cast<U8>(this->checksumType) & 15);
 
   // Serialize the FSS field file size
-  U32 fileSizeOffset = offset + 2;
+  U32 fileSizeOffset = offset + FixedSize::BYTES;
   this->fileSize.serialize(buf, fileSizeOffset, header);
 
   // Serialize the LV field source file name
@@ -137,7 +135,7 @@ void FilePacket::Metadata::
   this->checksumType = static_cast<FilePacket::ChecksumType>(data[1] & 15);
 
   // Deserialize the FSS field file size
-  U32 fileSizeOffset = offset + 2;
+  U32 fileSizeOffset = offset + FixedSize::BYTES;
   this->fileSize.deserialize(buf, fileSizeOffset, header);
 
   // Deserialize the LV field source file name

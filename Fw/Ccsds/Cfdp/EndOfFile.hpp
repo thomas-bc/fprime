@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   EndOfFile.hpp
-//! @brief  hpp file for a CFDP End-of-file PDU.
+//! @brief  hpp file for a CFDP file packet End-of-file data field.
 //! @author chownw
 //! ============================================================================
 

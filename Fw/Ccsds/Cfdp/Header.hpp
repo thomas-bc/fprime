@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   Header.hpp
-//! @brief  hpp file for a CFDP PDU header.
+//! @brief  hpp file for a CFDP file packet header.
 //! @author chownw
 //! ============================================================================
 

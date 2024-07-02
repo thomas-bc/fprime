@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   Header.cpp
-//! @brief  cpp file for a CFDP PDU header.
+//! @brief  cpp file for a CFDP file packet header.
 //! @author chownw
 //! ============================================================================
 
@@ -176,9 +176,9 @@ void FilePacket::Header::
   // Serialize octet 3
   data[3] = 0;
   data[3] |= (static_cast<U8>(this->segmentationControl) & 1) << 7;
-  data[3] |= ((this->entityIdLength & 7) - 1) << 4; // TODO: - 1?
+  data[3] |= ((this->entityIdLength & 7) - 1) << 4;
   data[3] |= (static_cast<U8>(this->segmentMetadataFlag) & 1) << 3;
-  data[3] |= ((this->transSeqNumLength & 7) - 1); // TODO: - 1?
+  data[3] |= ((this->transSeqNumLength & 7) - 1);
 
   // Push source entity ID onto buffer in big-endian format
   FilePacket::serializeValue(

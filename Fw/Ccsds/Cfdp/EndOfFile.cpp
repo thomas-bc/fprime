@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   EndOfFile.cpp
-//! @brief  cpp file for a CFDP End-of-file PDU.
+//! @brief  cpp file for a CFDP file packet End-of-file data field.
 //! @author chownw
 //! ============================================================================
 
@@ -68,11 +68,11 @@ void FilePacket::EndOfFile::
   FilePacket::serializeValue(
     &data[2],
     this->fileChecksum,
-    sizeof(this->fileChecksum)
+    FieldLength::FILE_CHECKSUM / 8
   );
 
   // Serialize the FSS field file size
-  U32 fileSizeOffset = offset + 2 + sizeof(this->fileChecksum);
+  U32 fileSizeOffset = offset + FixedSize::BYTES;
   this->fileSize.serialize(buf, fileSizeOffset, header);
 }
 
@@ -89,11 +89,11 @@ void FilePacket::EndOfFile::
   // Deserialize file checksum bytes
   this->fileChecksum = FilePacket::deserializeValue(
     &data[2],
-    sizeof(this->fileChecksum)
+    FieldLength::FILE_CHECKSUM / 8
   );
 
   // Deserialize the FSS field file size
-  U32 fileSizeOffset = offset + 2 + sizeof(this->fileChecksum);
+  U32 fileSizeOffset = offset + FixedSize::BYTES;
   this->fileSize.deserialize(buf, fileSizeOffset, header);
 }
 
