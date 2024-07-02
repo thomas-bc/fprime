@@ -121,7 +121,7 @@ void TestHeader1::
 }
 
 void TestHeader1::
-  verifyHeader(FilePacket::Header& header)
+  verifyObject(FilePacket::Header& header)
 {
   EXPECT_EQ(
     header.getVersion(),
@@ -178,6 +178,126 @@ void TestHeader1::
   EXPECT_EQ(
     header.getDestEntityId(),
     TestHeader1::Values::destEntityId
+  );
+}
+
+void TestHeader2::
+  verifyBuffer(Buffer& buf, U32 offset)
+{
+  U8* data = buf.getData() + offset;
+
+  EXPECT_EQ(
+    data[0],
+    TestHeader2::Serialized::OCTET_00
+  );
+  EXPECT_EQ(
+    data[1],
+    TestHeader2::Serialized::OCTET_01
+  );
+  EXPECT_EQ(
+    data[2],
+    TestHeader2::Serialized::OCTET_02
+  );
+  EXPECT_EQ(
+    data[3],
+    TestHeader2::Serialized::OCTET_03
+  );
+  EXPECT_EQ(
+    data[4],
+    TestHeader2::Serialized::OCTET_04
+  );
+  EXPECT_EQ(
+    data[5],
+    TestHeader2::Serialized::OCTET_05
+  );
+  EXPECT_EQ(
+    data[6],
+    TestHeader2::Serialized::OCTET_06
+  );
+  EXPECT_EQ(
+    data[7],
+    TestHeader2::Serialized::OCTET_07
+  );
+  EXPECT_EQ(
+    data[8],
+    TestHeader2::Serialized::OCTET_08
+  );
+  EXPECT_EQ(
+    data[9],
+    TestHeader2::Serialized::OCTET_09
+  );
+  EXPECT_EQ(
+    data[10],
+    TestHeader2::Serialized::OCTET_10
+  );
+  EXPECT_EQ(
+    data[11],
+    TestHeader2::Serialized::OCTET_11
+  );
+  EXPECT_EQ(
+    data[12],
+    TestHeader2::Serialized::OCTET_12
+  );
+}
+
+void TestHeader2::
+  verifyObject(FilePacket::Header& header)
+{
+  EXPECT_EQ(
+    header.getVersion(),
+    TestHeader2::Values::version
+  );
+  EXPECT_EQ(
+    header.getType(),
+    TestHeader2::Values::type
+  );
+  EXPECT_EQ(
+    header.getDirection(),
+    TestHeader2::Values::direction
+  );
+  EXPECT_EQ(
+    header.getTransmissionMode(),
+    TestHeader2::Values::transmissionMode
+  );
+  EXPECT_EQ(
+    header.getCrcFlag(),
+    TestHeader2::Values::crcFlag
+  );
+  EXPECT_EQ(
+    header.getLargeFileFlag(),
+    TestHeader2::Values::largeFileFlag
+  );
+  EXPECT_EQ(
+    header.getDataFieldLength(),
+    TestHeader2::Values::dataFieldLength
+  );
+  EXPECT_EQ(
+    header.getSegmentationControl(),
+    TestHeader2::Values::segmentationControl
+  );
+  EXPECT_EQ(
+    header.getEntityIdLength(),
+    TestHeader2::Values::entityIdLength
+  );
+  EXPECT_EQ(
+    header.getSegmentMetadataFlag(),
+    TestHeader2::Values::segmentMetadataFlag
+  );
+  EXPECT_EQ(
+    header.getTransSeqNumLength(),
+    TestHeader2::Values::transSeqNumLength
+  );
+  EXPECT_EQ(
+    header.getSourceEntityId(),
+    TestHeader2::Values::sourceEntityId
+  );
+  EXPECT_EQ(
+    header.getTransSeqNumber(),
+    TestHeader2::Values::transSeqNumber
+  );
+  EXPECT_EQ(
+    header.getDestEntityId(),
+    TestHeader2::Values::destEntityId
   );
 }
 
@@ -250,7 +370,7 @@ TEST(FilePacketHeader, Deserialize)
   header.deserialize(buffer, 0);
 
   // Verify header
-  TestHeader1::verifyHeader(header);
+  TestHeader1::verifyObject(header);
 }
 
 TEST(FilePacketHeader, Offset)
@@ -270,7 +390,7 @@ TEST(FilePacketHeader, Offset)
   // Test deserialize function
   FilePacket::Header destHeader;
   destHeader.deserialize(buffer, offset);
-  TestHeader1::verifyHeader(destHeader);
+  TestHeader1::verifyObject(destHeader);
 }
 
 TEST(FilePacketHeader, SerializedLength)

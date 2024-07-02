@@ -97,7 +97,7 @@ void TestEndOfFile1::
 }
 
 void TestEndOfFile1::
-  verifyEndOfFile(FilePacket::EndOfFile& endOfFile)
+  verifyObject(FilePacket::EndOfFile& endOfFile)
 {
   EXPECT_EQ(
     endOfFile.directiveCode,
@@ -150,7 +150,7 @@ TEST(FilePacketEndOfFile, Deserialize)
   endOfFile.deserialize(buffer, 0, header);
 
   // Verify End-of-file
-  TestEndOfFile1::verifyEndOfFile(endOfFile);
+  TestEndOfFile1::verifyObject(endOfFile);
 }
 
 TEST(FilePacketEndOfFile, Offset)
@@ -171,7 +171,7 @@ TEST(FilePacketEndOfFile, Offset)
   // Test deserialize function
   FilePacket::EndOfFile destEndOfFile;
   destEndOfFile.deserialize(buffer, offset, header);
-  TestEndOfFile1::verifyEndOfFile(destEndOfFile);
+  TestEndOfFile1::verifyObject(destEndOfFile);
 }
 
 TEST(FilePacketEndOfFile, SerializedLength)

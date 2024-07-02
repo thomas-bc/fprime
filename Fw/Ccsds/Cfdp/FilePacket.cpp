@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   FilePacket.cpp
-//! @brief  cpp file for a CFDP PDU file packet.
+//! @brief  cpp file for a CFDP file packet.
 //! @author chownw
 //! ============================================================================
 

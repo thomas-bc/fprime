@@ -179,28 +179,6 @@ TEST(FilePacket, GetTypeFromBuffer)
   );
 }
 
-TEST(FilePacket, SerializeMetadata)
-{
-  U32 filePacketLength =
-    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
-
-  // Allocate buffer for serialization
-  U8 data[filePacketLength];
-  Fw::Buffer buffer(data, filePacketLength);
-
-  // Create source file packet from header and metadata
-  FilePacket::Header header = TestHeader1::create();
-  FilePacket::Metadata metadata = TestMetadata1::create();
-  FilePacket filePacket(header, metadata);
-
-  // Serialize file packet
-  filePacket.serialize(buffer, 0);
-
-  // Verify buffer
-  TestHeader1::verifyBuffer(buffer, 0);
-  TestMetadata1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
-}
-
 TEST(FilePacket, SerializeEndOfFile)
 {
   U32 filePacketLength =
@@ -210,7 +188,7 @@ TEST(FilePacket, SerializeEndOfFile)
   U8 data[filePacketLength];
   Fw::Buffer buffer(data, filePacketLength);
 
-  // Create source file packet from header and metadata
+  // Create source file packet
   FilePacket::Header header = TestHeader1::create();
   FilePacket::EndOfFile endOfFile = TestEndOfFile1::create();
   FilePacket filePacket(header, endOfFile);
@@ -223,7 +201,29 @@ TEST(FilePacket, SerializeEndOfFile)
   TestEndOfFile1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
 }
 
-TEST(FilePacket, DeserializeMetadata)
+TEST(FilePacket, SerializeFinished)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestFinished1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Create source file packet
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::Finished finished = TestFinished1::create();
+  FilePacket filePacket(header, finished);
+
+  // Serialize file packet
+  filePacket.serialize(buffer, 0);
+
+  // Verify buffer
+  TestHeader1::verifyBuffer(buffer, 0);
+  TestFinished1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
+}
+
+TEST(FilePacket, SerializeMetadata)
 {
   U32 filePacketLength =
     TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
@@ -232,21 +232,17 @@ TEST(FilePacket, DeserializeMetadata)
   U8 data[filePacketLength];
   Fw::Buffer buffer(data, filePacketLength);
 
-  // Fill buffer with a serialized test packet
-  TestHeader1::fillBuffer(buffer, 0);
-  TestMetadata1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
-
-  // Create destination file packet to fill
-  FilePacket::Header header;
-  FilePacket::Metadata metadata;
+  // Create source file packet
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::Metadata metadata = TestMetadata1::create();
   FilePacket filePacket(header, metadata);
 
-  // Deserialize file packet
-  filePacket.deserialize(buffer, 0);
+  // Serialize file packet
+  filePacket.serialize(buffer, 0);
 
-  // Verify file packets
-  TestHeader1::verifyHeader(header);
-  TestMetadata1::verifyMetadata(metadata);
+  // Verify buffer
+  TestHeader1::verifyBuffer(buffer, 0);
+  TestMetadata1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
 }
 
 TEST(FilePacket, DeserializeEndOfFile)
@@ -271,8 +267,60 @@ TEST(FilePacket, DeserializeEndOfFile)
   filePacket.deserialize(buffer, 0);
 
   // Verify file packets
-  TestHeader1::verifyHeader(header);
-  TestEndOfFile1::verifyEndOfFile(endOfFile);
+  TestHeader1::verifyObject(header);
+  TestEndOfFile1::verifyObject(endOfFile);
+}
+
+TEST(FilePacket, DeserializeMetadata)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Fill buffer with a serialized test packet
+  TestHeader1::fillBuffer(buffer, 0);
+  TestMetadata1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
+
+  // Create destination file packet to fill
+  FilePacket::Header header;
+  FilePacket::Metadata metadata;
+  FilePacket filePacket(header, metadata);
+
+  // Deserialize file packet
+  filePacket.deserialize(buffer, 0);
+
+  // Verify file packets
+  TestHeader1::verifyObject(header);
+  TestMetadata1::verifyObject(metadata);
+}
+
+TEST(FilePacket, DeserializeFinished)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestFinished1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Fill buffer with a serialized test packet
+  TestHeader1::fillBuffer(buffer, 0);
+  TestFinished1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
+
+  // Create destination file packet to fill
+  FilePacket::Header header;
+  FilePacket::Finished finished;
+  FilePacket filePacket(header, finished);
+
+  // Deserialize file packet
+  filePacket.deserialize(buffer, 0);
+
+  // Verify file packets
+  TestHeader1::verifyObject(header);
+  TestFinished1::verifyObject(finished);
 }
 
 } // namespace Cfdp

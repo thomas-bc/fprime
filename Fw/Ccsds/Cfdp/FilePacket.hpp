@@ -1,6 +1,6 @@
 //! ============================================================================
 //! @file   FilePacket.hpp
-//! @brief  hpp file for a CFDP PDU file packet.
+//! @brief  hpp file for a CFDP file packet.
 //! @author chownw
 //! ============================================================================
 
@@ -79,11 +79,31 @@ class FilePacket
         | static_cast<U8>(DirectiveType::KEEP_ALIVE),
     };
 
+    //! @brief Condition code options.
+    //!
+    enum class ConditionCode
+    {
+      NO_ERROR = 0, //!< 'No error' condition.
+      ACK_LIMIT = 1, //!< 'Positive ACK limit reached' condition.
+      KEEP_ALIVE_LIMIT = 2, //!< 'Keep alive limit reached' condition.
+      INVALID_TRANSMISSION_MODE = 3, //!< 'Invalid transmission mode' condition.
+      FILESTORE_REJECTION = 4, //!< 'Filestore rejection' condition.
+      FILE_CHECKSUM_FAIL = 5, //!< 'File checksum failure' condition.
+      FILE_SIZE_ERROR = 6, //!< 'File size error' condition.
+      NAK_LIMIT = 7, //!< 'NAK limit reached' condition.
+      INACTIVITY_DETECTED = 8, //!< 'Inactivity detected' condition.
+      INVALID_FILE = 9, //!< 'Invalid file structure' condition.
+      CHECK_LIMIT = 10, //!< 'Check limit reached' condition.
+      UNSUPPORTED_CHECKSUM = 11, //!< 'Unsupported checksum type' condition.
+      SUSPEND_RECEIVED = 14, //!< 'Suspend.request received' condition.
+      CANCEL_RECEIVED = 15, //!< 'Cancel.request received' condition.
+    };
+
   /*
    * Enum forward declarations.
    */
   public:
-    // Header related enums
+    // Enums used in the Header
     enum class Direction;
     enum class TransmissionMode;
     enum class CrcFlag;
@@ -91,20 +111,22 @@ class FilePacket
     enum class SegmentationControl;
     enum class SegmentMetadataFlag;
 
-    // Metadata PDU related enums
+    // Enums used in the Finished data field
+    enum class DeliveryCode;
+    enum class FileStatus;
+
+    // Enums used in the Metadata data field
     enum class ClosureRequested;
     enum class ChecksumType;
-
-    // End-of-file PDU related enums
-    enum class ConditionCode;
 
   /*
    * Nested class forward declarations.
    */
   public:
     class Header;
-    class Metadata;
     class EndOfFile;
+    class Finished;
+    class Metadata;
 
   /*
    * Variable-length field formats.
@@ -121,8 +143,8 @@ class FilePacket
     //!
     class FileSizeSensitive
     {
-      friend Metadata;
       friend EndOfFile;
+      friend Metadata;
 
       public:
         //! @brief Default constructor for an FSS object.

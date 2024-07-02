@@ -82,7 +82,7 @@ enum class FilePacket::SegmentMetadataFlag
   PRESENT = 1, //!< Indicates segment metadata is in the PDU.
 };
 
-//! @brief A CFDP PDU header.
+//! @brief A CFDP file packet header.
 //!
 class FilePacket::Header
 {

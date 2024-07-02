@@ -17,27 +17,7 @@ namespace Fw
 namespace Cfdp
 {
 
-//! @brief Condition code options.
-//!
-enum class FilePacket::ConditionCode
-{
-  NO_ERROR = 0, //!< 'No error' condition.
-  ACK_LIMIT = 1, //!< 'Positive ACK limit reached' condition.
-  KEEP_ALIVE_LIMIT = 2, //!< 'Keep alive limit reached' condition.
-  INVALID_TRANSMISSION_MODE = 3, //!< 'Invalid transmission mode' condition.
-  FILESTORE_REJECTION = 4, //!< 'Filestore rejection' condition.
-  FILE_CHECKSUM_FAIL = 5, //!< 'File checksum failure' condition.
-  FILE_SIZE_ERROR = 6, //!< 'File size error' condition.
-  NAK_LIMIT = 7, //!< 'NAK limit reached' condition.
-  INACTIVITY_DETECTED = 8, //!< 'Inactivity detected' condition.
-  INVALID_FILE = 9, //!< 'Invalid file structure' condition.
-  CHECK_LIMIT = 10, //!< 'Check limit reached' condition.
-  UNSUPPORTED_CHECKSUM = 11, //!< 'Unsupported checksum type' condition.
-  SUSPEND_RECEIVED = 14, //!< 'Suspend.request received' condition.
-  CANCEL_RECEIVED = 15, //!< 'Cancel.request received' condition.
-};
-
-//! @brief A CFDP End-of-file PDU.
+//! @brief A CFDP file packet End-of-file data field.
 //!
 class FilePacket::EndOfFile : public DataField
 {

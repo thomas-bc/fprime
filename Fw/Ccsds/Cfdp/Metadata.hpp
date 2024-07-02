@@ -36,7 +36,7 @@ enum class FilePacket::ChecksumType
   NULL_CHECKSUM = 15, //!< Identifies the CFDP Null Checksum algorithm.
 };
 
-//! @brief A CFDP Metadata PDU.
+//! @brief A CFDP file packet Metadata data field.
 //!
 class FilePacket::Metadata : public DataField
 {

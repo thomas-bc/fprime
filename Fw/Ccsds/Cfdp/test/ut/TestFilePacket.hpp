@@ -13,6 +13,7 @@
 #include <Fw/Buffer/Buffer.hpp>
 #include <Fw/Ccsds/Cfdp/EndOfFile.hpp>
 #include <Fw/Ccsds/Cfdp/FilePacket.hpp>
+#include <Fw/Ccsds/Cfdp/Finished.hpp>
 #include <Fw/Ccsds/Cfdp/Header.hpp>
 #include <Fw/Ccsds/Cfdp/Metadata.hpp>
 
@@ -23,7 +24,7 @@ namespace Cfdp
 {
 
 /*
- * Expected values and corresponding serialization for a test header.
+ * Test Header helpers.
  */
 namespace TestHeader1
 {
@@ -84,21 +85,21 @@ namespace TestHeader1
     LENGTH = 13,
   };
 
-  // Create a header with the above values.
+  // Create a test object with the above values.
   FilePacket::Header create();
 
-  // Fill buffer with serialized values.
+  // Fill buffer with the expected serialization.
   void fillBuffer(Buffer& buf, U32 offset);
 
-  // Verify buffer contains data in the expected format
+  // Verify data in buffer matches the expected serialization.
   void verifyBuffer(Buffer& buf, U32 offset);
 
-  // Verify header contains expected values after deserialization
-  void verifyHeader(FilePacket::Header& header);
+  // Verify object contains the expected values.
+  void verifyObject(FilePacket::Header& header);
 };
 
 /*
- * Expected values and corresponding serialization for a test header.
+ * Test Header helpers.
  */
 namespace TestHeader2
 {
@@ -159,17 +160,106 @@ namespace TestHeader2
     LENGTH = 13,
   };
 
-  // Create a header with the above values.
+  // Create a test object with the above values.
   FilePacket::Header create();
 
-  // Fill buffer with serialized values.
+  // Fill buffer with the expected serialization.
   void fillBuffer(Buffer& buf, U32 offset);
+
+  // Verify data in buffer matches the expected serialization.
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify object contains the expected values.
+  void verifyObject(FilePacket::Header& header);
 };
 
 /*
- * Expected values and corresponding serialization for a test metadata.
+ * Test EndOfFile helpers.
  */
-namespace TestMetadata1
+namespace TestEndOfFile1
+{
+  namespace Values
+  {
+    const FilePacket::ConditionCode conditionCode =
+      FilePacket::ConditionCode::NO_ERROR;
+
+    const U8 spare = 0;
+
+    const U32 fileChecksum = 0xA4B8;
+
+    const U64 fileSize = 128;
+  }
+
+  enum Serialized : U8
+  {
+    OCTET_00 = 0x04, // |0 0 0 0 0 1 0 0| - End-of-file directive code.
+    OCTET_01 = 0x00, // |0 0 0 0|0 0 0 0| - Condition code through spare.
+    OCTET_02 = 0x00, // |0 0 0 0 0 0 0 0| - File checksum octet 0.
+    OCTET_03 = 0x00, // |0 0 0 0 0 0 0 0| - File checksum octet 1.
+    OCTET_04 = 0xA4, // |1 0 1 0 0 1 0 0| - File checksum octet 2.
+    OCTET_05 = 0xB8, // |1 0 1 1 1 0 0 0| - File checksum octet 3.
+    OCTET_06 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 0.
+    OCTET_07 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 1.
+    OCTET_08 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 2.
+    OCTET_09 = 0x80, // |1 0 0 0 0 0 0 0| - File size value octet 3.
+    LENGTH = 10,
+  };
+
+  // Create a test object with the above values.
+  FilePacket::EndOfFile create();
+
+  // Fill buffer with the expected serialization.
+  void fillBuffer(Buffer& buf, U32 offset);
+
+  // Verify data in buffer matches the expected serialization.
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify object contains the expected values.
+  void verifyObject(FilePacket::EndOfFile& endOfFile);
+};
+
+/*
+ * Test Finished helpers.
+ */
+namespace TestFinished1
+{
+  namespace Values
+  {
+    const FilePacket::ConditionCode conditionCode =
+      FilePacket::ConditionCode::NO_ERROR;
+
+    const U8 spare = 0;
+
+    const FilePacket::DeliveryCode deliveryCode =
+      FilePacket::DeliveryCode::DATA_COMPLETE;
+
+    const FilePacket::FileStatus fileStatus =
+      FilePacket::FileStatus::SUCCESS;
+  }
+
+  enum Serialized : U8
+  {
+    OCTET_00 = 0x05, // |0 0 0 0 0 1 0 1| - Finished directive code.
+    OCTET_01 = 0x02, // |0 0 0 0|0|0|1|0| - Condition code through file status.
+    LENGTH = 2,
+  };
+
+  // Create a test object with the above values.
+  FilePacket::Finished create();
+
+  // Fill buffer with the expected serialization.
+  void fillBuffer(Buffer& buf, U32 offset);
+
+  // Verify data in buffer matches the expected serialization.
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify object contains the expected values.
+  void verifyObject(FilePacket::Finished& finished);
+};
+
+/*
+ * Test Metadata helpers.
+ */namespace TestMetadata1
 {
   namespace Values
   {
@@ -233,62 +323,17 @@ namespace TestMetadata1
     LENGTH = 34,
   };
 
-  // Create a metadata with the above values.
+  // Create a test object with the above values.
   FilePacket::Metadata create();
 
-  // Fill buffer with serialized values.
+  // Fill buffer with the expected serialization.
   void fillBuffer(Buffer& buf, U32 offset);
 
-  // Verify buffer contains data in the expected format
+  // Verify data in buffer matches the expected serialization.
   void verifyBuffer(Buffer& buf, U32 offset);
 
-  // Verify metadata contains expected values after deserialization
-  void verifyMetadata(FilePacket::Metadata& metadata);
-};
-
-/*
- * Expected values and corresponding serialization for a test End-of-file.
- */
-namespace TestEndOfFile1
-{
-  namespace Values
-  {
-    const FilePacket::ConditionCode conditionCode =
-      FilePacket::ConditionCode::NO_ERROR;
-
-    const U8 spare = 0;
-
-    const U32 fileChecksum = 0xA4B8;
-
-    const U64 fileSize = 128;
-  }
-
-  enum Serialized : U8
-  {
-    OCTET_00 = 0x04, // |0 0 0 0 0 1 0 0| - Metadata directive code.
-    OCTET_01 = 0x00, // |0|0|0|0|0|0|0|0| - Condition code through spare.
-    OCTET_02 = 0x00, // |0 0 0 0 0 0 0 0| - File checksum octet 0.
-    OCTET_03 = 0x00, // |0 0 0 0 0 0 0 0| - File checksum octet 1.
-    OCTET_04 = 0xA4, // |1 0 1 0 0 1 0 0| - File checksum octet 2.
-    OCTET_05 = 0xB8, // |1 0 1 1 1 0 0 0| - File checksum octet 3.
-    OCTET_06 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 0.
-    OCTET_07 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 1.
-    OCTET_08 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 2.
-    OCTET_09 = 0x80, // |1 0 0 0 0 0 0 0| - File size value octet 3.
-    LENGTH = 10,
-  };
-
-  // Create a metadata with the above values.
-  FilePacket::EndOfFile create();
-
-  // Fill buffer with serialized values.
-  void fillBuffer(Buffer& buf, U32 offset);
-
-  // Verify buffer contains data in the expected format
-  void verifyBuffer(Buffer& buf, U32 offset);
-
-  // Verify metadata contains expected values after deserialization
-  void verifyEndOfFile(FilePacket::EndOfFile& endOfFile);
+  // Verify object contains the expected values.
+  void verifyObject(FilePacket::Metadata& metadata);
 };
 
 } // namespace Cfdp

@@ -219,7 +219,7 @@ void TestMetadata1::
 }
 
 void TestMetadata1::
-  verifyMetadata(FilePacket::Metadata& metadata)
+  verifyObject(FilePacket::Metadata& metadata)
 {
   EXPECT_EQ(
     metadata.directiveCode,
@@ -300,7 +300,7 @@ TEST(FilePacketMetadata, Deserialize)
   metadata.deserialize(buffer, 0, header);
 
   // Verify metadata
-  TestMetadata1::verifyMetadata(metadata);
+  TestMetadata1::verifyObject(metadata);
 }
 
 TEST(FilePacketMetadata, Offset)
@@ -321,7 +321,7 @@ TEST(FilePacketMetadata, Offset)
   // Test deserialize function
   FilePacket::Metadata destMetadata;
   destMetadata.deserialize(buffer, offset, header);
-  TestMetadata1::verifyMetadata(destMetadata);
+  TestMetadata1::verifyObject(destMetadata);
 }
 
 TEST(FilePacketMetadata, SerializedLength)
