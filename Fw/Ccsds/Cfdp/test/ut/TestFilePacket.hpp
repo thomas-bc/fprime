@@ -11,6 +11,7 @@
 
 #include <FpConfig.hpp>
 #include <Fw/Buffer/Buffer.hpp>
+#include <Fw/Ccsds/Cfdp/EndOfFile.hpp>
 #include <Fw/Ccsds/Cfdp/FilePacket.hpp>
 #include <Fw/Ccsds/Cfdp/Header.hpp>
 #include <Fw/Ccsds/Cfdp/Metadata.hpp>
@@ -243,6 +244,51 @@ namespace TestMetadata1
 
   // Verify metadata contains expected values after deserialization
   void verifyMetadata(FilePacket::Metadata& metadata);
+};
+
+/*
+ * Expected values and corresponding serialization for a test End-of-file.
+ */
+namespace TestEndOfFile1
+{
+  namespace Values
+  {
+    const FilePacket::ConditionCode conditionCode =
+      FilePacket::ConditionCode::NO_ERROR;
+
+    const U8 spare = 0;
+
+    const U32 fileChecksum = 0xA4B8;
+
+    const U64 fileSize = 128;
+  }
+
+  enum Serialized : U8
+  {
+    OCTET_00 = 0x04, // |0 0 0 0 0 1 0 0| - Metadata directive code.
+    OCTET_01 = 0x00, // |0|0|0|0|0|0|0|0| - Condition code through spare.
+    OCTET_02 = 0x00, // |0 0 0 0 0 0 0 0| - File checksum octet 0.
+    OCTET_03 = 0x00, // |0 0 0 0 0 0 0 0| - File checksum octet 1.
+    OCTET_04 = 0xA4, // |1 0 1 0 0 1 0 0| - File checksum octet 2.
+    OCTET_05 = 0xB8, // |1 0 1 1 1 0 0 0| - File checksum octet 3.
+    OCTET_06 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 0.
+    OCTET_07 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 1.
+    OCTET_08 = 0x00, // |0 0 0 0 0 0 0 0| - File size value octet 2.
+    OCTET_09 = 0x80, // |1 0 0 0 0 0 0 0| - File size value octet 3.
+    LENGTH = 10,
+  };
+
+  // Create a metadata with the above values.
+  FilePacket::EndOfFile create();
+
+  // Fill buffer with serialized values.
+  void fillBuffer(Buffer& buf, U32 offset);
+
+  // Verify buffer contains data in the expected format
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify metadata contains expected values after deserialization
+  void verifyEndOfFile(FilePacket::EndOfFile& endOfFile);
 };
 
 } // namespace Cfdp

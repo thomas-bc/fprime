@@ -179,7 +179,7 @@ TEST(FilePacket, GetTypeFromBuffer)
   );
 }
 
-TEST(FilePacket, Serialize)
+TEST(FilePacket, SerializeMetadata)
 {
   U32 filePacketLength =
     TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
@@ -201,7 +201,29 @@ TEST(FilePacket, Serialize)
   TestMetadata1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
 }
 
-TEST(FilePacket, Deserialize)
+TEST(FilePacket, SerializeEndOfFile)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestEndOfFile1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Create source file packet from header and metadata
+  FilePacket::Header header = TestHeader1::create();
+  FilePacket::EndOfFile endOfFile = TestEndOfFile1::create();
+  FilePacket filePacket(header, endOfFile);
+
+  // Serialize file packet
+  filePacket.serialize(buffer, 0);
+
+  // Verify buffer
+  TestHeader1::verifyBuffer(buffer, 0);
+  TestEndOfFile1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
+}
+
+TEST(FilePacket, DeserializeMetadata)
 {
   U32 filePacketLength =
     TestHeader1::Serialized::LENGTH + TestMetadata1::Serialized::LENGTH;
@@ -225,6 +247,32 @@ TEST(FilePacket, Deserialize)
   // Verify file packets
   TestHeader1::verifyHeader(header);
   TestMetadata1::verifyMetadata(metadata);
+}
+
+TEST(FilePacket, DeserializeEndOfFile)
+{
+  U32 filePacketLength =
+    TestHeader1::Serialized::LENGTH + TestEndOfFile1::Serialized::LENGTH;
+
+  // Allocate buffer for serialization
+  U8 data[filePacketLength];
+  Fw::Buffer buffer(data, filePacketLength);
+
+  // Fill buffer with a serialized test packet
+  TestHeader1::fillBuffer(buffer, 0);
+  TestEndOfFile1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
+
+  // Create destination file packet to fill
+  FilePacket::Header header;
+  FilePacket::EndOfFile endOfFile;
+  FilePacket filePacket(header, endOfFile);
+
+  // Deserialize file packet
+  filePacket.deserialize(buffer, 0);
+
+  // Verify file packets
+  TestHeader1::verifyHeader(header);
+  TestEndOfFile1::verifyEndOfFile(endOfFile);
 }
 
 } // namespace Cfdp

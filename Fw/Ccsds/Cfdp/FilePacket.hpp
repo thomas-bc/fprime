@@ -95,12 +95,16 @@ class FilePacket
     enum class ClosureRequested;
     enum class ChecksumType;
 
+    // End-of-file PDU related enums
+    enum class ConditionCode;
+
   /*
    * Nested class forward declarations.
    */
   public:
     class Header;
     class Metadata;
+    class EndOfFile;
 
   /*
    * Variable-length field formats.
@@ -118,6 +122,7 @@ class FilePacket
     class FileSizeSensitive
     {
       friend Metadata;
+      friend EndOfFile;
 
       public:
         //! @brief Default constructor for an FSS object.

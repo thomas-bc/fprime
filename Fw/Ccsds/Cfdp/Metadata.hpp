@@ -155,14 +155,14 @@ class FilePacket::Metadata : public DataField
     //!
     static DirectiveType directiveCode;
 
-    //! @brief Reserved for future use.
+    //! @brief Reserved for future use, set to all zeroes.
     //!
     U8 reserved0;
 
     //! @brief Closure requested.
     ClosureRequested closureRequested;
 
-    //! @brief Reserved for future use.
+    //! @brief Reserved for future use, set to all zeroes.
     //!
     U8 reserved1;
 
