@@ -11,6 +11,7 @@
 
 #include <FpConfig.hpp>
 #include <Fw/Buffer/Buffer.hpp>
+#include <Fw/Ccsds/Cfdp/Ack.hpp>
 #include <Fw/Ccsds/Cfdp/EndOfFile.hpp>
 #include <Fw/Ccsds/Cfdp/FilePacket.hpp>
 #include <Fw/Ccsds/Cfdp/Finished.hpp>
@@ -255,6 +256,49 @@ namespace TestFinished1
 
   // Verify object contains the expected values.
   void verifyObject(FilePacket::Finished& finished);
+};
+
+/*
+ * Test Ack helpers.
+ */
+namespace TestAck1
+{
+  namespace Values
+  {
+    const FilePacket::DirectiveType ackDirectiveCode =
+      FilePacket::DirectiveType::FINISHED;
+
+    const FilePacket::DirectiveSubtypeCode subtypeCode =
+      FilePacket::DirectiveSubtypeCode::ACK_FINISHED;
+
+    const FilePacket::ConditionCode conditionCode =
+      FilePacket::ConditionCode::NO_ERROR;
+
+    const U8 spare = 0;
+
+    const FilePacket::TransactionStatus transactionStatus =
+      FilePacket::TransactionStatus::ACTIVE;
+  }
+
+  enum Serialized : U8
+  {
+    OCTET_00 = 0x06, // |0 0 0 0 0 1 1 0| - Ack directive code.
+    OCTET_01 = 0x51, // |0 1 0 1|0 0 0 1| - Directive code through subtype code.
+    OCTET_02 = 0x01, // |0 0 0 0|0 0|0 1| - Condition code through status.
+    LENGTH = 3,
+  };
+
+  // Create a test object with the above values.
+  FilePacket::Ack create();
+
+  // Fill buffer with the expected serialization.
+  void fillBuffer(Buffer& buf, U32 offset);
+
+  // Verify data in buffer matches the expected serialization.
+  void verifyBuffer(Buffer& buf, U32 offset);
+
+  // Verify object contains the expected values.
+  void verifyObject(FilePacket::Ack& ack);
 };
 
 /*

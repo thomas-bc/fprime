@@ -16,12 +16,12 @@ namespace Fw
 namespace Cfdp
 {
 
-//! @brief A CFDP PDU file packet.
+//! @brief A CFDP file packet.
 //!
 //! This implementation does not currently support Type Length Value (TLV)
-//! fields. Fields with TLV format are ignored and consequently the PDUs do not
-//! currently support filestore responses, messages to user, fault handler
-//! overrides, flow labels, or other features that require TLV fields.
+//! fields. Fields with TLV format are ignored, so filestore responses, messages
+//! to user, fault handler overrides, flow labels, and other features that
+//! require TLV fields are not yet supported by this implementation.
 //!
 class FilePacket
 {
@@ -115,6 +115,10 @@ class FilePacket
     enum class DeliveryCode;
     enum class FileStatus;
 
+    // Enums used in the Ack data field
+    enum class DirectiveSubtypeCode;
+    enum class TransactionStatus;
+
     // Enums used in the Metadata data field
     enum class ClosureRequested;
     enum class ChecksumType;
@@ -126,6 +130,7 @@ class FilePacket
     class Header;
     class EndOfFile;
     class Finished;
+    class Ack;
     class Metadata;
 
   /*

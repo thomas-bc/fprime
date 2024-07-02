@@ -1,5 +1,5 @@
 //! ============================================================================
-//! @file   Finished.cpp
+//! @file   TestFinished.cpp
 //! @brief  CFDP file packet Finished test file.
 //! @author chownw
 //! ============================================================================
@@ -124,14 +124,14 @@ TEST(FilePacketFinished, Offset)
 
   // Test serialize function
   FilePacket::Header header = TestHeader1::create();
-  FilePacket::Finished srcfinished = TestFinished1::create();
-  srcfinished.serialize(buffer, offset, header);
+  FilePacket::Finished srcFinished = TestFinished1::create();
+  srcFinished.serialize(buffer, offset, header);
   TestFinished1::verifyBuffer(buffer, offset);
 
   // Test deserialize function
-  FilePacket::Finished destfinished;
-  destfinished.deserialize(buffer, offset, header);
-  TestFinished1::verifyObject(destfinished);
+  FilePacket::Finished destFinished;
+  destFinished.deserialize(buffer, offset, header);
+  TestFinished1::verifyObject(destFinished);
 }
 
 TEST(FilePacketFinished, SerializedLength)

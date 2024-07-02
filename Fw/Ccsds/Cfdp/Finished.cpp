@@ -1,5 +1,5 @@
 //! ============================================================================
-//! @file   EndOfFile.cpp
+//! @file   Finished.cpp
 //! @brief  cpp file for a CFDP file packet Finished data field.
 //! @author chownw
 //! ============================================================================
