@@ -223,28 +223,6 @@ TEST(FilePacket, SerializeFinished)
   TestFinished1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
 }
 
-TEST(FilePacket, SerializeAck)
-{
-  U32 filePacketLength =
-    TestHeader1::Serialized::LENGTH + TestAck1::Serialized::LENGTH;
-
-  // Allocate buffer for serialization
-  U8 data[filePacketLength];
-  Fw::Buffer buffer(data, filePacketLength);
-
-  // Create source file packet
-  FilePacket::Header header = TestHeader1::create();
-  FilePacket::Ack ack = TestAck1::create();
-  FilePacket filePacket(header, ack);
-
-  // Serialize file packet
-  filePacket.serialize(buffer, 0);
-
-  // Verify buffer
-  TestHeader1::verifyBuffer(buffer, 0);
-  TestAck1::verifyBuffer(buffer, TestHeader1::Serialized::LENGTH);
-}
-
 TEST(FilePacket, SerializeMetadata)
 {
   U32 filePacketLength =
@@ -317,32 +295,6 @@ TEST(FilePacket, DeserializeFinished)
   // Verify file packets
   TestHeader1::verifyObject(header);
   TestFinished1::verifyObject(finished);
-}
-
-TEST(FilePacket, DeserializeAck)
-{
-  U32 filePacketLength =
-    TestHeader1::Serialized::LENGTH + TestAck1::Serialized::LENGTH;
-
-  // Allocate buffer for serialization
-  U8 data[filePacketLength];
-  Fw::Buffer buffer(data, filePacketLength);
-
-  // Fill buffer with a serialized test packet
-  TestHeader1::fillBuffer(buffer, 0);
-  TestAck1::fillBuffer(buffer, TestHeader1::Serialized::LENGTH);
-
-  // Create destination file packet to fill
-  FilePacket::Header header;
-  FilePacket::Ack ack;
-  FilePacket filePacket(header, ack);
-
-  // Deserialize file packet
-  filePacket.deserialize(buffer, 0);
-
-  // Verify file packets
-  TestHeader1::verifyObject(header);
-  TestAck1::verifyObject(ack);
 }
 
 TEST(FilePacket, DeserializeMetadata)

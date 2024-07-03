@@ -115,10 +115,6 @@ class FilePacket
     enum class DeliveryCode;
     enum class FileStatus;
 
-    // Enums used in the Ack data field
-    enum class DirectiveSubtypeCode;
-    enum class TransactionStatus;
-
     // Enums used in the Metadata data field
     enum class ClosureRequested;
     enum class ChecksumType;
@@ -130,7 +126,6 @@ class FilePacket
     class Header;
     class EndOfFile;
     class Finished;
-    class Ack;
     class Metadata;
 
   /*
