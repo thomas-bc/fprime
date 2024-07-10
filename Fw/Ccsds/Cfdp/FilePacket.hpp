@@ -111,6 +111,9 @@ class FilePacket
     enum class SegmentationControl;
     enum class SegmentMetadataFlag;
 
+    // Enums used in the File Data data field
+    enum class ContinuationState;
+
     // Enums used in the Finished data field
     enum class DeliveryCode;
     enum class FileStatus;
@@ -124,6 +127,7 @@ class FilePacket
    */
   public:
     class Header;
+    class FileData;
     class EndOfFile;
     class Finished;
     class Metadata;
@@ -143,6 +147,7 @@ class FilePacket
     //!
     class FileSizeSensitive
     {
+      friend FileData;
       friend EndOfFile;
       friend Metadata;
 

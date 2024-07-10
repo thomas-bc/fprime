@@ -118,7 +118,7 @@ void FilePacket::Metadata::
 
   // Serialize the LV field destination file name
   U32 destFilenameOffset =
-    sourceFilenameOffset + sourceFilename.getSerializedLength();
+    sourceFilenameOffset + this->sourceFilename.getSerializedLength();
   this->destFilename.serialize(buf, destFilenameOffset);
 }
 
@@ -145,7 +145,7 @@ void FilePacket::Metadata::
 
   // Deserialize the LV field destination file name
   U32 destFilenameOffset =
-    sourceFilenameOffset + sourceFilename.getSerializedLength();
+    sourceFilenameOffset + this->sourceFilename.getSerializedLength();
   this->destFilename.deserialize(buf, destFilenameOffset);
 }
 

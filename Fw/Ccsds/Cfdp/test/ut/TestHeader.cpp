@@ -181,6 +181,48 @@ void TestHeader1::
   );
 }
 
+FilePacket::Header TestHeader2::
+  create()
+{
+  Fw::Cfdp::FilePacket::Header header(
+    TestHeader2::Values::type,
+    TestHeader2::Values::direction,
+    TestHeader2::Values::transmissionMode,
+    TestHeader2::Values::crcFlag,
+    TestHeader2::Values::largeFileFlag,
+    TestHeader2::Values::segmentationControl,
+    TestHeader2::Values::segmentMetadataFlag,
+    TestHeader2::Values::transSeqNumLength,
+    TestHeader2::Values::transSeqNumber,
+    TestHeader2::Values::entityIdLength,
+    TestHeader2::Values::sourceEntityId,
+    TestHeader2::Values::destEntityId,
+    TestHeader2::Values::dataFieldLength
+  );
+
+  return header;
+}
+
+void TestHeader2::
+  fillBuffer(Buffer &buf, U32 offset)
+{
+  U8* data = buf.getData() + offset;
+
+  data[0] = TestHeader2::Serialized::OCTET_00;
+  data[1] = TestHeader2::Serialized::OCTET_01;
+  data[2] = TestHeader2::Serialized::OCTET_02;
+  data[3] = TestHeader2::Serialized::OCTET_03;
+  data[4] = TestHeader2::Serialized::OCTET_04;
+  data[5] = TestHeader2::Serialized::OCTET_05;
+  data[6] = TestHeader2::Serialized::OCTET_06;
+  data[7] = TestHeader2::Serialized::OCTET_07;
+  data[8] = TestHeader2::Serialized::OCTET_08;
+  data[9] = TestHeader2::Serialized::OCTET_09;
+  data[10] = TestHeader2::Serialized::OCTET_10;
+  data[11] = TestHeader2::Serialized::OCTET_11;
+  data[12] = TestHeader2::Serialized::OCTET_12;
+}
+
 void TestHeader2::
   verifyBuffer(Buffer& buf, U32 offset)
 {
@@ -301,49 +343,7 @@ void TestHeader2::
   );
 }
 
-FilePacket::Header TestHeader2::
-  create()
-{
-  Fw::Cfdp::FilePacket::Header header(
-    TestHeader2::Values::type,
-    TestHeader2::Values::direction,
-    TestHeader2::Values::transmissionMode,
-    TestHeader2::Values::crcFlag,
-    TestHeader2::Values::largeFileFlag,
-    TestHeader2::Values::segmentationControl,
-    TestHeader2::Values::segmentMetadataFlag,
-    TestHeader2::Values::transSeqNumLength,
-    TestHeader2::Values::transSeqNumber,
-    TestHeader2::Values::entityIdLength,
-    TestHeader2::Values::sourceEntityId,
-    TestHeader2::Values::destEntityId,
-    TestHeader2::Values::dataFieldLength
-  );
-
-  return header;
-}
-
-void TestHeader2::
-  fillBuffer(Buffer &buf, U32 offset)
-{
-  U8* data = buf.getData() + offset;
-
-  data[0] = TestHeader2::Serialized::OCTET_00;
-  data[1] = TestHeader2::Serialized::OCTET_01;
-  data[2] = TestHeader2::Serialized::OCTET_02;
-  data[3] = TestHeader2::Serialized::OCTET_03;
-  data[4] = TestHeader2::Serialized::OCTET_04;
-  data[5] = TestHeader2::Serialized::OCTET_05;
-  data[6] = TestHeader2::Serialized::OCTET_06;
-  data[7] = TestHeader2::Serialized::OCTET_07;
-  data[8] = TestHeader2::Serialized::OCTET_08;
-  data[9] = TestHeader2::Serialized::OCTET_09;
-  data[10] = TestHeader2::Serialized::OCTET_10;
-  data[11] = TestHeader2::Serialized::OCTET_11;
-  data[12] = TestHeader2::Serialized::OCTET_12;
-}
-
-TEST(FilePacketHeader, Serialize)
+TEST(FilePacketHeader, Serialize1)
 {
   // Allocate buffer for serialization
   U8 data[TestHeader1::Serialized::LENGTH];
@@ -356,7 +356,20 @@ TEST(FilePacketHeader, Serialize)
   TestHeader1::verifyBuffer(buffer, 0);
 }
 
-TEST(FilePacketHeader, Deserialize)
+TEST(FilePacketHeader, Serialize2)
+{
+  // Allocate buffer for serialization
+  U8 data[TestHeader2::Serialized::LENGTH];
+  Fw::Buffer buffer(data, TestHeader2::Serialized::LENGTH);
+
+  FilePacket::Header header = TestHeader2::create();
+  header.serialize(buffer, 0);
+
+  // Verify buffer
+  TestHeader2::verifyBuffer(buffer, 0);
+}
+
+TEST(FilePacketHeader, Deserialize1)
 {
   // Allocate buffer for serialization
   U8 data[TestHeader1::Serialized::LENGTH];
@@ -373,7 +386,24 @@ TEST(FilePacketHeader, Deserialize)
   TestHeader1::verifyObject(header);
 }
 
-TEST(FilePacketHeader, Offset)
+TEST(FilePacketHeader, Deserialize2)
+{
+  // Allocate buffer for serialization
+  U8 data[TestHeader2::Serialized::LENGTH];
+  Fw::Buffer buffer(data, TestHeader2::Serialized::LENGTH);
+
+  // Fill buffer with serialization
+  TestHeader2::fillBuffer(buffer, 0);
+
+  // Call deserialize function
+  FilePacket::Header header;
+  header.deserialize(buffer, 0);
+
+  // Verify header
+  TestHeader2::verifyObject(header);
+}
+
+TEST(FilePacketHeader, Offset1)
 {
   // Test (de)serialization of header with arbitrary offset in the buffer
   U32 offset = 11;
@@ -393,7 +423,27 @@ TEST(FilePacketHeader, Offset)
   TestHeader1::verifyObject(destHeader);
 }
 
-TEST(FilePacketHeader, SerializedLength)
+TEST(FilePacketHeader, Offset2)
+{
+  // Test (de)serialization of header with arbitrary offset in the buffer
+  U32 offset = 11;
+
+  // Allocate buffer for serialization
+  U8 data[TestHeader2::Serialized::LENGTH + offset];
+  Fw::Buffer buffer(data, TestHeader2::Serialized::LENGTH + offset);
+
+  // Test serialize function
+  FilePacket::Header sourceHeader = TestHeader2::create();
+  sourceHeader.serialize(buffer, offset);
+  TestHeader2::verifyBuffer(buffer, offset);
+
+  // Test deserialize function
+  FilePacket::Header destHeader;
+  destHeader.deserialize(buffer, offset);
+  TestHeader2::verifyObject(destHeader);
+}
+
+TEST(FilePacketHeader, SerializedLength1)
 {
   FilePacket::Header header = TestHeader1::create();
 
@@ -401,6 +451,17 @@ TEST(FilePacketHeader, SerializedLength)
   EXPECT_EQ(
     header.getSerializedLength(),
     TestHeader1::Serialized::LENGTH
+  );
+}
+
+TEST(FilePacketHeader, SerializedLength2)
+{
+  FilePacket::Header header = TestHeader2::create();
+
+  // Verify getSerializedLength returns the expected length
+  EXPECT_EQ(
+    header.getSerializedLength(),
+    TestHeader2::Serialized::LENGTH
   );
 }
 
