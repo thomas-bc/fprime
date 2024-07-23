@@ -18,65 +18,81 @@ namespace Cfdp
 
 //! @brief A CFDP file packet.
 //!
-//! This implementation does not currently support Type Length Value (TLV)
+//! Each CFDP file packet consists of a header and a data field. Currently
+//! supported data field formats include: End-of-file, Finished, Metadata, and
+//! File Data. To construct a file packet, first construct a header, the desired
+//! data field type, and then pass those into the file packet constructor.
+//!
+//! This class wraps file packet enumerations, the header format, and data field
+//! formats. It provides the public interfaces for serializing and deserializing
+//! file packets.
+//!
+//! NOTE: This implementation does not currently support Type Length Value (TLV)
 //! fields. Fields with TLV format are ignored, so filestore responses, messages
 //! to user, fault handler overrides, flow labels, and other features that
 //! require TLV fields are not yet supported by this implementation.
 //!
 class FilePacket
 {
+  /*
+   * Enumerations.
+   */
   public:
-    //! @brief Packet data field type options.
+    //! @brief File packet data field type options.
     //!
     enum class DataType
     {
-      FILE_DIRECTIVE = 0, //!< Indicates a file directive PDU.
-      FILE_DATA = 1, //!< Indicates a file data PDU.
+      FILE_DIRECTIVE = 0, //!< Indicates data field is a file directive.
+      FILE_DATA = 1, //!< Indicates data field is file data.
     };
 
     //! @brief File directive type options.
     //!
     enum class DirectiveType
     {
-      END_OF_FILE = 0x04,
-      FINISHED = 0x05,
-      ACK = 0x06,
-      METADATA = 0x07,
-      NAK = 0x08,
-      PROMPT = 0x09,
-      KEEP_ALIVE = 0x0C,
+      END_OF_FILE = 0x04, //!< Indicates an End-of-file file directive.
+      FINISHED = 0x05, //!< Indicates a Finished file directive.
+      // ACK = 0x06,
+      METADATA = 0x07, //!< Indicates a Metadata file directive.
+      // NAK = 0x08,
+      // PROMPT = 0x09,
+      // KEEP_ALIVE = 0x0C,
     };
 
     //! @brief File packet type options.
     //!
-    //! The F Prime file packet type is a combination of the data field type and
-    //! the directive type.
+    //! Combines the data field type and the directive type into a single
+    //! enumeration.
     //!
     enum class Type
     {
+      //!< Indicates a File Data file packet.
       FILE_DATA_PACKET =
         static_cast<U8>(DataType::FILE_DATA) << 8,
+      //!< Indicates an End-of-file file packet.
       EOF_PACKET =
         (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
         | static_cast<U8>(DirectiveType::END_OF_FILE),
+      //!< Indicates a Finished file packet.
       FINISHED_PACKET =
         (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
         | static_cast<U8>(DirectiveType::FINISHED),
-      ACK_PACKET =
-        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
-        | static_cast<U8>(DirectiveType::ACK),
+      // ACK_PACKET =
+      //   (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+      //   | static_cast<U8>(DirectiveType::ACK),
+      //!< Indicates a Metadata file packet.
       METADATA_PACKET =
         (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
         | static_cast<U8>(DirectiveType::METADATA),
-      NAK_PACKET =
-        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
-        | static_cast<U8>(DirectiveType::NAK),
-      PROMPT_PACKET =
-        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
-        | static_cast<U8>(DirectiveType::PROMPT),
-      KEEP_ALIVE_PACKET =
-        (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
-        | static_cast<U8>(DirectiveType::KEEP_ALIVE),
+      // NAK_PACKET =
+      //   (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+      //   | static_cast<U8>(DirectiveType::NAK),
+      // PROMPT_PACKET =
+      //   (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+      //   | static_cast<U8>(DirectiveType::PROMPT),
+      // KEEP_ALIVE_PACKET =
+      //   (static_cast<U8>(DataType::FILE_DIRECTIVE) << 8)
+      //   | static_cast<U8>(DirectiveType::KEEP_ALIVE),
     };
 
     //! @brief Condition code options.
@@ -100,7 +116,7 @@ class FilePacket
     };
 
   /*
-   * Enum forward declarations.
+   * Enumeration forward declarations.
    */
   public:
     // Enums used in the Header
@@ -133,149 +149,10 @@ class FilePacket
     class Metadata;
 
   /*
-   * Variable-length field formats.
-   */
-  public:
-    //! @brief A class defining the File Size Sensitive (FSS) object format.
-    //!
-    //! The serialized size of an FSS object is dependent on the large file flag
-    //! in the header. If the large file flag indicates a small file, the
-    //! value of an FSS object can be represented by a 32-bit unsigned integer
-    //! and its serialized size is 4 octets. If the large file flag indicates
-    //! a large file, the value of an FSS object can be represented by a 64-bit
-    //! unsigned integer and its serialized size is 8 octets.
-    //!
-    class FileSizeSensitive
-    {
-      friend FileData;
-      friend EndOfFile;
-      friend Metadata;
-
-      public:
-        //! @brief Default constructor for an FSS object.
-        //!
-        FileSizeSensitive();
-
-        //! @brief Construct an FSS object.
-        //!
-        //! @param value The value of the FSS object.
-        //!
-        FileSizeSensitive(U64 value);
-
-        //! @brief Get the value.
-        //!
-        U64 getValue() const;
-
-      PRIVATE:
-        //! @brief The value.
-        //!
-        //! The value is at most a 64-bit unsigned integer.
-        //!
-        U64 value;
-
-      PRIVATE:
-        //! @brief Serialize this FSS object.
-        //!
-        //! @param buf The buffer to hold the serialized data.
-        //! @param offset The byte offset to start serialization from.
-        //!
-        void serialize(
-          const Fw::Buffer& buf,
-          U32 offset,
-          const Header& header
-        ) const;
-
-        //! @brief Deserialize a buffer containing a serialized FSS object.
-        //!
-        //! @param buf The buffer containing serialized data.
-        //! @param offset The byte offset to start deserialization from.
-        //!
-        void deserialize(
-          const Fw::Buffer& buf,
-          U32 offset,
-          const Header& header
-        );
-
-        //! @brief Get the length in octets when serialized.
-        //!
-        U32 getSerializedLength(const Header& header) const;
-    };
-
-    //! @brief A class defining the Length Value (LV) object format.
-    //!
-    //! An LV object is a variable length object with an 8-bit 'length' field
-    //! and a 'value' field containing 'length' number of octets.
-    //!
-    //! Pre-serialization, the 'value' field will hold a pointer to the value
-    //! supplied during construction. Post-deserialization, 'value' will hold a
-    //! pointer to the value in the serialized buffer.
-    //!
-    class LengthValue
-    {
-      friend Metadata;
-
-      public:
-        //! @brief Maximum length for the value field in an LV object.
-        //!
-        enum
-        {
-          MAX_LENGTH = 0xFF, //!< Maximum length in octets.
-        };
-
-      public:
-        //! @brief Construct an empty LV object.
-        //!
-        LengthValue();
-
-        //! @brief Construct an LV object.
-        //!
-        //! @param length The length of value in octets.
-        //! @param value A pointer to the value.
-        //!
-        LengthValue(U8 length, const U8* value);
-
-        //! @brief Get the length of value.
-        //!
-        U8 getLength() const;
-
-        //! @brief Get a pointer to the value.
-        //!
-        const U8* getValue() const;
-
-      PRIVATE:
-        //! @brief The length of value in octets.
-        //!
-        U8 length;
-
-        //! @brief A pointer to the value.
-        //!
-        const U8* value;
-
-      PRIVATE:
-        //! @brief Serialize this LV object.
-        //!
-        //! @param buf The buffer to hold the serialized data.
-        //! @param offset The byte offset to start serialization from.
-        //!
-        void serialize(const Fw::Buffer& buf, U32 offset) const;
-
-        //! @brief Deserialize a buffer containing a serialized LV object.
-        //!
-        //! @param buf The buffer containing serialized data.
-        //! @param offset The byte offset to start deserialization from.
-        //!
-        void deserialize(const Fw::Buffer& buf, U32 offset);
-
-        //! @brief Get the length in octets of LV obejct when serialized.
-        //!
-        U32 getSerializedLength() const;
-    };
-
-  /*
-   * Private data field common type.
+   * Data field common type.
    */
   PRIVATE:
-    //! @brief A CFDP PDU data field.
+    //! @brief A file packet data field.
     //!
     class DataField
     {
@@ -325,11 +202,7 @@ class FilePacket
     //!
     void deserialize(const Fw::Buffer& buf, U32 offset);
 
-  /*
-   * Public static functions.
-   */
-  public:
-    //! @brief Gets the type of the serialized packet in the buffer.
+    //! @brief Gets the file packet type from a serialized packet in a buffer.
     //!
     //! @param buf The buffer holding a serialized packet.
     //! @param offset The byte offset to the beginning of the serialized packet.
@@ -340,11 +213,11 @@ class FilePacket
    * Public member variables.
    */
   public:
-    //! @brief The PDU header.
+    //! @brief The file packet header.
     //!
     Header& header;
 
-    //! @brief The PDU data field.
+    //! @brief The file packet data field.
     //!
     DataField& dataField;
 
@@ -366,6 +239,143 @@ class FilePacket
     //! @param size The number of bytes required to store the value.
     //!
     static U64 deserializeValue(const U8* data, U8 size);
+
+  /*
+   * Variable-length formats used within some data field types.
+   */
+  PRIVATE:
+    //! @brief The File Size Sensitive (FSS) object format.
+    //!
+    //! The serialized size of an FSS object is dependent on the large file flag
+    //! in the header. If the large file flag indicates a small file, the
+    //! value of an FSS object can be represented by a 32-bit unsigned integer
+    //! and its serialized size is 4 octets. If the large file flag indicates
+    //! a large file, the value of an FSS object can be represented by a 64-bit
+    //! unsigned integer and its serialized size is 8 octets.
+    //!
+    class FileSizeSensitive
+    {
+      friend FileData;
+      friend EndOfFile;
+      friend Metadata;
+
+      PRIVATE:
+        //! @brief Default constructor for an FSS object.
+        //!
+        FileSizeSensitive();
+
+        //! @brief Construct an FSS object.
+        //!
+        //! @param value The value of the FSS object.
+        //!
+        FileSizeSensitive(U64 value);
+
+        //! @brief Get the value.
+        //!
+        U64 getValue() const;
+
+      PRIVATE:
+        //! @brief The value. At most a 64-bit unsigned integer.
+        //!
+        U64 value;
+
+      PRIVATE:
+        //! @brief Serialize this FSS object.
+        //!
+        //! @param buf The buffer to hold the serialized data.
+        //! @param offset The byte offset to start serialization from.
+        //!
+        void serialize(
+          const Fw::Buffer& buf,
+          U32 offset,
+          const Header& header
+        ) const;
+
+        //! @brief Deserialize a buffer containing a serialized FSS object.
+        //!
+        //! @param buf The buffer containing serialized data.
+        //! @param offset The byte offset to start deserialization from.
+        //!
+        void deserialize(
+          const Fw::Buffer& buf,
+          U32 offset,
+          const Header& header
+        );
+
+        //! @brief Get the length in octets when serialized.
+        //!
+        U32 getSerializedLength(const Header& header) const;
+    };
+
+    //! @brief The Length Value (LV) object format.
+    //!
+    //! An LV object is a variable length object with an 8-bit 'length' field
+    //! and a 'value' field containing 'length' number of octets.
+    //!
+    //! Pre-serialization, the 'value' field will hold a pointer to the value
+    //! supplied during construction. Post-deserialization, 'value' will hold a
+    //! pointer to the value in the serialized buffer.
+    //!
+    class LengthValue
+    {
+      friend Metadata;
+
+      PRIVATE:
+        //! @brief Maximum length for the value field in an LV object.
+        //!
+        enum
+        {
+          MAX_LENGTH = 0xFF, //!< Maximum length in octets.
+        };
+
+      PRIVATE:
+        //! @brief Construct an empty LV object.
+        //!
+        LengthValue();
+
+        //! @brief Construct an LV object.
+        //!
+        //! @param length The length of value in octets.
+        //! @param value A pointer to the value.
+        //!
+        LengthValue(U8 length, const U8* value);
+
+        //! @brief Get the length of value.
+        //!
+        U8 getLength() const;
+
+        //! @brief Get a pointer to the value.
+        //!
+        const U8* getValue() const;
+
+      PRIVATE:
+        //! @brief The length of value in octets.
+        //!
+        U8 length;
+
+        //! @brief A pointer to the value.
+        //!
+        const U8* value;
+
+      PRIVATE:
+        //! @brief Serialize this LV object.
+        //!
+        //! @param buf The buffer to hold the serialized data.
+        //! @param offset The byte offset to start serialization from.
+        //!
+        void serialize(const Fw::Buffer& buf, U32 offset) const;
+
+        //! @brief Deserialize a buffer containing a serialized LV object.
+        //!
+        //! @param buf The buffer containing serialized data.
+        //! @param offset The byte offset to start deserialization from.
+        //!
+        void deserialize(const Fw::Buffer& buf, U32 offset);
+
+        //! @brief Get the length in octets of LV obejct when serialized.
+        //!
+        U32 getSerializedLength() const;
+    };
 };
 
 } // namespace Cfdp
