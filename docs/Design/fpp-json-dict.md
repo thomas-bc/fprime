@@ -49,6 +49,7 @@ This document describes the format of FPP JSON dictionaries.
 A _Type Descriptor_ is a JSON Dictionary that describes a type.
 
 ## Primitive Integer Type Descriptors
+
 | Field | Description | Options | Required | 
 | ----- | ----------- | ------- | -------- |
 | `name` | **String** representing the FPP type name |  `U8`, `U16`, `U32`, `U64`, `I8`, `I16`, `I32`, `I64` | true |
