@@ -21,6 +21,7 @@ endif()
 choose_fprime_implementation(Os/File Os/File/Posix)
 choose_fprime_implementation(Os/Task Os/Task/Posix)
 choose_fprime_implementation(Os/Mutex Os/Mutex/Posix)
+choose_fprime_implementation(Os/IntervalTimer Os/IntervalTimer/Posix)
 
 # Add linux include path which is compatible with Darwin for PlatformTypes.hpp
 include_directories(SYSTEM "${CMAKE_CURRENT_LIST_DIR}/types")

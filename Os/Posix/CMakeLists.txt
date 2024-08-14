@@ -90,3 +90,28 @@ set(UT_MOD_DEPS
 )
 choose_fprime_implementation(Os/Mutex Os_Mutex_Posix)
 register_fprime_ut(PosixMutexTest)
+
+#### Os/IntervalTimer/Posix Section ####
+set(SOURCE_FILES
+    "${CMAKE_CURRENT_LIST_DIR}/IntervalTimer.cpp"
+)
+set(HEADER_FILES
+    "${CMAKE_CURRENT_LIST_DIR}/IntervalTimer.hpp"
+)
+set(MOD_DEPS Os_Posix_Shared)
+register_fprime_module(Os_IntervalTimer_Posix)
+register_fprime_implementation(Os/IntervalTimer Os_IntervalTimer_Posix "${CMAKE_CURRENT_LIST_DIR}/DefaultIntervalTimer.cpp")
+
+#### Os/IntervalTimer/Posix Unit Tests ####
+# set(UT_SOURCE_FILES
+#         "${CMAKE_CURRENT_LIST_DIR}/../test/ut/IntervalTimer/CommonTests.cpp"
+#         "${CMAKE_CURRENT_LIST_DIR}/../test/ut/IntervalTimer/IntervalTimerRules.cpp"
+#         "${CMAKE_CURRENT_LIST_DIR}/test/ut/PosixIntervalTimerTests.cpp"
+# )
+# set(UT_MOD_DEPS
+#         Os
+#         STest
+# )
+# choose_fprime_implementation(Os/IntervalTimer Os_IntervalTimer_Posix)
+# register_fprime_ut(PosixIntervalTimerTest)
+

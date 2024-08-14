@@ -25,7 +25,7 @@ set(MOD_DEPS
 )
 # Basic source files used in every OSAL layer.  Contains common code and helpers.
 set(SOURCE_FILES
-    "${CMAKE_CURRENT_LIST_DIR}/IntervalTimerCommon.cpp"
+    # "${CMAKE_CURRENT_LIST_DIR}/IntervalTimerCommon.cpp"
 #    "${CMAKE_CURRENT_LIST_DIR}/TaskCommon.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/QueueCommon.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/IPCQueueCommon.cpp"
@@ -38,6 +38,7 @@ set(SOURCE_FILES
     "${CMAKE_CURRENT_LIST_DIR}/File.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Task.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/Mutex.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/IntervalTimer.cpp"
 )
 # Check for default logger
 if (NOT FPRIME_DISABLE_DEFAULT_LOGGER)
@@ -55,7 +56,7 @@ if (FPRIME_USE_POSIX)
         "${CMAKE_CURRENT_LIST_DIR}/Pthreads/MaxHeap/MaxHeap.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Linux/InterruptLock.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Linux/WatchdogTimer.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Posix/IntervalTimer.cpp"
+        # "${CMAKE_CURRENT_LIST_DIR}/Posix/IntervalTimer.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Linux/FileSystem.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Linux/Directory.cpp"
     )
@@ -98,14 +99,15 @@ register_fprime_module()
 
 require_fprime_implementation(Os/File)
 # require_fprime_implementation(Os/Task) # should be added in
-require_fprime_implementation(Os/Mutex) 
+require_fprime_implementation(Os/Mutex)
+require_fprime_implementation(Os/IntervalTimer)
 
 
 ### UTS ### Note: 3 separate UTs registered here.
 set(UT_SOURCE_FILES
   "${CMAKE_CURRENT_LIST_DIR}/test/ut/OsQueueTest.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/test/ut/OsTestMain.cpp"
-  "${CMAKE_CURRENT_LIST_DIR}/test/ut/IntervalTimerTest.cpp"
+  # "${CMAKE_CURRENT_LIST_DIR}/test/ut/IntervalTimerTest.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/test/ut/OsFileSystemTest.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/test/ut/OsValidateFileTest.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/test/ut/OsSystemResourcesTest.cpp"

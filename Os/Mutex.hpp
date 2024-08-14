@@ -39,7 +39,7 @@ class MutexInterface {
     virtual MutexHandle* getHandle() = 0;
 
     //! \brief provide a pointer to a Mutex delegate object
-    static MutexInterface* getDelegate(HandleStorage& aligned_new_memory);  // TODO
+    static MutexInterface* getDelegate(HandleStorage& aligned_new_memory);
 
     virtual Status take() = 0;     //!<  lock the mutex return status
     virtual Status release() = 0;  //!<  unlock the mutex return status

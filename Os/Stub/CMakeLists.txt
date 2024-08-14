@@ -22,6 +22,13 @@ set(SOURCE_FILES
 register_fprime_module(Os_Mutex_Stub)
 register_fprime_implementation(Os/Mutex Os_Mutex_Stub "${CMAKE_CURRENT_LIST_DIR}/DefaultMutex.cpp")
 
+######## IntervalTimer Stub ########
+set(SOURCE_FILES
+    "${CMAKE_CURRENT_LIST_DIR}/IntervalTimer.cpp"
+)
+register_fprime_module(Os_IntervalTimer_Stub)
+register_fprime_implementation(Os/IntervalTimer Os_IntervalTimer_Stub "${CMAKE_CURRENT_LIST_DIR}/DefaultIntervalTimer.cpp")
+
 
 # Remainder of file is specific to UTs
 if (NOT BUILD_TESTING)

@@ -12,6 +12,7 @@ endif()
 choose_fprime_implementation(Os/File Os/File/Posix)
 choose_fprime_implementation(Os/Task Os/Task/Posix)
 choose_fprime_implementation(Os/Mutex Os/Mutex/Posix)
+choose_fprime_implementation(Os/IntervalTimer Os/IntervalTimer/Posix)
 
 # Use common linux setup
 add_definitions(-DTGT_OS_TYPE_LINUX)
