@@ -2,8 +2,8 @@ var namespace_fw =
 [
     [ "DpCfg", "namespace_fw_1_1_dp_cfg.html", "namespace_fw_1_1_dp_cfg" ],
     [ "StringUtils", "namespace_fw_1_1_string_utils.html", [
-      [ "string_copy", "namespace_fw_1_1_string_utils.html#a9eea8b0b384612042a665c4eb6bb684e", null ],
-      [ "string_length", "namespace_fw_1_1_string_utils.html#afcf5c356fc8ac545dc89b54abe0baa4f", null ],
+      [ "string_copy", "namespace_fw_1_1_string_utils.html#a84e222d75f681cdc41eba1fca43b0369", null ],
+      [ "string_length", "namespace_fw_1_1_string_utils.html#a45ee50c4e7384bd94639e62c12128dab", null ],
       [ "substring_find", "namespace_fw_1_1_string_utils.html#abf12f8d48f9fc00e2ddeecdf0c3ce3b0", null ]
     ] ],
     [ "InputBufferGetPort", "class_fw_1_1_input_buffer_get_port.html", "class_fw_1_1_input_buffer_get_port" ],
@@ -74,7 +74,6 @@ var namespace_fw =
     [ "LogPacket", "class_fw_1_1_log_packet.html", "class_fw_1_1_log_packet" ],
     [ "LogStringArg", "class_fw_1_1_log_string_arg.html", "class_fw_1_1_log_string_arg" ],
     [ "TextLogString", "class_fw_1_1_text_log_string.html", "class_fw_1_1_text_log_string" ],
-    [ "LogAssertHook", "class_fw_1_1_log_assert_hook.html", "class_fw_1_1_log_assert_hook" ],
     [ "Logger", "class_fw_1_1_logger.html", "class_fw_1_1_logger" ],
     [ "ObjBase", "class_fw_1_1_obj_base.html", "class_fw_1_1_obj_base" ],
     [ "InputPortBase", "class_fw_1_1_input_port_base.html", "class_fw_1_1_input_port_base" ],
@@ -83,6 +82,7 @@ var namespace_fw =
     [ "ParamBuffer", "class_fw_1_1_param_buffer.html", "class_fw_1_1_param_buffer" ],
     [ "ParamString", "class_fw_1_1_param_string.html", "class_fw_1_1_param_string" ],
     [ "SerializableFile", "class_fw_1_1_serializable_file.html", "class_fw_1_1_serializable_file" ],
+    [ "SmSignalBuffer", "class_fw_1_1_sm_signal_buffer.html", "class_fw_1_1_sm_signal_buffer" ],
     [ "Time", "class_fw_1_1_time.html", "class_fw_1_1_time" ],
     [ "TlmBuffer", "class_fw_1_1_tlm_buffer.html", "class_fw_1_1_tlm_buffer" ],
     [ "TlmPacket", "class_fw_1_1_tlm_packet.html", "class_fw_1_1_tlm_packet" ],

@@ -729,35 +729,39 @@ $(document).ready(function(){initNavTree('_poly_type_8cpp_source.html',''); init
 <div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;<span class="preprocessor">#if FW_HAS_F64</span></div>
 <div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;        <span class="keywordflow">case</span> TYPE_F64:</div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%lg &quot;</span>, this-&gt;m_val.f64Val);</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%g &quot;</span>, this-&gt;m_val.f64Val);</div>
 <div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        <span class="keywordflow">case</span> TYPE_F32:</div>
-<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%g &quot;</span>, this-&gt;m_val.f32Val);</div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;        <span class="keywordflow">case</span> TYPE_BOOL:</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%s &quot;</span>, this-&gt;m_val.boolVal ? <span class="stringliteral">&quot;T&quot;</span> : <span class="stringliteral">&quot;F&quot;</span>);</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;        <span class="keywordflow">case</span> TYPE_F32:</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%g &quot;</span>, <span class="keyword">static_cast&lt;</span>F64<span class="keyword">&gt;</span>(this-&gt;m_val.f32Val));</div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;        <span class="keywordflow">case</span> TYPE_F32:</div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%g &quot;</span>, this-&gt;m_val.f32Val);</div>
 <div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;        <span class="keywordflow">case</span> TYPE_PTR:</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%p &quot;</span>, this-&gt;m_val.ptrVal);</div>
-<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;        <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%s &quot;</span>, <span class="stringliteral">&quot;NT&quot;</span>);</div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;    }</div>
-<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160; </div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;    <span class="comment">// NULL terminate</span></div>
-<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;    valString[<span class="keyword">sizeof</span>(valString) - 1] = 0;</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160; </div>
-<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;    <span class="keywordflow">if</span> (append) {</div>
-<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;        dest += valString;</div>
-<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;        dest = valString;</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    }</div>
-<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;}</div>
-<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160; </div>
-<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;}  <span class="comment">// namespace Fw</span></div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;        <span class="keywordflow">case</span> TYPE_BOOL:</div>
+<div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%s &quot;</span>, this-&gt;m_val.boolVal ? <span class="stringliteral">&quot;T&quot;</span> : <span class="stringliteral">&quot;F&quot;</span>);</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;        <span class="keywordflow">case</span> TYPE_PTR:</div>
+<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%p &quot;</span>, this-&gt;m_val.ptrVal);</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;        <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;            (void)snprintf(valString, <span class="keyword">sizeof</span>(valString), <span class="stringliteral">&quot;%s &quot;</span>, <span class="stringliteral">&quot;NT&quot;</span>);</div>
+<div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;    }</div>
+<div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160; </div>
+<div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;    <span class="comment">// NULL terminate</span></div>
+<div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;    valString[<span class="keyword">sizeof</span>(valString) - 1] = 0;</div>
+<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160; </div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    <span class="keywordflow">if</span> (append) {</div>
+<div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;        dest += valString;</div>
+<div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160;        dest = valString;</div>
+<div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;    }</div>
+<div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;}</div>
+<div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160; </div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;}  <span class="comment">// namespace Fw</span></div>
 <div class="ttc" id="a_assert_8hpp_html"><div class="ttname"><a href="assert_8hpp.html">Assert.hpp</a></div></div>
 <div class="ttc" id="a_assert_8hpp_html_ae203ae2022a5f92eea0ceb85a0d62c3c"><div class="ttname"><a href="assert_8hpp.html#ae203ae2022a5f92eea0ceb85a0d62c3c">FW_ASSERT</a></div><div class="ttdeci">#define FW_ASSERT(...)</div><div class="ttdef"><b>Definition:</b> <a href="assert_8hpp_source.html#l00014">Assert.hpp:14</a></div></div>
 <div class="ttc" id="a_basic_types_8h_html_a33c92dd47950aa8c1d6df7e1c163e5a6"><div class="ttname"><a href="basic_types_8h.html#a33c92dd47950aa8c1d6df7e1c163e5a6">I8</a></div><div class="ttdeci">int8_t I8</div><div class="ttdoc">8-bit signed integer</div><div class="ttdef"><b>Definition:</b> <a href="basic_types_8h_source.html#l00025">BasicTypes.h:25</a></div></div>
@@ -788,8 +792,8 @@ $(document).ready(function(){initNavTree('_poly_type_8cpp_source.html',''); init
 <div class="ttc" id="aclass_fw_1_1_serialize_buffer_base_html"><div class="ttname"><a href="class_fw_1_1_serialize_buffer_base.html">Fw::SerializeBufferBase</a></div><div class="ttdef"><b>Definition:</b> <a href="serializable_8hpp_source.html#l00054">Serializable.hpp:54</a></div></div>
 <div class="ttc" id="aclass_fw_1_1_serialize_buffer_base_html_a99f6c704e514620bf8e26dc28a6f698a"><div class="ttname"><a href="class_fw_1_1_serialize_buffer_base.html#a99f6c704e514620bf8e26dc28a6f698a">Fw::SerializeBufferBase::deserialize</a></div><div class="ttdeci">SerializeStatus deserialize(U8 &amp;val)</div><div class="ttdoc">deserialize 8-bit unsigned int</div><div class="ttdef"><b>Definition:</b> <a href="serializable_8cpp_source.html#l00302">Serializable.cpp:302</a></div></div>
 <div class="ttc" id="aclass_fw_1_1_serialize_buffer_base_html_ac7eef383cbb84ad69d09d036a7249cdf"><div class="ttname"><a href="class_fw_1_1_serialize_buffer_base.html#ac7eef383cbb84ad69d09d036a7249cdf">Fw::SerializeBufferBase::serialize</a></div><div class="ttdeci">SerializeStatus serialize(U8 val)</div><div class="ttdoc">serialize 8-bit unsigned int</div><div class="ttdef"><b>Definition:</b> <a href="serializable_8cpp_source.html#l00065">Serializable.cpp:65</a></div></div>
-<div class="ttc" id="aclass_fw_1_1_string_base_html"><div class="ttname"><a href="class_fw_1_1_string_base.html">Fw::StringBase</a></div><div class="ttdef"><b>Definition:</b> <a href="string_base_8hpp_source.html#l00023">StringBase.hpp:23</a></div></div>
-<div class="ttc" id="anamespace_fw_html"><div class="ttname"><a href="namespace_fw.html">Fw</a></div><div class="ttdef"><b>Definition:</b> <a href="fpp_constants_ac_8hpp_source.html#l00103">FppConstantsAc.hpp:103</a></div></div>
+<div class="ttc" id="aclass_fw_1_1_string_base_html"><div class="ttname"><a href="class_fw_1_1_string_base.html">Fw::StringBase</a></div><div class="ttdef"><b>Definition:</b> <a href="string_base_8hpp_source.html#l00024">StringBase.hpp:24</a></div></div>
+<div class="ttc" id="anamespace_fw_html"><div class="ttname"><a href="namespace_fw.html">Fw</a></div><div class="ttdef"><b>Definition:</b> <a href="fpp_constants_ac_8hpp_source.html#l00116">FppConstantsAc.hpp:116</a></div></div>
 <div class="ttc" id="anamespace_fw_html_aa232625e63c0c60a1fced2933334fc32"><div class="ttname"><a href="namespace_fw.html#aa232625e63c0c60a1fced2933334fc32">Fw::SerializeStatus</a></div><div class="ttdeci">SerializeStatus</div><div class="ttdoc">forward declaration for string</div><div class="ttdef"><b>Definition:</b> <a href="serializable_8hpp_source.html#l00014">Serializable.hpp:14</a></div></div>
 <div class="ttc" id="anamespace_fw_html_aa232625e63c0c60a1fced2933334fc32a081fc0fbbe6583a95792b117952048ed"><div class="ttname"><a href="namespace_fw.html#aa232625e63c0c60a1fced2933334fc32a081fc0fbbe6583a95792b117952048ed">Fw::FW_DESERIALIZE_FORMAT_ERROR</a></div><div class="ttdeci">@ FW_DESERIALIZE_FORMAT_ERROR</div><div class="ttdoc">Deserialization data had incorrect values (unexpected data types)</div><div class="ttdef"><b>Definition:</b> <a href="serializable_8hpp_source.html#l00019">Serializable.hpp:19</a></div></div>
 <div class="ttc" id="anamespace_fw_html_aa232625e63c0c60a1fced2933334fc32a2c3101a788d56aa3d3020fa20d54a020"><div class="ttname"><a href="namespace_fw.html#aa232625e63c0c60a1fced2933334fc32a2c3101a788d56aa3d3020fa20d54a020">Fw::FW_SERIALIZE_OK</a></div><div class="ttdeci">@ FW_SERIALIZE_OK</div><div class="ttdoc">Serialization/Deserialization operation was successful.</div><div class="ttdef"><b>Definition:</b> <a href="serializable_8hpp_source.html#l00015">Serializable.hpp:15</a></div></div>

@@ -1,6 +1,13 @@
 var dir_5d2d44be9d89e5af4b3ae87b5b477c1c =
 [
+    [ "Console.cpp", "posix_2_console_8cpp.html", null ],
+    [ "Console.hpp", "posix_2_console_8hpp.html", [
+      [ "PosixConsoleHandle", "struct_os_1_1_posix_1_1_console_1_1_posix_console_handle.html", "struct_os_1_1_posix_1_1_console_1_1_posix_console_handle" ],
+      [ "PosixConsole", "class_os_1_1_posix_1_1_console_1_1_posix_console.html", "class_os_1_1_posix_1_1_console_1_1_posix_console" ]
+    ] ],
+    [ "DefaultConsole.cpp", "posix_2_default_console_8cpp.html", null ],
     [ "DefaultFile.cpp", "posix_2_default_file_8cpp.html", null ],
+    [ "DefaultMutex.cpp", "posix_2_default_mutex_8cpp.html", null ],
     [ "DefaultTask.cpp", "default_task_8cpp.html", null ],
     [ "error.cpp", "error_8cpp.html", "error_8cpp" ],
     [ "error.hpp", "error_8hpp.html", "error_8hpp" ],
@@ -13,6 +20,10 @@ var dir_5d2d44be9d89e5af4b3ae87b5b477c1c =
     [ "IPCQueue.cpp", "i_p_c_queue_8cpp.html", "_i_p_c_queue_8cpp" ],
     [ "LocklessQueue.cpp", "lockless_queue_8cpp.html", "_lockless_queue_8cpp" ],
     [ "Mutex.cpp", "posix_2_mutex_8cpp.html", null ],
+    [ "Mutex.hpp", "posix_2_mutex_8hpp.html", [
+      [ "PosixMutexHandle", "struct_os_1_1_posix_1_1_mutex_1_1_posix_mutex_handle.html", "struct_os_1_1_posix_1_1_mutex_1_1_posix_mutex_handle" ],
+      [ "PosixMutex", "class_os_1_1_posix_1_1_mutex_1_1_posix_mutex.html", "class_os_1_1_posix_1_1_mutex_1_1_posix_mutex" ]
+    ] ],
     [ "Queue.cpp", "os_2_posix_2_queue_8cpp.html", [
       [ "QueueHandle", "class_os_1_1_queue_handle.html", "class_os_1_1_queue_handle" ]
     ] ],
