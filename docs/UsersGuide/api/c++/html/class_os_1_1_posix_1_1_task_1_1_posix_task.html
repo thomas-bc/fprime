@@ -138,11 +138,12 @@ Public Types</h2></td></tr>
 <tr class="separator:a174e2213dad7034b44cfddf7a16729f4 inherit pub_types_class_os_1_1_task_interface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3dbca325ee42772311eb9a542144a45 inherit pub_types_class_os_1_1_task_interface"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45">State</a> { <br />
 &#160;&#160;<a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45ae8964b1cd6d6c6c4e72ac5f4740a8737">NOT_STARTED</a>
+, <a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a8e12359bdfca7cfbb68d3ce5c31a9011">STARTING</a>
 , <a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a48b9025fb8820cf2ae735ed6769c03ca">RUNNING</a>
 , <a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a54c8a8fd65462bb9bd52df1188e3e0bc">SUSPENDED_INTENTIONALLY</a>
-, <a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45aceb80d595a1a01f763f54997aa7b54f4">SUSPENDED_UNINTENTIONALLY</a>
 , <br />
-&#160;&#160;<a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a1b35d2df650e5f288b53352155a8373a">EXITED</a>
+&#160;&#160;<a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45aceb80d595a1a01f763f54997aa7b54f4">SUSPENDED_UNINTENTIONALLY</a>
+, <a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a1b35d2df650e5f288b53352155a8373a">EXITED</a>
 , <a class="el" href="class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a76930a6ef5dc15a9816c0f526f138701">UNKNOWN</a>
 <br />
  }</td></tr>
@@ -180,6 +181,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa7e0c15266df6ff99104a99eb660f6f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_posix_1_1_task_1_1_posix_task.html#aa7e0c15266df6ff99104a99eb660f6f0">resume</a> () override</td></tr>
 <tr class="memdesc:aa7e0c15266df6ff99104a99eb660f6f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">resume a suspended task  <a href="class_os_1_1_posix_1_1_task_1_1_posix_task.html#aa7e0c15266df6ff99104a99eb660f6f0">More...</a><br /></td></tr>
 <tr class="separator:aa7e0c15266df6ff99104a99eb660f6f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d3fa75a5c90208715e2ff760eaa07f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_os_1_1_task_interface.html#ad9d263c769aa2ac35bb8a38e9447fca1">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_posix_1_1_task_1_1_posix_task.html#a1d3fa75a5c90208715e2ff760eaa07f2">_delay</a> (<a class="el" href="class_fw_1_1_time_interval.html">Fw::TimeInterval</a> interval) override</td></tr>
+<tr class="memdesc:a1d3fa75a5c90208715e2ff760eaa07f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">delay the current task  <a href="class_os_1_1_posix_1_1_task_1_1_posix_task.html#a1d3fa75a5c90208715e2ff760eaa07f2">More...</a><br /></td></tr>
+<tr class="separator:a1d3fa75a5c90208715e2ff760eaa07f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfc105b4194df7bb931afafe92b38e2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_os_1_1_task_handle.html">TaskHandle</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_posix_1_1_task_1_1_posix_task.html#acfc105b4194df7bb931afafe92b38e2e">getHandle</a> () override</td></tr>
 <tr class="memdesc:acfc105b4194df7bb931afafe92b38e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the underlying task handle (implementation specific)  <a href="class_os_1_1_posix_1_1_task_1_1_posix_task.html#acfc105b4194df7bb931afafe92b38e2e">More...</a><br /></td></tr>
 <tr class="separator:acfc105b4194df7bb931afafe92b38e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,12 +207,9 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_class_os_1_1_task_interface"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_class_os_1_1_task_interface')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="class_os_1_1_task_interface.html">Os::TaskInterface</a></td></tr>
-<tr class="memitem:af5f1ddc384b1985c550458f643d72316 inherit pub_static_methods_class_os_1_1_task_interface"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_os_1_1_task_interface.html#ad9d263c769aa2ac35bb8a38e9447fca1">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_task_interface.html#af5f1ddc384b1985c550458f643d72316">delay</a> (<a class="el" href="class_fw_1_1_time.html">Fw::Time</a> interval)</td></tr>
-<tr class="memdesc:af5f1ddc384b1985c550458f643d72316 inherit pub_static_methods_class_os_1_1_task_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">delay the current task  <a href="class_os_1_1_task_interface.html#af5f1ddc384b1985c550458f643d72316">More...</a><br /></td></tr>
-<tr class="separator:af5f1ddc384b1985c550458f643d72316 inherit pub_static_methods_class_os_1_1_task_interface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a231451057c560f5466b30099928040e0 inherit pub_static_methods_class_os_1_1_task_interface"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_os_1_1_task_interface.html">TaskInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_task_interface.html#a231451057c560f5466b30099928040e0">getDelegate</a> (<a class="el" href="os_8hpp.html#adcf7b228058a142e9981c9ea1fa877da">HandleStorage</a> &amp;aligned_placement_new_memory)</td></tr>
-<tr class="memdesc:a231451057c560f5466b30099928040e0 inherit pub_static_methods_class_os_1_1_task_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">provide a pointer to a task delegate object  <a href="class_os_1_1_task_interface.html#a231451057c560f5466b30099928040e0">More...</a><br /></td></tr>
-<tr class="separator:a231451057c560f5466b30099928040e0 inherit pub_static_methods_class_os_1_1_task_interface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa95a4604d9b61868f3660f54568f9a14 inherit pub_static_methods_class_os_1_1_task_interface"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_os_1_1_task_interface.html">TaskInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_task_interface.html#aa95a4604d9b61868f3660f54568f9a14">getDelegate</a> (<a class="el" href="os_8hpp.html#a1f0e30a3b205012baf80f22fc372473a">TaskHandleStorage</a> &amp;aligned_placement_new_memory)</td></tr>
+<tr class="memdesc:aa95a4604d9b61868f3660f54568f9a14 inherit pub_static_methods_class_os_1_1_task_interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">provide a pointer to a task delegate object  <a href="class_os_1_1_task_interface.html#aa95a4604d9b61868f3660f54568f9a14">More...</a><br /></td></tr>
+<tr class="separator:aa95a4604d9b61868f3660f54568f9a14 inherit pub_static_methods_class_os_1_1_task_interface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_class_os_1_1_task_interface"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_class_os_1_1_task_interface')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="class_os_1_1_task_interface.html">Os::TaskInterface</a></td></tr>
 <tr class="memitem:ab33554510a55456c7eaf81829eb2fa9c inherit pub_static_attribs_class_os_1_1_task_interface"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="fp_config_8h.html#a924ef0ded73e6ec8a0a0b55e9e555fc4">FwSizeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_os_1_1_task_interface.html#ab33554510a55456c7eaf81829eb2fa9c">TASK_DEFAULT</a> = std::numeric_limits&lt;<a class="el" href="fp_config_8h.html#a924ef0ded73e6ec8a0a0b55e9e555fc4">FwSizeType</a>&gt;::max()</td></tr>
 <tr class="separator:ab33554510a55456c7eaf81829eb2fa9c inherit pub_static_attribs_class_os_1_1_task_interface"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -326,6 +327,46 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1d3fa75a5c90208715e2ff760eaa07f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d3fa75a5c90208715e2ff760eaa07f2">&#9670;&nbsp;</a></span>_delay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_os_1_1_task_interface.html#ad9d263c769aa2ac35bb8a38e9447fca1">Os::Task::Status</a> Os::Posix::Task::PosixTask::_delay </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_fw_1_1_time_interval.html">Fw::TimeInterval</a>&#160;</td>
+          <td class="paramname"><em>interval</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>delay the current task </p>
+<p>Delays, or sleeps, the current task by the supplied time interval. In non-preempting os implementations the task will resume no earlier than expected but an exact wake-up time is not guaranteed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">interval</td><td>delay time </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status of the delay </dd></dl>
+
+<p>Implements <a class="el" href="class_os_1_1_task_interface.html#aa49c545968cb923fb1292dcf167ed569">Os::TaskInterface</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00219">219</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+
+</div>
+</div>
 <a id="acfc105b4194df7bb931afafe92b38e2e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfc105b4194df7bb931afafe92b38e2e">&#9670;&nbsp;</a></span>getHandle()</h2>
 
@@ -354,7 +395,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_os_1_1_task_interface.html#a12afb1c82d1a2131cea2df6d1e509466">Os::TaskInterface</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00199">199</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00204">204</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
 
 </div>
 </div>
@@ -387,7 +428,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_os_1_1_task_interface.html#a74a4ca3cd03099e4325ac92449d7d6f4">Os::TaskInterface</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00188">188</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00193">193</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
 
 </div>
 </div>
@@ -418,7 +459,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_os_1_1_task_interface.html#ad80734df88ead1571b6830521d5d3b4c">Os::TaskInterface</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00156">156</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00161">161</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
 
 </div>
 </div>
@@ -478,7 +519,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_os_1_1_task_interface.html#a86946c50ecb92d72c04cb5b78bed26b2">Os::TaskInterface</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00209">209</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00214">214</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
 
 </div>
 </div>
@@ -518,7 +559,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_os_1_1_task_interface.html#a302cb96e3dabde0f7a0b6ebf607f971e">Os::TaskInterface</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00158">158</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00163">163</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
 
 </div>
 </div>
@@ -557,7 +598,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="class_os_1_1_task_interface.html#a478454244337c10daaf2c0811b82ac6a">Os::TaskInterface</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00205">205</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="posix_2_task_8cpp_source.html#l00210">210</a> of file <a class="el" href="posix_2_task_8cpp_source.html">Task.cpp</a>.</p>
 
 </div>
 </div>

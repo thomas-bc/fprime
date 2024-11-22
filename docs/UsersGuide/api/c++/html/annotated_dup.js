@@ -16,10 +16,15 @@ var annotated_dup =
       [ "PollStatus", "class_drv_1_1_poll_status.html", "class_drv_1_1_poll_status" ],
       [ "RecvStatus", "class_drv_1_1_recv_status.html", "class_drv_1_1_recv_status" ],
       [ "SendStatus", "class_drv_1_1_send_status.html", "class_drv_1_1_send_status" ],
+      [ "LinuxGpioDriverComponentBase", "class_drv_1_1_linux_gpio_driver_component_base.html", "class_drv_1_1_linux_gpio_driver_component_base" ],
+      [ "LinuxI2cDriverComponentBase", "class_drv_1_1_linux_i2c_driver_component_base.html", "class_drv_1_1_linux_i2c_driver_component_base" ],
+      [ "LinuxSpiDriverComponentBase", "class_drv_1_1_linux_spi_driver_component_base.html", "class_drv_1_1_linux_spi_driver_component_base" ],
+      [ "LinuxUartDriverComponentBase", "class_drv_1_1_linux_uart_driver_component_base.html", "class_drv_1_1_linux_uart_driver_component_base" ],
       [ "InputDataBufferPort", "class_drv_1_1_input_data_buffer_port.html", "class_drv_1_1_input_data_buffer_port" ],
       [ "OutputDataBufferPort", "class_drv_1_1_output_data_buffer_port.html", "class_drv_1_1_output_data_buffer_port" ],
       [ "InputGpioReadPort", "class_drv_1_1_input_gpio_read_port.html", "class_drv_1_1_input_gpio_read_port" ],
       [ "OutputGpioReadPort", "class_drv_1_1_output_gpio_read_port.html", "class_drv_1_1_output_gpio_read_port" ],
+      [ "GpioStatus", "class_drv_1_1_gpio_status.html", "class_drv_1_1_gpio_status" ],
       [ "InputGpioWritePort", "class_drv_1_1_input_gpio_write_port.html", "class_drv_1_1_input_gpio_write_port" ],
       [ "OutputGpioWritePort", "class_drv_1_1_output_gpio_write_port.html", "class_drv_1_1_output_gpio_write_port" ],
       [ "InputI2cPort", "class_drv_1_1_input_i2c_port.html", "class_drv_1_1_input_i2c_port" ],
@@ -27,10 +32,6 @@ var annotated_dup =
       [ "I2cStatus", "class_drv_1_1_i2c_status.html", "class_drv_1_1_i2c_status" ],
       [ "InputI2cWriteReadPort", "class_drv_1_1_input_i2c_write_read_port.html", "class_drv_1_1_input_i2c_write_read_port" ],
       [ "OutputI2cWriteReadPort", "class_drv_1_1_output_i2c_write_read_port.html", "class_drv_1_1_output_i2c_write_read_port" ],
-      [ "LinuxGpioDriverComponentBase", "class_drv_1_1_linux_gpio_driver_component_base.html", "class_drv_1_1_linux_gpio_driver_component_base" ],
-      [ "LinuxI2cDriverComponentBase", "class_drv_1_1_linux_i2c_driver_component_base.html", "class_drv_1_1_linux_i2c_driver_component_base" ],
-      [ "LinuxSpiDriverComponentBase", "class_drv_1_1_linux_spi_driver_component_base.html", "class_drv_1_1_linux_spi_driver_component_base" ],
-      [ "LinuxUartDriverComponentBase", "class_drv_1_1_linux_uart_driver_component_base.html", "class_drv_1_1_linux_uart_driver_component_base" ],
       [ "InputSpiReadWritePort", "class_drv_1_1_input_spi_read_write_port.html", "class_drv_1_1_input_spi_read_write_port" ],
       [ "OutputSpiReadWritePort", "class_drv_1_1_output_spi_read_write_port.html", "class_drv_1_1_output_spi_read_write_port" ],
       [ "StreamCrossoverComponentBase", "class_drv_1_1_stream_crossover_component_base.html", "class_drv_1_1_stream_crossover_component_base" ],
@@ -38,17 +39,18 @@ var annotated_dup =
       [ "TcpServerComponentBase", "class_drv_1_1_tcp_server_component_base.html", "class_drv_1_1_tcp_server_component_base" ],
       [ "UdpComponentBase", "class_drv_1_1_udp_component_base.html", "class_drv_1_1_udp_component_base" ],
       [ "BlockDriverImpl", "class_drv_1_1_block_driver_impl.html", "class_drv_1_1_block_driver_impl" ],
-      [ "DataBuffer", "class_drv_1_1_data_buffer.html", "class_drv_1_1_data_buffer" ],
+      [ "SocketDescriptor", "struct_drv_1_1_socket_descriptor.html", "struct_drv_1_1_socket_descriptor" ],
       [ "IpSocket", "class_drv_1_1_ip_socket.html", "class_drv_1_1_ip_socket" ],
-      [ "SocketReadTask", "class_drv_1_1_socket_read_task.html", "class_drv_1_1_socket_read_task" ],
+      [ "SocketComponentHelper", "class_drv_1_1_socket_component_helper.html", "class_drv_1_1_socket_component_helper" ],
       [ "TcpClientSocket", "class_drv_1_1_tcp_client_socket.html", "class_drv_1_1_tcp_client_socket" ],
       [ "TcpServerSocket", "class_drv_1_1_tcp_server_socket.html", "class_drv_1_1_tcp_server_socket" ],
       [ "SocketState", "struct_drv_1_1_socket_state.html", "struct_drv_1_1_socket_state" ],
       [ "UdpSocket", "class_drv_1_1_udp_socket.html", "class_drv_1_1_udp_socket" ],
-      [ "LinuxGpioDriverComponentImpl", "class_drv_1_1_linux_gpio_driver_component_impl.html", "class_drv_1_1_linux_gpio_driver_component_impl" ],
+      [ "LinuxGpioDriver", "class_drv_1_1_linux_gpio_driver.html", "class_drv_1_1_linux_gpio_driver" ],
       [ "LinuxI2cDriver", "class_drv_1_1_linux_i2c_driver.html", "class_drv_1_1_linux_i2c_driver" ],
       [ "LinuxSpiDriverComponentImpl", "class_drv_1_1_linux_spi_driver_component_impl.html", "class_drv_1_1_linux_spi_driver_component_impl" ],
       [ "LinuxUartDriver", "class_drv_1_1_linux_uart_driver.html", "class_drv_1_1_linux_uart_driver" ],
+      [ "DataBuffer", "class_drv_1_1_data_buffer.html", "class_drv_1_1_data_buffer" ],
       [ "StreamCrossover", "class_drv_1_1_stream_crossover.html", "class_drv_1_1_stream_crossover" ],
       [ "TcpClientComponentImpl", "class_drv_1_1_tcp_client_component_impl.html", "class_drv_1_1_tcp_client_component_impl" ],
       [ "TcpServerComponentImpl", "class_drv_1_1_tcp_server_component_impl.html", "class_drv_1_1_tcp_server_component_impl" ],
@@ -92,6 +94,8 @@ var annotated_dup =
       [ "OutputPrmGetPort", "class_fw_1_1_output_prm_get_port.html", "class_fw_1_1_output_prm_get_port" ],
       [ "InputPrmSetPort", "class_fw_1_1_input_prm_set_port.html", "class_fw_1_1_input_prm_set_port" ],
       [ "OutputPrmSetPort", "class_fw_1_1_output_prm_set_port.html", "class_fw_1_1_output_prm_set_port" ],
+      [ "InputTimeIntervalPort", "class_fw_1_1_input_time_interval_port.html", "class_fw_1_1_input_time_interval_port" ],
+      [ "OutputTimeIntervalPort", "class_fw_1_1_output_time_interval_port.html", "class_fw_1_1_output_time_interval_port" ],
       [ "InputTimePort", "class_fw_1_1_input_time_port.html", "class_fw_1_1_input_time_port" ],
       [ "OutputTimePort", "class_fw_1_1_output_time_port.html", "class_fw_1_1_output_time_port" ],
       [ "InputTlmGetPort", "class_fw_1_1_input_tlm_get_port.html", "class_fw_1_1_input_tlm_get_port" ],
@@ -136,6 +140,7 @@ var annotated_dup =
       [ "SerializableFile", "class_fw_1_1_serializable_file.html", "class_fw_1_1_serializable_file" ],
       [ "SmSignalBuffer", "class_fw_1_1_sm_signal_buffer.html", "class_fw_1_1_sm_signal_buffer" ],
       [ "Time", "class_fw_1_1_time.html", "class_fw_1_1_time" ],
+      [ "TimeInterval", "class_fw_1_1_time_interval.html", "class_fw_1_1_time_interval" ],
       [ "TlmBuffer", "class_fw_1_1_tlm_buffer.html", "class_fw_1_1_tlm_buffer" ],
       [ "TlmPacket", "class_fw_1_1_tlm_packet.html", "class_fw_1_1_tlm_packet" ],
       [ "TlmString", "class_fw_1_1_tlm_string.html", "class_fw_1_1_tlm_string" ],
@@ -163,18 +168,57 @@ var annotated_dup =
       [ "StringTemplate", "class_fw_1_1_string_template.html", "class_fw_1_1_string_template" ]
     ] ],
     [ "Os", "namespace_os.html", [
+      [ "Darwin", "namespace_os_1_1_darwin.html", [
+        [ "Cpu", "namespace_os_1_1_darwin_1_1_cpu.html", [
+          [ "DarwinCpuHandle", "struct_os_1_1_darwin_1_1_cpu_1_1_darwin_cpu_handle.html", null ],
+          [ "DarwinCpu", "class_os_1_1_darwin_1_1_cpu_1_1_darwin_cpu.html", "class_os_1_1_darwin_1_1_cpu_1_1_darwin_cpu" ]
+        ] ],
+        [ "Memory", "namespace_os_1_1_darwin_1_1_memory.html", [
+          [ "DarwinMemoryHandle", "struct_os_1_1_darwin_1_1_memory_1_1_darwin_memory_handle.html", null ],
+          [ "DarwinMemory", "class_os_1_1_darwin_1_1_memory_1_1_darwin_memory.html", "class_os_1_1_darwin_1_1_memory_1_1_darwin_memory" ]
+        ] ]
+      ] ],
+      [ "Generic", "namespace_os_1_1_generic.html", [
+        [ "PriorityQueueHandle", "struct_os_1_1_generic_1_1_priority_queue_handle.html", "struct_os_1_1_generic_1_1_priority_queue_handle" ],
+        [ "PriorityQueue", "class_os_1_1_generic_1_1_priority_queue.html", "class_os_1_1_generic_1_1_priority_queue" ],
+        [ "UsedTotal", "struct_os_1_1_generic_1_1_used_total.html", "struct_os_1_1_generic_1_1_used_total" ]
+      ] ],
+      [ "Linux", "namespace_os_1_1_linux.html", [
+        [ "Cpu", "namespace_os_1_1_linux_1_1_cpu.html", [
+          [ "LinuxCpuHandle", "struct_os_1_1_linux_1_1_cpu_1_1_linux_cpu_handle.html", null ],
+          [ "LinuxCpu", "class_os_1_1_linux_1_1_cpu_1_1_linux_cpu.html", "class_os_1_1_linux_1_1_cpu_1_1_linux_cpu" ]
+        ] ],
+        [ "Memory", "namespace_os_1_1_linux_1_1_memory.html", [
+          [ "LinuxMemoryHandle", "struct_os_1_1_linux_1_1_memory_1_1_linux_memory_handle.html", null ],
+          [ "LinuxMemory", "class_os_1_1_linux_1_1_memory_1_1_linux_memory.html", "class_os_1_1_linux_1_1_memory_1_1_linux_memory" ]
+        ] ]
+      ] ],
       [ "Posix", "namespace_os_1_1_posix.html", [
         [ "Console", "namespace_os_1_1_posix_1_1_console.html", [
           [ "PosixConsoleHandle", "struct_os_1_1_posix_1_1_console_1_1_posix_console_handle.html", "struct_os_1_1_posix_1_1_console_1_1_posix_console_handle" ],
           [ "PosixConsole", "class_os_1_1_posix_1_1_console_1_1_posix_console.html", "class_os_1_1_posix_1_1_console_1_1_posix_console" ]
         ] ],
+        [ "Directory", "namespace_os_1_1_posix_1_1_directory.html", [
+          [ "PosixDirectoryHandle", "struct_os_1_1_posix_1_1_directory_1_1_posix_directory_handle.html", "struct_os_1_1_posix_1_1_directory_1_1_posix_directory_handle" ],
+          [ "PosixDirectory", "class_os_1_1_posix_1_1_directory_1_1_posix_directory.html", "class_os_1_1_posix_1_1_directory_1_1_posix_directory" ]
+        ] ],
         [ "File", "namespace_os_1_1_posix_1_1_file.html", [
           [ "PosixFileHandle", "struct_os_1_1_posix_1_1_file_1_1_posix_file_handle.html", "struct_os_1_1_posix_1_1_file_1_1_posix_file_handle" ],
           [ "PosixFile", "class_os_1_1_posix_1_1_file_1_1_posix_file.html", "class_os_1_1_posix_1_1_file_1_1_posix_file" ]
         ] ],
+        [ "FileSystem", "namespace_os_1_1_posix_1_1_file_system.html", [
+          [ "PosixFileSystemHandle", "struct_os_1_1_posix_1_1_file_system_1_1_posix_file_system_handle.html", null ],
+          [ "PosixFileSystem", "class_os_1_1_posix_1_1_file_system_1_1_posix_file_system.html", "class_os_1_1_posix_1_1_file_system_1_1_posix_file_system" ]
+        ] ],
         [ "Mutex", "namespace_os_1_1_posix_1_1_mutex.html", [
+          [ "PosixConditionVariableHandle", "struct_os_1_1_posix_1_1_mutex_1_1_posix_condition_variable_handle.html", "struct_os_1_1_posix_1_1_mutex_1_1_posix_condition_variable_handle" ],
+          [ "PosixConditionVariable", "class_os_1_1_posix_1_1_mutex_1_1_posix_condition_variable.html", "class_os_1_1_posix_1_1_mutex_1_1_posix_condition_variable" ],
           [ "PosixMutexHandle", "struct_os_1_1_posix_1_1_mutex_1_1_posix_mutex_handle.html", "struct_os_1_1_posix_1_1_mutex_1_1_posix_mutex_handle" ],
           [ "PosixMutex", "class_os_1_1_posix_1_1_mutex_1_1_posix_mutex.html", "class_os_1_1_posix_1_1_mutex_1_1_posix_mutex" ]
+        ] ],
+        [ "RawTime", "namespace_os_1_1_posix_1_1_raw_time.html", [
+          [ "PosixRawTimeHandle", "struct_os_1_1_posix_1_1_raw_time_1_1_posix_raw_time_handle.html", "struct_os_1_1_posix_1_1_raw_time_1_1_posix_raw_time_handle" ],
+          [ "PosixRawTime", "class_os_1_1_posix_1_1_raw_time_1_1_posix_raw_time.html", "class_os_1_1_posix_1_1_raw_time_1_1_posix_raw_time" ]
         ] ],
         [ "Task", "namespace_os_1_1_posix_1_1_task.html", [
           [ "PosixTaskHandle", "struct_os_1_1_posix_1_1_task_1_1_posix_task_handle.html", "struct_os_1_1_posix_1_1_task_1_1_posix_task_handle" ],
@@ -186,57 +230,96 @@ var annotated_dup =
           [ "StubConsoleHandle", "struct_os_1_1_stub_1_1_console_1_1_stub_console_handle.html", null ],
           [ "StubConsole", "class_os_1_1_stub_1_1_console_1_1_stub_console.html", "class_os_1_1_stub_1_1_console_1_1_stub_console" ]
         ] ],
+        [ "Cpu", "namespace_os_1_1_stub_1_1_cpu.html", [
+          [ "StubCpuHandle", "struct_os_1_1_stub_1_1_cpu_1_1_stub_cpu_handle.html", null ],
+          [ "StubCpu", "class_os_1_1_stub_1_1_cpu_1_1_stub_cpu.html", "class_os_1_1_stub_1_1_cpu_1_1_stub_cpu" ]
+        ] ],
+        [ "Directory", "namespace_os_1_1_stub_1_1_directory.html", [
+          [ "StubDirectoryHandle", "struct_os_1_1_stub_1_1_directory_1_1_stub_directory_handle.html", null ],
+          [ "StubDirectory", "class_os_1_1_stub_1_1_directory_1_1_stub_directory.html", "class_os_1_1_stub_1_1_directory_1_1_stub_directory" ]
+        ] ],
         [ "File", "namespace_os_1_1_stub_1_1_file.html", [
           [ "StubFileHandle", "struct_os_1_1_stub_1_1_file_1_1_stub_file_handle.html", null ],
           [ "StubFile", "class_os_1_1_stub_1_1_file_1_1_stub_file.html", "class_os_1_1_stub_1_1_file_1_1_stub_file" ]
         ] ],
+        [ "FileSystem", "namespace_os_1_1_stub_1_1_file_system.html", [
+          [ "StubFileSystemHandle", "struct_os_1_1_stub_1_1_file_system_1_1_stub_file_system_handle.html", null ],
+          [ "StubFileSystem", "class_os_1_1_stub_1_1_file_system_1_1_stub_file_system.html", "class_os_1_1_stub_1_1_file_system_1_1_stub_file_system" ]
+        ] ],
+        [ "Memory", "namespace_os_1_1_stub_1_1_memory.html", [
+          [ "StubMemoryHandle", "struct_os_1_1_stub_1_1_memory_1_1_stub_memory_handle.html", null ],
+          [ "StubMemory", "class_os_1_1_stub_1_1_memory_1_1_stub_memory.html", "class_os_1_1_stub_1_1_memory_1_1_stub_memory" ]
+        ] ],
         [ "Mutex", "namespace_os_1_1_stub_1_1_mutex.html", [
+          [ "StubConditionVariableHandle", "struct_os_1_1_stub_1_1_mutex_1_1_stub_condition_variable_handle.html", null ],
+          [ "StubConditionVariable", "class_os_1_1_stub_1_1_mutex_1_1_stub_condition_variable.html", "class_os_1_1_stub_1_1_mutex_1_1_stub_condition_variable" ],
           [ "StubMutexHandle", "struct_os_1_1_stub_1_1_mutex_1_1_stub_mutex_handle.html", null ],
           [ "StubMutex", "class_os_1_1_stub_1_1_mutex_1_1_stub_mutex.html", "class_os_1_1_stub_1_1_mutex_1_1_stub_mutex" ]
+        ] ],
+        [ "Queue", "namespace_os_1_1_stub_1_1_queue.html", [
+          [ "StubQueueHandle", "struct_os_1_1_stub_1_1_queue_1_1_stub_queue_handle.html", null ],
+          [ "StubQueue", "class_os_1_1_stub_1_1_queue_1_1_stub_queue.html", "class_os_1_1_stub_1_1_queue_1_1_stub_queue" ]
+        ] ],
+        [ "RawTime", "namespace_os_1_1_stub_1_1_raw_time.html", [
+          [ "StubRawTimeHandle", "struct_os_1_1_stub_1_1_raw_time_1_1_stub_raw_time_handle.html", null ],
+          [ "StubRawTime", "class_os_1_1_stub_1_1_raw_time_1_1_stub_raw_time.html", "class_os_1_1_stub_1_1_raw_time_1_1_stub_raw_time" ]
+        ] ],
+        [ "Task", "namespace_os_1_1_stub_1_1_task.html", [
+          [ "StubTaskHandle", "class_os_1_1_stub_1_1_task_1_1_stub_task_handle.html", null ],
+          [ "StubTask", "class_os_1_1_stub_1_1_task_1_1_stub_task.html", "class_os_1_1_stub_1_1_task_1_1_stub_task" ]
         ] ]
       ] ],
-      [ "SystemResources", "namespace_os_1_1_system_resources.html", [
-        [ "CpuTicks", "struct_os_1_1_system_resources_1_1_cpu_ticks.html", "struct_os_1_1_system_resources_1_1_cpu_ticks" ],
-        [ "MemUtil", "struct_os_1_1_system_resources_1_1_mem_util.html", "struct_os_1_1_system_resources_1_1_mem_util" ]
-      ] ],
+      [ "DirectoryOpenMode", "class_os_1_1_directory_open_mode.html", "class_os_1_1_directory_open_mode" ],
+      [ "DirectoryStatus", "class_os_1_1_directory_status.html", "class_os_1_1_directory_status" ],
       [ "FileMode", "class_os_1_1_file_mode.html", "class_os_1_1_file_mode" ],
       [ "FileStatus", "class_os_1_1_file_status.html", "class_os_1_1_file_status" ],
+      [ "FileSystemStatus", "class_os_1_1_file_system_status.html", "class_os_1_1_file_system_status" ],
+      [ "GenericStatus", "class_os_1_1_generic_status.html", "class_os_1_1_generic_status" ],
       [ "MutexStatus", "class_os_1_1_mutex_status.html", "class_os_1_1_mutex_status" ],
+      [ "QueueBlockingType", "class_os_1_1_queue_blocking_type.html", "class_os_1_1_queue_blocking_type" ],
+      [ "QueueStatus", "class_os_1_1_queue_status.html", "class_os_1_1_queue_status" ],
+      [ "RawTimeStatus", "class_os_1_1_raw_time_status.html", "class_os_1_1_raw_time_status" ],
       [ "TaskStatus", "class_os_1_1_task_status.html", "class_os_1_1_task_status" ],
-      [ "BareQueueHandle", "class_os_1_1_bare_queue_handle.html", "class_os_1_1_bare_queue_handle" ],
-      [ "BareTaskHandle", "class_os_1_1_bare_task_handle.html", "class_os_1_1_bare_task_handle" ],
-      [ "TaskRunner", "class_os_1_1_task_runner.html", "class_os_1_1_task_runner" ],
+      [ "ConditionVariableHandle", "class_os_1_1_condition_variable_handle.html", null ],
+      [ "ConditionVariableInterface", "class_os_1_1_condition_variable_interface.html", "class_os_1_1_condition_variable_interface" ],
+      [ "ConditionVariable", "class_os_1_1_condition_variable.html", "class_os_1_1_condition_variable" ],
       [ "ConsoleHandle", "struct_os_1_1_console_handle.html", null ],
       [ "ConsoleInterface", "class_os_1_1_console_interface.html", "class_os_1_1_console_interface" ],
       [ "Console", "class_os_1_1_console.html", "class_os_1_1_console" ],
+      [ "CpuHandle", "class_os_1_1_cpu_handle.html", null ],
+      [ "CpuInterface", "class_os_1_1_cpu_interface.html", "class_os_1_1_cpu_interface" ],
+      [ "Cpu", "class_os_1_1_cpu.html", "class_os_1_1_cpu" ],
+      [ "DirectoryHandle", "struct_os_1_1_directory_handle.html", null ],
+      [ "DirectoryInterface", "class_os_1_1_directory_interface.html", "class_os_1_1_directory_interface" ],
       [ "Directory", "class_os_1_1_directory.html", "class_os_1_1_directory" ],
       [ "FileHandle", "struct_os_1_1_file_handle.html", null ],
       [ "FileInterface", "class_os_1_1_file_interface.html", "class_os_1_1_file_interface" ],
       [ "File", "class_os_1_1_file.html", "class_os_1_1_file" ],
-      [ "InterruptLock", "class_os_1_1_interrupt_lock.html", "class_os_1_1_interrupt_lock" ],
+      [ "FileSystemHandle", "struct_os_1_1_file_system_handle.html", null ],
+      [ "FileSystemInterface", "class_os_1_1_file_system_interface.html", "class_os_1_1_file_system_interface" ],
+      [ "FileSystem", "class_os_1_1_file_system.html", "class_os_1_1_file_system" ],
       [ "IntervalTimer", "class_os_1_1_interval_timer.html", "class_os_1_1_interval_timer" ],
-      [ "IPCQueue", "class_os_1_1_i_p_c_queue.html", "class_os_1_1_i_p_c_queue" ],
-      [ "LocklessQueue", "class_os_1_1_lockless_queue.html", "class_os_1_1_lockless_queue" ],
-      [ "QueueHandle", "class_os_1_1_queue_handle.html", "class_os_1_1_queue_handle" ],
-      [ "Mem", "class_os_1_1_mem.html", "class_os_1_1_mem" ],
+      [ "MemoryHandle", "class_os_1_1_memory_handle.html", null ],
+      [ "MemoryInterface", "class_os_1_1_memory_interface.html", "class_os_1_1_memory_interface" ],
+      [ "Memory", "class_os_1_1_memory.html", "class_os_1_1_memory" ],
       [ "MutexHandle", "struct_os_1_1_mutex_handle.html", null ],
       [ "MutexInterface", "class_os_1_1_mutex_interface.html", "class_os_1_1_mutex_interface" ],
       [ "Mutex", "class_os_1_1_mutex.html", "class_os_1_1_mutex" ],
-      [ "BufferQueue", "class_os_1_1_buffer_queue.html", "class_os_1_1_buffer_queue" ],
-      [ "FIFOQueue", "struct_os_1_1_f_i_f_o_queue.html", "struct_os_1_1_f_i_f_o_queue" ],
-      [ "MaxHeap", "class_os_1_1_max_heap.html", "class_os_1_1_max_heap" ],
-      [ "PriorityQueue", "struct_os_1_1_priority_queue.html", "struct_os_1_1_priority_queue" ],
+      [ "ScopeLock", "class_os_1_1_scope_lock.html", "class_os_1_1_scope_lock" ],
+      [ "QueueHandle", "class_os_1_1_queue_handle.html", null ],
+      [ "QueueInterface", "class_os_1_1_queue_interface.html", "class_os_1_1_queue_interface" ],
       [ "Queue", "class_os_1_1_queue.html", "class_os_1_1_queue" ],
       [ "QueueRegistry", "class_os_1_1_queue_registry.html", "class_os_1_1_queue_registry" ],
       [ "QueueString", "class_os_1_1_queue_string.html", "class_os_1_1_queue_string" ],
+      [ "RawTimeHandle", "struct_os_1_1_raw_time_handle.html", null ],
+      [ "RawTimeInterface", "class_os_1_1_raw_time_interface.html", "class_os_1_1_raw_time_interface" ],
+      [ "RawTime", "class_os_1_1_raw_time.html", "class_os_1_1_raw_time" ],
       [ "TaskHandle", "class_os_1_1_task_handle.html", null ],
       [ "TaskInterface", "class_os_1_1_task_interface.html", "class_os_1_1_task_interface" ],
       [ "Task", "class_os_1_1_task.html", "class_os_1_1_task" ],
       [ "TaskRegistry", "class_os_1_1_task_registry.html", "class_os_1_1_task_registry" ],
-      [ "TaskLock", "class_os_1_1_task_lock.html", "class_os_1_1_task_lock" ],
       [ "TaskString", "class_os_1_1_task_string.html", "class_os_1_1_task_string" ],
-      [ "ValidatedFile", "class_os_1_1_validated_file.html", "class_os_1_1_validated_file" ],
-      [ "WatchdogTimer", "class_os_1_1_watchdog_timer.html", "class_os_1_1_watchdog_timer" ]
+      [ "ValidatedFile", "class_os_1_1_validated_file.html", "class_os_1_1_validated_file" ]
     ] ],
     [ "Project", "namespace_project.html", [
       [ "Version", "struct_project_1_1_version.html", "struct_project_1_1_version" ]
@@ -352,7 +435,6 @@ var annotated_dup =
       [ "ComQueue", "class_svc_1_1_com_queue.html", "class_svc_1_1_com_queue" ],
       [ "ComSplitter", "class_svc_1_1_com_splitter.html", "class_svc_1_1_com_splitter" ],
       [ "ComStub", "class_svc_1_1_com_stub.html", "class_svc_1_1_com_stub" ],
-      [ "TimerVal", "class_svc_1_1_timer_val.html", "class_svc_1_1_timer_val" ],
       [ "Deframer", "class_svc_1_1_deframer.html", "class_svc_1_1_deframer" ],
       [ "DpCatalog", "class_svc_1_1_dp_catalog.html", "class_svc_1_1_dp_catalog" ],
       [ "DpManager", "class_svc_1_1_dp_manager.html", "class_svc_1_1_dp_manager" ],
@@ -394,13 +476,13 @@ var annotated_dup =
       [ "Option", "class_test_utils_1_1_option.html", "class_test_utils_1_1_option" ]
     ] ],
     [ "Types", "namespace_types.html", [
+      [ "MaxHeap", "class_types_1_1_max_heap.html", "class_types_1_1_max_heap" ],
       [ "CircularBuffer", "class_types_1_1_circular_buffer.html", "class_types_1_1_circular_buffer" ],
       [ "Queue", "class_types_1_1_queue.html", "class_types_1_1_queue" ]
     ] ],
     [ "Utils", "namespace_utils.html", [
       [ "Hash", "class_utils_1_1_hash.html", "class_utils_1_1_hash" ],
       [ "HashBuffer", "class_utils_1_1_hash_buffer.html", "class_utils_1_1_hash_buffer" ],
-      [ "LockGuard", "class_utils_1_1_lock_guard.html", "class_utils_1_1_lock_guard" ],
       [ "RateLimiter", "class_utils_1_1_rate_limiter.html", "class_utils_1_1_rate_limiter" ],
       [ "TokenBucket", "class_utils_1_1_token_bucket.html", "class_utils_1_1_token_bucket" ]
     ] ],
@@ -408,5 +490,6 @@ var annotated_dup =
     [ "PassiveRateGroupImpl", "class_passive_rate_group_impl.html", null ],
     [ "SHA256state_st", "struct_s_h_a256state__st.html", "struct_s_h_a256state__st" ],
     [ "SHA512state_st", "struct_s_h_a512state__st.html", "struct_s_h_a512state__st" ],
-    [ "SHAstate_st", "struct_s_h_astate__st.html", "struct_s_h_astate__st" ]
+    [ "SHAstate_st", "struct_s_h_astate__st.html", "struct_s_h_astate__st" ],
+    [ "TimeInterval", "class_time_interval.html", null ]
 ];

@@ -13,28 +13,31 @@ The standard patterns include:
 
 
 
+## Macro `skip_on_sub_build`:
+
+Skip this remaining code in the current function or file when executing in the context of a sub build. Sub builds
+execute utility and setup functions in fprime. However, certain CMake functions are not appropriate in this context
+and should be skipped.
+
+
 ## Macro `restrict_platforms`:
 
-Restricts a CMakeLists.txt file to a given list of platforms. This prevents usage on platforms for which the module
-is incapable of being used and replaces the historical pattern of an if-tree detecting unsupported platforms.
+Restricts a CMakeLists.txt file to a given list of supported platforms, toolchains, and features. This prevents
+usage on platforms/toolchains  for which the module is incapable of being used and replaces the historical pattern of
+an if-tree detecting unsupported platforms in most circumstances.
+
+Valid inputs include names of platforms (e.g. Linux), names of specific toolchains (e.g. aarch64-linux), and platform
+supported feature sets (e.g. SOCKETS, which inspects the FPRIME_HAS_SOCKETS flag).
 
 Usage:
    restrict_platforms(Linux Darwin) # Restricts to Linux and Darwin platforms
+       -or-
+   restrict_platforms(Posix) # Restricts to posix systems
+       -or-
+   restrict_platforms(SOCKETS) # Restricts to platforms where FPRIME_HAS_SOCKETS is TRUE
 
 Args:
   ARGN: list of platforms that are supported
-
-
-## Macro `prevent_prescan`:
-
-Prevents a CMakeLists.txt file from being processed in the prescan phase of the project. Will generate fake targets
-for all those targets specified to ensure that dependencies may be attached to these targets in the larger system.
-
-Usage:
-   prevent_prescan(target1 target2 ...) # Generate fake targets and skip prescan
-
-Args:
-  ARGN: list of targets to synthesize
 
 
 ## Function `add_fprime_subdirectory`:

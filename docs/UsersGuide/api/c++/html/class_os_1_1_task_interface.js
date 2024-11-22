@@ -4,6 +4,7 @@ var class_os_1_1_task_interface =
     [ "taskRoutine", "class_os_1_1_task_interface.html#ad309f951c51b85a885f8bfa218bace6e", null ],
     [ "State", "class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45", [
       [ "NOT_STARTED", "class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45ae8964b1cd6d6c6c4e72ac5f4740a8737", null ],
+      [ "STARTING", "class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a8e12359bdfca7cfbb68d3ce5c31a9011", null ],
       [ "RUNNING", "class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a48b9025fb8820cf2ae735ed6769c03ca", null ],
       [ "SUSPENDED_INTENTIONALLY", "class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45a54c8a8fd65462bb9bd52df1188e3e0bc", null ],
       [ "SUSPENDED_UNINTENTIONALLY", "class_os_1_1_task_interface.html#ab3dbca325ee42772311eb9a542144a45aceb80d595a1a01f763f54997aa7b54f4", null ],
@@ -30,8 +31,8 @@ var class_os_1_1_task_interface =
     [ "TaskInterface", "class_os_1_1_task_interface.html#a9d28d2d2b5016574c61fdea6664eb7d0", null ],
     [ "~TaskInterface", "class_os_1_1_task_interface.html#ac009412e20cbeaaacb0a94f09e9b216a", null ],
     [ "TaskInterface", "class_os_1_1_task_interface.html#a30f23455db67c86fbcee5ab20a213451", null ],
-    [ "delay", "class_os_1_1_task_interface.html#af5f1ddc384b1985c550458f643d72316", null ],
-    [ "getDelegate", "class_os_1_1_task_interface.html#a231451057c560f5466b30099928040e0", null ],
+    [ "_delay", "class_os_1_1_task_interface.html#aa49c545968cb923fb1292dcf167ed569", null ],
+    [ "getDelegate", "class_os_1_1_task_interface.html#aa95a4604d9b61868f3660f54568f9a14", null ],
     [ "getHandle", "class_os_1_1_task_interface.html#a12afb1c82d1a2131cea2df6d1e509466", null ],
     [ "isCooperative", "class_os_1_1_task_interface.html#adae636c8e6c92c0ecfe60f743b1e0452", null ],
     [ "join", "class_os_1_1_task_interface.html#a74a4ca3cd03099e4325ac92449d7d6f4", null ],

@@ -34,8 +34,8 @@ var _drv =
         [ "Drv::TcpServerSocket Class", "drv_ip.html#autotoc_md201", null ],
         [ "Example TcpServer Usage", "drv_ip.html#autotoc_md202", null ],
         [ "Drv::UdpSocket Class", "drv_ip.html#autotoc_md203", null ],
-        [ "Drv::SocketReadTask Virtual Baseclass", "drv_ip.html#autotoc_md204", [
-          [ "Drv::SocketReadTask Inheritance", "drv_ip.html#autotoc_md205", null ]
+        [ "Drv::SocketComponentHelper Virtual Baseclass", "drv_ip.html#autotoc_md204", [
+          [ "Drv::SocketComponentHelper Inheritance", "drv_ip.html#autotoc_md205", null ]
         ] ],
         [ "Further Information", "drv_ip.html#autotoc_md206", null ]
       ] ]

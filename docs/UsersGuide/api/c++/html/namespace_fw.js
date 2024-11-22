@@ -2,8 +2,19 @@ var namespace_fw =
 [
     [ "DpCfg", "namespace_fw_1_1_dp_cfg.html", "namespace_fw_1_1_dp_cfg" ],
     [ "StringUtils", "namespace_fw_1_1_string_utils.html", [
+      [ "StringToNumberStatus", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93", [
+        [ "SUCCESSFUL_CONVERSION", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93aa6bfd9e3533a4b0c6423d6a1110ebdbc", null ],
+        [ "NULL_INPUT", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93aab8637f2c7b1c3a4112c191ef51cee4a", null ],
+        [ "INVALID_STRING", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93af2a018445190491755947dacb7e99060", null ],
+        [ "INVALID_BASE", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93a4e57b22fb6e52ed4129d91b6abac8cd5", null ],
+        [ "INVALID_NUMBER", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93aac829b3c14e39a1d9dcc2d2e56619411", null ],
+        [ "INVALID_RANGE", "namespace_fw_1_1_string_utils.html#a5eae294d141e5bb6028271a51c324a93ab9a177442c5438a168b9f011d59fe7be", null ]
+      ] ],
       [ "string_copy", "namespace_fw_1_1_string_utils.html#a84e222d75f681cdc41eba1fca43b0369", null ],
-      [ "string_length", "namespace_fw_1_1_string_utils.html#a45ee50c4e7384bd94639e62c12128dab", null ],
+      [ "string_length", "namespace_fw_1_1_string_utils.html#a5e5ebbd6f1c4f9a94675042cd1b8de76", null ],
+      [ "string_to_number", "namespace_fw_1_1_string_utils.html#a6a819393472dca5bd6eaf57f3c3d7cb1", null ],
+      [ "string_to_number", "namespace_fw_1_1_string_utils.html#a4cfc0536c8f7ecc3184b83f08a44dffa", null ],
+      [ "string_to_number", "namespace_fw_1_1_string_utils.html#a816806884e46c2138a6dabdcf00a58d5", null ],
       [ "substring_find", "namespace_fw_1_1_string_utils.html#abf12f8d48f9fc00e2ddeecdf0c3ce3b0", null ]
     ] ],
     [ "InputBufferGetPort", "class_fw_1_1_input_buffer_get_port.html", "class_fw_1_1_input_buffer_get_port" ],
@@ -40,6 +51,8 @@ var namespace_fw =
     [ "OutputPrmGetPort", "class_fw_1_1_output_prm_get_port.html", "class_fw_1_1_output_prm_get_port" ],
     [ "InputPrmSetPort", "class_fw_1_1_input_prm_set_port.html", "class_fw_1_1_input_prm_set_port" ],
     [ "OutputPrmSetPort", "class_fw_1_1_output_prm_set_port.html", "class_fw_1_1_output_prm_set_port" ],
+    [ "InputTimeIntervalPort", "class_fw_1_1_input_time_interval_port.html", "class_fw_1_1_input_time_interval_port" ],
+    [ "OutputTimeIntervalPort", "class_fw_1_1_output_time_interval_port.html", "class_fw_1_1_output_time_interval_port" ],
     [ "InputTimePort", "class_fw_1_1_input_time_port.html", "class_fw_1_1_input_time_port" ],
     [ "OutputTimePort", "class_fw_1_1_output_time_port.html", "class_fw_1_1_output_time_port" ],
     [ "InputTlmGetPort", "class_fw_1_1_input_tlm_get_port.html", "class_fw_1_1_input_tlm_get_port" ],
@@ -84,6 +97,7 @@ var namespace_fw =
     [ "SerializableFile", "class_fw_1_1_serializable_file.html", "class_fw_1_1_serializable_file" ],
     [ "SmSignalBuffer", "class_fw_1_1_sm_signal_buffer.html", "class_fw_1_1_sm_signal_buffer" ],
     [ "Time", "class_fw_1_1_time.html", "class_fw_1_1_time" ],
+    [ "TimeInterval", "class_fw_1_1_time_interval.html", "class_fw_1_1_time_interval" ],
     [ "TlmBuffer", "class_fw_1_1_tlm_buffer.html", "class_fw_1_1_tlm_buffer" ],
     [ "TlmPacket", "class_fw_1_1_tlm_packet.html", "class_fw_1_1_tlm_packet" ],
     [ "TlmString", "class_fw_1_1_tlm_string.html", "class_fw_1_1_tlm_string" ],

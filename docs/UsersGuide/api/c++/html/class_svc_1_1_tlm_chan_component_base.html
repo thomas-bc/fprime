@@ -115,9 +115,9 @@ Inheritance diagram for Svc::TlmChanComponentBase:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ace2cd83682cc4e8a5f731d9cad0571cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_svc_1_1_tlm_chan_component_base.html#ace2cd83682cc4e8a5f731d9cad0571cd">init</a> (<a class="el" href="fp_config_8h.html#a650109ee80570ce79189348fd28dc556">FwQueueSizeType</a> queueDepth, <a class="el" href="fp_config_8h.html#a02fd22e959ed6b754f408bbcf608fc53">FwEnumStoreType</a> instance=0)</td></tr>
-<tr class="memdesc:ace2cd83682cc4e8a5f731d9cad0571cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize <a class="el" href="class_svc_1_1_tlm_chan_component_base.html" title="Auto-generated base for TlmChan component.">TlmChanComponentBase</a> object.  <a href="class_svc_1_1_tlm_chan_component_base.html#ace2cd83682cc4e8a5f731d9cad0571cd">More...</a><br /></td></tr>
-<tr class="separator:ace2cd83682cc4e8a5f731d9cad0571cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c2515f5d23df5b9c5283cbafddad2c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a0c2515f5d23df5b9c5283cbafddad2c4">init</a> (<a class="el" href="fp_config_8h.html#a924ef0ded73e6ec8a0a0b55e9e555fc4">FwSizeType</a> queueDepth, <a class="el" href="fp_config_8h.html#a02fd22e959ed6b754f408bbcf608fc53">FwEnumStoreType</a> instance=0)</td></tr>
+<tr class="memdesc:a0c2515f5d23df5b9c5283cbafddad2c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize <a class="el" href="class_svc_1_1_tlm_chan_component_base.html" title="Auto-generated base for TlmChan component.">TlmChanComponentBase</a> object.  <a href="class_svc_1_1_tlm_chan_component_base.html#a0c2515f5d23df5b9c5283cbafddad2c4">More...</a><br /></td></tr>
+<tr class="separator:a0c2515f5d23df5b9c5283cbafddad2c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acba64941e3fea2144f6f70768c981656"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_svc_1_1_input_sched_port.html">Svc::InputSchedPort</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_svc_1_1_tlm_chan_component_base.html#acba64941e3fea2144f6f70768c981656">get_Run_InputPort</a> (<a class="el" href="fp_config_8h.html#ae749c35cd3698820ac4e0182efa2ac4e">FwIndexType</a> portNum)</td></tr>
 <tr class="separator:acba64941e3fea2144f6f70768c981656"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacff2ea0a19d97b0c724842c58ae15b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fw_1_1_input_tlm_get_port.html">Fw::InputTlmGetPort</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_svc_1_1_tlm_chan_component_base.html#aacff2ea0a19d97b0c724842c58ae15b1">get_TlmGet_InputPort</a> (<a class="el" href="fp_config_8h.html#ae749c35cd3698820ac4e0182efa2ac4e">FwIndexType</a> portNum)</td></tr>
@@ -154,18 +154,18 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-types"></a>
 Protected Types</h2></td></tr>
-<tr class="memitem:a836918c228ae82b4100781c3c36394e0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a836918c228ae82b4100781c3c36394e0a1d04c9f36969526667f0481d9ee2965f">NUM_RUN_INPUT_PORTS</a> = 1
-, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a836918c228ae82b4100781c3c36394e0ae2cf899776da8718eb258649df979429">NUM_TLMGET_INPUT_PORTS</a> = 1
-, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a836918c228ae82b4100781c3c36394e0a5178896dd14fe3b657d6e53dd3b619b5">NUM_TLMRECV_INPUT_PORTS</a> = 1
-, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a836918c228ae82b4100781c3c36394e0a048c1a3b14ba69ac78d8cad615137f09">NUM_PINGIN_INPUT_PORTS</a> = 1
+<tr class="memitem:ad46504c74c82a781a4de14478c5cd961"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#ad46504c74c82a781a4de14478c5cd961a1d04c9f36969526667f0481d9ee2965f">NUM_RUN_INPUT_PORTS</a> = 1
+, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#ad46504c74c82a781a4de14478c5cd961ae2cf899776da8718eb258649df979429">NUM_TLMGET_INPUT_PORTS</a> = 1
+, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#ad46504c74c82a781a4de14478c5cd961a5178896dd14fe3b657d6e53dd3b619b5">NUM_TLMRECV_INPUT_PORTS</a> = 1
+, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#ad46504c74c82a781a4de14478c5cd961a048c1a3b14ba69ac78d8cad615137f09">NUM_PINGIN_INPUT_PORTS</a> = 1
  }</td></tr>
-<tr class="memdesc:a836918c228ae82b4100781c3c36394e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerations for numbers of typed input ports.  <a href="class_svc_1_1_tlm_chan_component_base.html#a836918c228ae82b4100781c3c36394e0">More...</a><br /></td></tr>
-<tr class="separator:a836918c228ae82b4100781c3c36394e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c96189b1030e63ee050e53060d1255e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a3c96189b1030e63ee050e53060d1255ea041699dd7f96fb037bac97a0f23ecc5b">NUM_PKTSEND_OUTPUT_PORTS</a> = 1
-, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#a3c96189b1030e63ee050e53060d1255ea9437aa3ab6cd9f23ebce5cedb240eb5c">NUM_PINGOUT_OUTPUT_PORTS</a> = 1
+<tr class="memdesc:ad46504c74c82a781a4de14478c5cd961"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerations for numbers of typed input ports.  <a href="class_svc_1_1_tlm_chan_component_base.html#ad46504c74c82a781a4de14478c5cd961">More...</a><br /></td></tr>
+<tr class="separator:ad46504c74c82a781a4de14478c5cd961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfdf4c53643a5f6abcfdabd77f9261b3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#abfdf4c53643a5f6abcfdabd77f9261b3a041699dd7f96fb037bac97a0f23ecc5b">NUM_PKTSEND_OUTPUT_PORTS</a> = 1
+, <a class="el" href="class_svc_1_1_tlm_chan_component_base.html#abfdf4c53643a5f6abcfdabd77f9261b3a9437aa3ab6cd9f23ebce5cedb240eb5c">NUM_PINGOUT_OUTPUT_PORTS</a> = 1
  }</td></tr>
-<tr class="memdesc:a3c96189b1030e63ee050e53060d1255e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerations for numbers of typed output ports.  <a href="class_svc_1_1_tlm_chan_component_base.html#a3c96189b1030e63ee050e53060d1255e">More...</a><br /></td></tr>
-<tr class="separator:a3c96189b1030e63ee050e53060d1255e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:abfdf4c53643a5f6abcfdabd77f9261b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerations for numbers of typed output ports.  <a href="class_svc_1_1_tlm_chan_component_base.html#abfdf4c53643a5f6abcfdabd77f9261b3">More...</a><br /></td></tr>
+<tr class="separator:abfdf4c53643a5f6abcfdabd77f9261b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_types_class_fw_1_1_active_component_base"><td colspan="2" onclick="javascript:toggleInherit('pro_types_class_fw_1_1_active_component_base')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="class_fw_1_1_active_component_base.html">Fw::ActiveComponentBase</a></td></tr>
 <tr class="memitem:a3dfb91f3c6ae34b76d0c179eabcac267 inherit pro_types_class_fw_1_1_active_component_base"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fw_1_1_active_component_base.html#a3dfb91f3c6ae34b76d0c179eabcac267">Lifecycle</a> { <a class="el" href="class_fw_1_1_active_component_base.html#a3dfb91f3c6ae34b76d0c179eabcac267a7cd897baa9095ba9a9188f7a4670c612">CREATED</a>
 , <a class="el" href="class_fw_1_1_active_component_base.html#a3dfb91f3c6ae34b76d0c179eabcac267a75df35956ece82cfaab33d2f1352314f">DISPATCHING</a>
@@ -270,8 +270,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a494e9feb883911562c112b4687f654a4 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fw_1_1_queued_component_base.html#a494e9feb883911562c112b4687f654a4">init</a> (<a class="el" href="basic_types_8h.html#a424190609c8e1ad106ae33173cf29416">NATIVE_INT_TYPE</a> instance)</td></tr>
 <tr class="memdesc:a494e9feb883911562c112b4687f654a4 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialization function  <a href="class_fw_1_1_queued_component_base.html#a494e9feb883911562c112b4687f654a4">More...</a><br /></td></tr>
 <tr class="separator:a494e9feb883911562c112b4687f654a4 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a7fac3d50b52aec1c9179e6f0885eb9 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_os_1_1_queue.html#a0c0ecc2d5d5be2f2f3f0ed94672f778b">Os::Queue::QueueStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fw_1_1_queued_component_base.html#a1a7fac3d50b52aec1c9179e6f0885eb9">createQueue</a> (<a class="el" href="basic_types_8h.html#a424190609c8e1ad106ae33173cf29416">NATIVE_INT_TYPE</a> depth, <a class="el" href="basic_types_8h.html#a424190609c8e1ad106ae33173cf29416">NATIVE_INT_TYPE</a> msgSize)</td></tr>
-<tr class="separator:a1a7fac3d50b52aec1c9179e6f0885eb9 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54a485205534856b4be37cb69b4447a4 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_os_1_1_queue_interface.html#a91316813bd24efbd08f841c5dbc3d3b1">Os::Queue::Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fw_1_1_queued_component_base.html#a54a485205534856b4be37cb69b4447a4">createQueue</a> (<a class="el" href="fp_config_8h.html#a924ef0ded73e6ec8a0a0b55e9e555fc4">FwSizeType</a> depth, <a class="el" href="fp_config_8h.html#a924ef0ded73e6ec8a0a0b55e9e555fc4">FwSizeType</a> msgSize)</td></tr>
+<tr class="separator:a54a485205534856b4be37cb69b4447a4 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae93d7c1cd7a1383c55b074c7666c276 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memItemLeft" align="right" valign="top"><a class="el" href="basic_types_8h.html#a424190609c8e1ad106ae33173cf29416">NATIVE_INT_TYPE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fw_1_1_queued_component_base.html#aae93d7c1cd7a1383c55b074c7666c276">getNumMsgsDropped</a> ()</td></tr>
 <tr class="memdesc:aae93d7c1cd7a1383c55b074c7666c276 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">return number of messages dropped  <a href="class_fw_1_1_queued_component_base.html#aae93d7c1cd7a1383c55b074c7666c276">More...</a><br /></td></tr>
 <tr class="separator:aae93d7c1cd7a1383c55b074c7666c276 inherit pro_methods_class_fw_1_1_queued_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -310,9 +310,9 @@ Friends</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_class_fw_1_1_active_component_base"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_fw_1_1_active_component_base')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_fw_1_1_active_component_base.html">Fw::ActiveComponentBase</a></td></tr>
-<tr class="memitem:a9e797352e3c29b2bd7dfd51ad04e02c0 inherit pub_types_class_fw_1_1_active_component_base"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_fw_1_1_active_component_base.html#a9e797352e3c29b2bd7dfd51ad04e02c0a8cc33621180816a11dbda2e55c379266">ACTIVE_COMPONENT_EXIT</a>
+<tr class="memitem:a2fd96d737b9077d17bba36915ac53f11 inherit pub_types_class_fw_1_1_active_component_base"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_fw_1_1_active_component_base.html#a2fd96d737b9077d17bba36915ac53f11a8cc33621180816a11dbda2e55c379266">ACTIVE_COMPONENT_EXIT</a>
  }</td></tr>
-<tr class="separator:a9e797352e3c29b2bd7dfd51ad04e02c0 inherit pub_types_class_fw_1_1_active_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a2fd96d737b9077d17bba36915ac53f11 inherit pub_types_class_fw_1_1_active_component_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_class_fw_1_1_queued_component_base"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_fw_1_1_queued_component_base')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_fw_1_1_queued_component_base.html">Fw::QueuedComponentBase</a></td></tr>
 <tr class="memitem:a949fc72adb06a376aef83acc97943681 inherit pub_types_class_fw_1_1_queued_component_base"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fw_1_1_queued_component_base.html#a949fc72adb06a376aef83acc97943681">MsgDispatchStatus</a> { <a class="el" href="class_fw_1_1_queued_component_base.html#a949fc72adb06a376aef83acc97943681a5c17c4ed3bbbb8eada20779e00d654e6">MSG_DISPATCH_OK</a>
 , <a class="el" href="class_fw_1_1_queued_component_base.html#a949fc72adb06a376aef83acc97943681a0ba0a687333fa183843874e453cd2a1e">MSG_DISPATCH_EMPTY</a>
@@ -335,8 +335,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="tlm_chan_component_ac_8hpp_source.html#l00027">27</a> of file <a class="el" href="tlm_chan_component_ac_8hpp_source.html">TlmChanComponentAc.hpp</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a836918c228ae82b4100781c3c36394e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a836918c228ae82b4100781c3c36394e0">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="ad46504c74c82a781a4de14478c5cd961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad46504c74c82a781a4de14478c5cd961">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -357,18 +357,18 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Enumerations for numbers of typed input ports. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a836918c228ae82b4100781c3c36394e0a1d04c9f36969526667f0481d9ee2965f"></a>NUM_RUN_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a836918c228ae82b4100781c3c36394e0ae2cf899776da8718eb258649df979429"></a>NUM_TLMGET_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a836918c228ae82b4100781c3c36394e0a5178896dd14fe3b657d6e53dd3b619b5"></a>NUM_TLMRECV_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a836918c228ae82b4100781c3c36394e0a048c1a3b14ba69ac78d8cad615137f09"></a>NUM_PINGIN_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad46504c74c82a781a4de14478c5cd961a1d04c9f36969526667f0481d9ee2965f"></a>NUM_RUN_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad46504c74c82a781a4de14478c5cd961ae2cf899776da8718eb258649df979429"></a>NUM_TLMGET_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad46504c74c82a781a4de14478c5cd961a5178896dd14fe3b657d6e53dd3b619b5"></a>NUM_TLMRECV_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad46504c74c82a781a4de14478c5cd961a048c1a3b14ba69ac78d8cad615137f09"></a>NUM_PINGIN_INPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="tlm_chan_component_ac_8hpp_source.html#l00045">45</a> of file <a class="el" href="tlm_chan_component_ac_8hpp_source.html">TlmChanComponentAc.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a3c96189b1030e63ee050e53060d1255e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c96189b1030e63ee050e53060d1255e">&#9670;&nbsp;</a></span>anonymous enum</h2>
+<a id="abfdf4c53643a5f6abcfdabd77f9261b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfdf4c53643a5f6abcfdabd77f9261b3">&#9670;&nbsp;</a></span>anonymous enum</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -389,8 +389,8 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Enumerations for numbers of typed output ports. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3c96189b1030e63ee050e53060d1255ea041699dd7f96fb037bac97a0f23ecc5b"></a>NUM_PKTSEND_OUTPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a3c96189b1030e63ee050e53060d1255ea9437aa3ab6cd9f23ebce5cedb240eb5c"></a>NUM_PINGOUT_OUTPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="abfdf4c53643a5f6abcfdabd77f9261b3a041699dd7f96fb037bac97a0f23ecc5b"></a>NUM_PKTSEND_OUTPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="abfdf4c53643a5f6abcfdabd77f9261b3a9437aa3ab6cd9f23ebce5cedb240eb5c"></a>NUM_PINGOUT_OUTPUT_PORTS&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="tlm_chan_component_ac_8hpp_source.html#l00053">53</a> of file <a class="el" href="tlm_chan_component_ac_8hpp_source.html">TlmChanComponentAc.hpp</a>.</p>
@@ -750,8 +750,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ace2cd83682cc4e8a5f731d9cad0571cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace2cd83682cc4e8a5f731d9cad0571cd">&#9670;&nbsp;</a></span>init()</h2>
+<a id="a0c2515f5d23df5b9c5283cbafddad2c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c2515f5d23df5b9c5283cbafddad2c4">&#9670;&nbsp;</a></span>init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -759,7 +759,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void Svc::TlmChanComponentBase::init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="fp_config_8h.html#a650109ee80570ce79189348fd28dc556">FwQueueSizeType</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="fp_config_8h.html#a924ef0ded73e6ec8a0a0b55e9e555fc4">FwSizeType</a>&#160;</td>
           <td class="paramname"><em>queueDepth</em>, </td>
         </tr>
         <tr>

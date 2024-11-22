@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['watchdogcb_7807',['WatchdogCb',['../class_os_1_1_watchdog_timer.html#a7c07a80839a4e8158a8b7105af8115e8',1,'Os::WatchdogTimer']]]
+  ['rawtimehandlestorage_7996',['RawTimeHandleStorage',['../os_8hpp.html#a0bdf678eacdce8c0c88770ff485ae946',1,'Os.hpp']]]
 ];
