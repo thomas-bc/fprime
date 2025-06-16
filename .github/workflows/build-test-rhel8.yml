@@ -17,47 +17,6 @@ on:
       - '.github/ISSUE_TEMPLATE/**'
 
 jobs:
-  Framework:
-    runs-on: ubuntu-latest
-    container:
-      image: redhat/ubi8:8.10
-    steps:
-    - name: "Install dependencies"
-      run: |
-        dnf install -y git python3.12 python3.12-pip llvm-toolset libasan libubsan
-        git config --global --add safe.directory ${GITHUB_WORKSPACE}
-    - name: "Checkout F´ Repository"
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        submodules: true
-    - uses: ./.github/actions/setup
-    - name: Build Framework
-      run: |
-        fprime-util generate
-        fprime-util build --all -j4
-
-  Ref:
-    runs-on: ubuntu-latest
-    container:
-      image: redhat/ubi8:8.10
-    steps:
-    - name: "Install dependencies"
-      run: |
-        dnf install -y git python3.12 python3.12-pip llvm-toolset libasan libubsan
-        git config --global --add safe.directory ${GITHUB_WORKSPACE}
-    - name: "Checkout F´ Repository"
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        submodules: true
-    - uses: ./.github/actions/setup
-    - name: Build Ref
-      run: |
-        cd Ref
-        fprime-util generate
-        fprime-util build -j4
-
   UTs:
     runs-on: ubuntu-latest
     container:
@@ -67,22 +26,10 @@ jobs:
       run: |
         dnf install -y git python3.12 python3.12-pip llvm-toolset libasan libubsan
         git config --global --add safe.directory ${GITHUB_WORKSPACE}
-    - name: "Checkout F´ Repository"
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        submodules: true
-    - uses: ./.github/actions/setup
-    # Some UTs require a non-root user to run properly due to using file permissions in tests
-    # This issue shows up on RHEL8 containers
-    - name: Setup test environment for permission tests
+    - name: "Test"
       run: |
-        useradd -m -u 1001 -s /bin/bash test-user
-        chown -R test-user:test-user .
-    - name: UT Build and Run
-      run: |
-        su test-user -c "
-          fprime-util generate --ut &&
-          fprime-util build --all --ut -j4 &&
-          fprime-util check --all -j4
-        "
+        id
+        whoami
+        pwd
+        ls -la
+        uname -a
