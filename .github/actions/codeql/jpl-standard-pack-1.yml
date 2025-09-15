@@ -10,3 +10,7 @@ query-filters:
   - exclude:
       problem.severity:
         - recommendation
+  # We exclude this query because it generates too much noise
+  - exclude:
+      id:
+        - cpp/jpl-c/checking-parameter-values
