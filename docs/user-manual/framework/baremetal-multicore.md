@@ -64,7 +64,7 @@ by a timer-driven interrupt service routine (ISR).
 > [!NOTE]
 > ISRs are complex items and should be studied in detail before going this route. Notably, the ISR should not execute the rate group directly, but rather should set a flag or queue a start message and allow the `while (true) {}` spin in the main loop to detect this signal and start the rate groups.
 
-For practical implementation suggestions including timer-driven execution, see [Implementation Suggestions](../design-patterns/baremetal.md#implementation-suggestions).
+For practical implementation suggestions including timer-driven execution, see [Implementation Suggestions](../design-patterns/baremetal.md#implementation-suggestions). For a complete guide on implementing ISR-based device drivers, see the [ISR-Based Device Driver Pattern](../design-patterns/isr-driver.md).
 
 ## Multi-Core and Multi-Device Systems
 

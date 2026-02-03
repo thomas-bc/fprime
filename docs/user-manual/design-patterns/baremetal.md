@@ -12,7 +12,7 @@ The baremetal pattern enables F´ applications to run on processors without an o
 - There is no software provided to run processes or threads
 - Resources are usually constrained (RAM, storage)
 - There is one point of entry
-- Interrupt service routines (ISR) can be used
+- Interrupt service routines (ISR) can be used (see [ISR-Based Device Driver Pattern](isr-driver.md))
 - Examples include Arduino and STM32 microcontrollers
 
 ## F´ and Baremetal
