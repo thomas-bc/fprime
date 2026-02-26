@@ -62,7 +62,7 @@ void ApidManager::setNextSeqCount(ComCfg::Apid::T apid, U16 seqCount) {
     FW_ASSERT(status == Fw::Success::SUCCESS, static_cast<FwAssertArgType>(apid));
 }
 
-U16 ApidManager::calculateNextSeqCount(U16 seqCount) {
+U16 ApidManager::calculateNextSeqCount(const U16 seqCount) const {
     return static_cast<U16>((seqCount + 1) % (1 << SpacePacketSubfields::SeqCountWidth));
 }
 

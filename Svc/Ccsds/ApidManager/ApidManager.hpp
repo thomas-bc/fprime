@@ -76,7 +76,7 @@ class ApidManager final : public ApidManagerComponentBase {
     void setNextSeqCount(ComCfg::Apid::T apid, U16 seqCount);
 
     //! Helper function for wrapping around at 14 bits when calculating the next sequence count
-    U16 calculateNextSeqCount(U16 seqCount);
+    U16 calculateNextSeqCount(const U16 seqCount) const;
 
   private:
     // ----------------------------------------------------------------------
