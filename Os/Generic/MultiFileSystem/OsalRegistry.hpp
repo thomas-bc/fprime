@@ -28,14 +28,14 @@ struct OsalImplSet {
     FileSystemInterface* filesystem = nullptr;  //!< FileSystem interface
 
     //! \brief Factory function for creating File interface instances via placement-new
-    //! \param storage: aligned storage buffer to construct into
+    //! \param storage: aligned storage buffer to construct into (uses half-size for nesting)
     //! \return pointer to constructed FileInterface within storage
-    FileInterface* (*file_factory)(FileHandleStorage2& storage) = nullptr;
+    FileInterface* (*file_factory)(FileHandleStorageNested& storage) = nullptr;
 
     //! \brief Factory function for creating Directory interface instances via placement-new
-    //! \param storage: aligned storage buffer to construct into
+    //! \param storage: aligned storage buffer to construct into (uses half-size for nesting)
     //! \return pointer to constructed DirectoryInterface within storage
-    DirectoryInterface* (*directory_factory)(DirectoryHandleStorage2& storage) = nullptr;
+    DirectoryInterface* (*directory_factory)(DirectoryHandleStorageNested& storage) = nullptr;
 };
 
 struct OsalImplMapping {

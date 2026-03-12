@@ -89,7 +89,8 @@ MultiFileSystem::Status MultiFileSystem::_getFreeSpace(const char* path,
 }
 
 FileSystemHandle* MultiFileSystem::getHandle() {
-    return &this->m_handle;
+    // MultiFileSystem has no handle - all operations route to sub-implementations
+    return nullptr;
 }
 
 MultiFileSystem::Status MultiFileSystem::_getPathType(const char* path, PathType& pathType) {

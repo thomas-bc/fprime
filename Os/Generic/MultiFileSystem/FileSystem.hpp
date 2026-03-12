@@ -19,9 +19,6 @@ struct MultiFileSystemHandle : public FileSystemHandle {};
 //! operations.
 //!
 class MultiFileSystem : public FileSystemInterface {
-  private:
-    static constexpr FwSizeType MAX_FILESYSTEMS = 4;
-
   public:
     //! \brief constructor
     MultiFileSystem() = default;
@@ -107,10 +104,6 @@ class MultiFileSystem : public FileSystemInterface {
     //! \param path The path to check
     //! \return PathType of the path
     Status _getPathType(const char* path, PathType& pathType) override;
-
-  private:
-    //! FileSystem handle for MultiFileSystem
-    MultiFileSystemHandle m_handle;
 
 };  // class MultiFileSystem
 

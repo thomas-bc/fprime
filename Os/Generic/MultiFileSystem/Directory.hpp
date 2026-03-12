@@ -90,15 +90,13 @@ class MultiDirectory : public DirectoryInterface {
     // Private member variables
     // ------------------------------------------------------------
 
-    //! Directory handle for MultiDirectory
-    MultiDirectoryHandle m_handle;
-
     //! Pointer to the underlying DirectoryInterface implementation
     //! This is populated when open() is called and stored for use in subsequent calls
     DirectoryInterface* m_directory_sub_delegate = nullptr;
 
-    //! Storage for placement-new of sub-delegate DirectoryInterface implementation
-    alignas(FW_HANDLE_ALIGNMENT) DirectoryHandleStorage2 m_sub_delegate_storage;
+    //! Storage for sub-delegate DirectoryInterface implementation
+    //! Uses DirectoryHandleStorageNested (half-size) to allow MultiDirectory to fit within DirectoryHandleStorage
+    alignas(FW_HANDLE_ALIGNMENT) DirectoryHandleStorageNested m_sub_delegate_storage;
 
 };  // class MultiDirectory
 

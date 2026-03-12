@@ -19,6 +19,13 @@ typedef U8 CpuHandleStorage[FW_CPU_HANDLE_MAX_SIZE];
 typedef U8 MemoryHandleStorage[FW_MEMORY_HANDLE_MAX_SIZE];
 typedef U8 RawTimeHandleStorage[FW_RAW_TIME_HANDLE_MAX_SIZE];
 
+//! TODO: move to Os/Generic
+
+//! \brief Storage for nested FileInterface delegates (e.g., MultiFileSystem)
+typedef U8 FileHandleStorageNested[FW_FILE_HANDLE_MAX_SIZE / 2];
+//! \brief Storage for nested DirectoryInterface delegates (e.g., MultiFileSystem)
+typedef U8 DirectoryHandleStorageNested[FW_DIRECTORY_HANDLE_MAX_SIZE / 2];
+
 namespace Os {
 namespace Generic {
 //! Generic OK/ERROR status

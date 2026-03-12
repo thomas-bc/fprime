@@ -154,14 +154,13 @@ class MultiFile : public FileInterface {
     // Private member variables
     // ------------------------------------------------------------
 
-    //! File handle for MultiFile
-    MultiFileHandle m_handle;
-
     //! Pointer to the underlying FileInterface implementation
     //! This is populated when open() is called and stored for use in subsequent calls
     FileInterface* m_file_sub_delegate = nullptr;
 
-    alignas(FW_HANDLE_ALIGNMENT) FileHandleStorage2 m_sub_delegate_storage;  //!< Storage for aligned FileHandle data
+    //! Storage for sub-delegate FileInterface implementation
+    //! Uses FileHandleStorageNested (half-size) to allow MultiFile to fit within FileHandleStorage
+    alignas(FW_HANDLE_ALIGNMENT) FileHandleStorageNested m_sub_delegate_storage;
 
 };  // class MultiFile
 

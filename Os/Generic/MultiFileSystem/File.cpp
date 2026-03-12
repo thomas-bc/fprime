@@ -14,6 +14,13 @@ MultiFile::MultiFile(const MultiFile& other) : m_file_sub_delegate(other.m_file_
     // NOTE: m_handle is just a container; the actual file operations
     // are delegated to m_file_sub_delegate
     // Should m_file_sub_delegate be INSIDE m_handle ??
+
+    // NOTE:
+    // Generally have a weird feeling where I'm re-implementing most of the architecture/concept of the lower-level
+    // OSAL architecutre, but re-implementing here myself. See e.g.:
+    // - FileHandleStorage2
+    // - Factory functions / makeDelegate
+    // - testing; I want to test the "interface" just like in StubFile tests
 }
 
 // Assignment operator - delegates to the underlying file interface
@@ -112,7 +119,10 @@ MultiFile::Status MultiFile::write(const U8* buffer, FwSizeType& size, WaitType 
 }
 
 FileHandle* MultiFile::getHandle() {
-    return &this->m_handle;
+    if (this->m_file_sub_delegate != nullptr) {
+        return this->m_file_sub_delegate->getHandle();
+    }
+    return nullptr;
 }
 
 }  // namespace Generic

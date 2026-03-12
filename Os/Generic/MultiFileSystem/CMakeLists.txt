@@ -23,11 +23,11 @@ register_fprime_module(
 # )
 
 # register_fprime_ut(
-#     MultiFileSystemTest
+#     MultiDirectoryTest
 #   SOURCES
-#     "${CMAKE_CURRENT_LIST_DIR}/test/ut/MultiFileSystemTests.cpp"
-#     "${CMAKE_CURRENT_LIST_DIR}/../test/ut/filesystem/CommonTests.cpp"
-#     "${CMAKE_CURRENT_LIST_DIR}/../test/ut/filesystem/FilesystemRules.cpp"
+#     "${CMAKE_CURRENT_LIST_DIR}/test/ut/MultiDirectoryTests.cpp"
+#     "${CMAKE_CURRENT_LIST_DIR}/../../test/ut/directory/CommonTests.cpp"
+#     "${CMAKE_CURRENT_LIST_DIR}/../../test/ut/directory/FilesystemRules.cpp"
 #   DEPENDS
 #     Fw_Types
 #     Fw_Time

@@ -11,7 +11,7 @@ namespace Generic {
 // Copy constructor - delegates to the underlying directory interface
 MultiDirectory::MultiDirectory(const MultiDirectory& other) : m_directory_sub_delegate(other.m_directory_sub_delegate) {
     // TODO?
-    // Note: m_handle is just a container; the actual directory operations
+    // NOTE: m_handle is just a container; the actual directory operations
     // are delegated to m_directory_sub_delegate
 }
 
@@ -78,7 +78,10 @@ MultiDirectory::Status MultiDirectory::read(char* fileNameBuffer, FwSizeType buf
 }
 
 DirectoryHandle* MultiDirectory::getHandle() {
-    return &this->m_handle;
+    if (this->m_directory_sub_delegate != nullptr) {
+        return this->m_directory_sub_delegate->getHandle();
+    }
+    return nullptr;
 }
 
 }  // namespace Generic
