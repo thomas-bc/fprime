@@ -48,9 +48,9 @@ struct OsalImplSet {
 };
 
 struct OsalImplMapping {
-    // + 1 for null terminator
-    const char path_prefix[MAX_MULTIFS_PATH_PREFIX_LENGTH] = {};  //!< Path prefix to match for routing
-    OsalImplSet* impl_set = nullptr;                              //!< Backing implementation set to route to
+    // + 1 for null terminator ???
+    const char mount_path[MAX_MULTIFS_PATH_PREFIX_LENGTH] = {};  //!< Path prefix to match for routing
+    OsalImplSet* impl_set = nullptr;                             //!< Backing implementation set to route to
 };
 
 //! \brief Registry for managing multiple OSAL backing implementation sets
@@ -73,16 +73,18 @@ class OsalRegistry {
     //! the default filesystem.
     //!
     //! \param implementation The backing implementation set to register
-    //! \param path_prefix The path prefix to use for routing to this implementation
-    //! \return RegistryStatus::SUCCESS if successfully registered, RegistryStatus::INVALID_PATH if incomplete,
+    //! \param mount_path The path prefix to use for routing to this implementation
+    //! \return RegistryStatus::SUCCESS if successfully registered, RegistryStatus::OTHER_ERROR if incomplete,
     //!         RegistryStatus::OTHER_ERROR if registry is full
-    static RegistryStatus registerImplementation(OsalImplMapping* implementation_map);
+    static RegistryStatus registerMountedImplementation(OsalImplMapping* implementation_map);
+
+    static RegistryStatus registerRootImplementation(OsalImplSet* impl_set);
 
     //! \brief Route a path to the appropriate backing implementation set
     //!
     //! Routes a path to the appropriate backing implementation set based on the path prefix.
     //! Special prefixes like "/Z" route to specific backing implementation sets, otherwise the
-    //! default backing implementation set (first registered) is used.
+    //! root backing implementation set is used.
     //!
     //! It is invalid to pass `nullptr` as the path.
     //!
@@ -92,7 +94,10 @@ class OsalRegistry {
     static OsalImplSet* routePathToImplementation(const char* path, FwIndexType& prefix_len);
 
   private:
-    //! Array of registered backing implementation sets
+    //! Pointer to root (default) backing implementation
+    static OsalImplSet* s_rootImplSet;
+
+    //! Array of registered backing implementation sets with their mount paths
     static Fw::Array<OsalImplMapping*, MAX_FILESYSTEMS> s_implMappings;
 
 };  // class OsalRegistry
