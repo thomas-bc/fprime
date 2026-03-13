@@ -6,11 +6,20 @@
 #define OS_GENERIC_MULTIFILESYSTEM_DIRECTORY_HPP
 
 #include "Os/Directory.hpp"
+#include "Os/Generic/MultiFileSystem/OsalRegistry.hpp"
 
 namespace Os {
 namespace Generic {
 
-struct MultiDirectoryHandle : public DirectoryHandle {};
+struct MultiDirectoryHandle : public DirectoryHandle {
+    //! Pointer to the underlying DirectoryInterface implementation
+    //! This is populated when open() is called and used for subsequent operations
+    DirectoryInterface* m_directory_sub_delegate = nullptr;
+
+    //! Storage for sub-delegate DirectoryInterface implementation
+    //! Uses MultiFsDirectoryInterfaceStorage (half-size) to allow MultiDirectory to fit within DirectoryHandleStorage
+    alignas(FW_HANDLE_ALIGNMENT) MultiFsDirectoryInterfaceStorage m_sub_delegate_storage;
+};
 
 //! \brief MultiFileSystem implementation of Os::Directory
 //!
@@ -90,13 +99,8 @@ class MultiDirectory : public DirectoryInterface {
     // Private member variables
     // ------------------------------------------------------------
 
-    //! Pointer to the underlying DirectoryInterface implementation
-    //! This is populated when open() is called and stored for use in subsequent calls
-    DirectoryInterface* m_directory_sub_delegate = nullptr;
-
-    //! Storage for sub-delegate DirectoryInterface implementation
-    //! Uses DirectoryHandleStorageNested (half-size) to allow MultiDirectory to fit within DirectoryHandleStorage
-    alignas(FW_HANDLE_ALIGNMENT) DirectoryHandleStorageNested m_sub_delegate_storage;
+    //! Handle for MultiDirectory implementation state
+    MultiDirectoryHandle m_handle;
 
 };  // class MultiDirectory
 

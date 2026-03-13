@@ -6,11 +6,19 @@
 #define OS_GENERIC_MULTIFILESYSTEM_FILE_HPP
 
 #include "Os/File.hpp"
+#include "Os/Generic/MultiFileSystem/OsalRegistry.hpp"
 
 namespace Os {
 namespace Generic {
 
-struct MultiFileHandle : public FileHandle {};
+struct MultiFileHandle : public FileHandle {
+    //! Pointer to the underlying FileInterface implementation
+    //! This is populated when open() is called and used for subsequent operations
+    FileInterface* m_file_sub_delegate = nullptr;
+
+    //! Storage for sub-delegate FileInterface implementation
+    alignas(FW_HANDLE_ALIGNMENT) MultiFsFileInterfaceStorage m_sub_delegate_storage;
+};
 
 //! \brief MultiFileSystem implementation of Os::File
 //!
@@ -154,13 +162,8 @@ class MultiFile : public FileInterface {
     // Private member variables
     // ------------------------------------------------------------
 
-    //! Pointer to the underlying FileInterface implementation
-    //! This is populated when open() is called and stored for use in subsequent calls
-    FileInterface* m_file_sub_delegate = nullptr;
-
-    //! Storage for sub-delegate FileInterface implementation
-    //! Uses FileHandleStorageNested (half-size) to allow MultiFile to fit within FileHandleStorage
-    alignas(FW_HANDLE_ALIGNMENT) FileHandleStorageNested m_sub_delegate_storage;
+    //! Handle for MultiFile implementation state
+    MultiFileHandle m_handle;
 
 };  // class MultiFile
 

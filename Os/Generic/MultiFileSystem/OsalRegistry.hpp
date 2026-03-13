@@ -17,6 +17,15 @@ namespace Generic {
 enum class RegistryStatus { SUCCESS, INVALID_PATH, OTHER_ERROR };
 
 static constexpr FwSizeType MAX_MULTIFS_PATH_PREFIX_LENGTH = 10;
+static constexpr FwSizeType NESTED_INTERFACE_STORAGE_OVERHEAD = sizeof(void*) + sizeof(void*);
+
+// TODO: potentially need more static asserts here to ensure storage sizes
+
+//! \brief Storage for nested FileInterface delegate implementations (e.g., MultiFileSystem)
+typedef U8 MultiFsFileInterfaceStorage[FW_FILE_HANDLE_MAX_SIZE - NESTED_INTERFACE_STORAGE_OVERHEAD];
+
+//! \brief Storage for nested DirectoryInterface delegate implementations (e.g., MultiFileSystem)
+typedef U8 MultiFsDirectoryInterfaceStorage[FW_DIRECTORY_HANDLE_MAX_SIZE - NESTED_INTERFACE_STORAGE_OVERHEAD];
 
 //! \brief Backing OSAL implementation set
 //!
@@ -30,16 +39,16 @@ struct OsalImplSet {
     //! \brief Factory function for creating File interface instances via placement-new
     //! \param storage: aligned storage buffer to construct into (uses half-size for nesting)
     //! \return pointer to constructed FileInterface within storage
-    FileInterface* (*file_factory)(FileHandleStorageNested& storage) = nullptr;
+    FileInterface* (*file_factory)(MultiFsFileInterfaceStorage& storage) = nullptr;
 
     //! \brief Factory function for creating Directory interface instances via placement-new
     //! \param storage: aligned storage buffer to construct into (uses half-size for nesting)
     //! \return pointer to constructed DirectoryInterface within storage
-    DirectoryInterface* (*directory_factory)(DirectoryHandleStorageNested& storage) = nullptr;
+    DirectoryInterface* (*directory_factory)(MultiFsDirectoryInterfaceStorage& storage) = nullptr;
 };
 
 struct OsalImplMapping {
-    // + 1 for null terminator ??
+    // + 1 for null terminator
     const char path_prefix[MAX_MULTIFS_PATH_PREFIX_LENGTH] = {};  //!< Path prefix to match for routing
     OsalImplSet* impl_set = nullptr;                              //!< Backing implementation set to route to
 };
@@ -85,7 +94,6 @@ class OsalRegistry {
   private:
     //! Array of registered backing implementation sets
     static Fw::Array<OsalImplMapping*, MAX_FILESYSTEMS> s_implMappings;
-    // static Fw::ArrayMap<const char*, OsalImplSet, MAX_FILESYSTEMS> s_implMap;
 
 };  // class OsalRegistry
 

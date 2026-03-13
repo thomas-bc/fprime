@@ -11,8 +11,6 @@
 namespace Os {
 namespace Generic {
 
-struct MultiFileSystemHandle : public FileSystemHandle {};
-
 //! \brief MultiFileSystem implementation of Os::FileSystem
 //!
 //! MultiFileSystem implementation of `FileSystemInterface` for use as a delegate class handling error-only fileSystem
@@ -104,6 +102,13 @@ class MultiFileSystem : public FileSystemInterface {
     //! \param path The path to check
     //! \return PathType of the path
     Status _getPathType(const char* path, PathType& pathType) override;
+
+    // ------------------------------------------------------------
+    // No member variables
+    //
+    // All methods are static and routed for every call based on path,
+    // so there is no need for member vars to track state since there is no state
+    // ------------------------------------------------------------
 
 };  // class MultiFileSystem
 

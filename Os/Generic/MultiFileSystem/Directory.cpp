@@ -9,16 +9,15 @@ namespace Os {
 namespace Generic {
 
 // Copy constructor - delegates to the underlying directory interface
-MultiDirectory::MultiDirectory(const MultiDirectory& other) : m_directory_sub_delegate(other.m_directory_sub_delegate) {
+MultiDirectory::MultiDirectory(const MultiDirectory& other) : m_handle(other.m_handle) {
     // TODO?
-    // NOTE: m_handle is just a container; the actual directory operations
-    // are delegated to m_directory_sub_delegate
+    // NOTE: m_handle stores pointer + placement-new storage for the sub-delegate
 }
 
 // Assignment operator - delegates to the underlying directory interface
 MultiDirectory& MultiDirectory::operator=(const MultiDirectory& other) {
     if (this != &other) {
-        this->m_directory_sub_delegate = other.m_directory_sub_delegate;
+        this->m_handle = other.m_handle;
     }
     return *this;
 }
@@ -41,47 +40,44 @@ MultiDirectory::Status MultiDirectory::open(const char* path, OpenMode mode) {
     if (impl->directory_factory == nullptr) {
         return Status::OTHER_ERROR;
     }
-    this->m_directory_sub_delegate = impl->directory_factory(this->m_sub_delegate_storage);
-    if (this->m_directory_sub_delegate == nullptr) {
+    this->m_handle.m_directory_sub_delegate = impl->directory_factory(this->m_handle.m_sub_delegate_storage);
+    if (this->m_handle.m_directory_sub_delegate == nullptr) {
         return Status::OTHER_ERROR;
     }
 
-    Status status = this->m_directory_sub_delegate->open(path_after_prefix, mode);
+    Status status = this->m_handle.m_directory_sub_delegate->open(path_after_prefix, mode);
     if (status != Status::OP_OK) {
-        this->m_directory_sub_delegate->close();
-        this->m_directory_sub_delegate->~DirectoryInterface();
-        this->m_directory_sub_delegate = nullptr;
+        this->m_handle.m_directory_sub_delegate->close();
+        this->m_handle.m_directory_sub_delegate->~DirectoryInterface();
+        this->m_handle.m_directory_sub_delegate = nullptr;
     }
     return status;
 }
 
 void MultiDirectory::close() {
-    if (this->m_directory_sub_delegate != nullptr) {
-        this->m_directory_sub_delegate->close();
-        this->m_directory_sub_delegate->~DirectoryInterface();
-        this->m_directory_sub_delegate = nullptr;
+    if (this->m_handle.m_directory_sub_delegate != nullptr) {
+        this->m_handle.m_directory_sub_delegate->close();
+        this->m_handle.m_directory_sub_delegate->~DirectoryInterface();
+        this->m_handle.m_directory_sub_delegate = nullptr;
     }
 }
 
 MultiDirectory::Status MultiDirectory::rewind() {
-    if (this->m_directory_sub_delegate == nullptr) {
+    if (this->m_handle.m_directory_sub_delegate == nullptr) {
         return Status::NOT_OPENED;
     }
-    return this->m_directory_sub_delegate->rewind();
+    return this->m_handle.m_directory_sub_delegate->rewind();
 }
 
 MultiDirectory::Status MultiDirectory::read(char* fileNameBuffer, FwSizeType buffSize) {
-    if (this->m_directory_sub_delegate == nullptr) {
+    if (this->m_handle.m_directory_sub_delegate == nullptr) {
         return Status::NOT_OPENED;
     }
-    return this->m_directory_sub_delegate->read(fileNameBuffer, buffSize);
+    return this->m_handle.m_directory_sub_delegate->read(fileNameBuffer, buffSize);
 }
 
 DirectoryHandle* MultiDirectory::getHandle() {
-    if (this->m_directory_sub_delegate != nullptr) {
-        return this->m_directory_sub_delegate->getHandle();
-    }
-    return nullptr;
+    return &this->m_handle;
 }
 
 }  // namespace Generic
