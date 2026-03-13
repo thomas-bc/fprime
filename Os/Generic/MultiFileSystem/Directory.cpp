@@ -32,17 +32,17 @@ MultiDirectory::Status MultiDirectory::open(const char* path, OpenMode mode) {
     FwIndexType prefix_len = 0;
     impl = OsalRegistry::routePathToImplementation(path, prefix_len);
     if (impl == nullptr) {
-        return Status::OTHER_ERROR;
+        return Status::BAD_ROUTE;
     }
     const char* path_after_prefix = path + prefix_len;
 
     // Create independent instance of directory implementation via factory
     if (impl->directory_factory == nullptr) {
-        return Status::OTHER_ERROR;
+        return Status::BAD_ROUTE;
     }
     this->m_handle.m_directory_sub_delegate = impl->directory_factory(this->m_handle.m_sub_delegate_storage);
     if (this->m_handle.m_directory_sub_delegate == nullptr) {
-        return Status::OTHER_ERROR;
+        return Status::BAD_ROUTE;
     }
 
     Status status = this->m_handle.m_directory_sub_delegate->open(path_after_prefix, mode);

@@ -30,12 +30,12 @@ MultiFile::Status MultiFile::open(const char* path, Mode mode, OverwriteType ove
     FwIndexType prefix_len = 0;
     impl = OsalRegistry::routePathToImplementation(path, prefix_len);
     if (impl == nullptr) {
-        return Status::OTHER_ERROR;
+        return Status::BAD_ROUTE;
     }
 
     // Create independent instance via placement-new into local storage
     if (impl->file_factory == nullptr) {
-        return Status::OTHER_ERROR;
+        return Status::BAD_ROUTE;
     }
     this->m_handle.m_file_sub_delegate = impl->file_factory(this->m_handle.m_sub_delegate_storage);
     FW_ASSERT(this->m_handle.m_file_sub_delegate != nullptr);

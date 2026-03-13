@@ -48,6 +48,7 @@ class FileInterface {
         INVALID_MODE,       //!< Mode for file access is invalid for current operation
         INVALID_ARGUMENT,   //!< Invalid argument passed in
         NO_MORE_RESOURCES,  //!< No more available resources
+        BAD_ROUTE,          //!< Path routing failed in multi-filesystem implementations
         OTHER_ERROR,        //!<  A catch-all for other errors. Have to look in implementation-specific code
         MAX_STATUS          //!< Maximum value of status
     };
