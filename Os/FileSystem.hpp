@@ -132,6 +132,7 @@ class FileSystem final : public FileSystemInterface {
     //! \return internal FileSystem handle representation
     FileSystemHandle* getHandle() override;
 
+  private:
     // ------------------------------------------------------------
     // Implementation-specific FileSystem member functions
     // ------------------------------------------------------------
@@ -204,6 +205,7 @@ class FileSystem final : public FileSystemInterface {
     //! \return Status of the operation
     Status _getPathType(const char* path, PathType& pathType) override;
 
+  public:
     // ------------------------------------------------------------
     // Implementation-specific FileSystem static functions
     // ------------------------------------------------------------
