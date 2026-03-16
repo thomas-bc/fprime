@@ -13,6 +13,7 @@ Fw::Array<OsalImplMapping*, OsalRegistry::MAX_FILESYSTEMS> OsalRegistry::s_implM
 OsalImplSet* OsalRegistry::s_rootImplSet = nullptr;
 
 RegistryStatus OsalRegistry::registerMountedImplementation(OsalImplMapping* implementation_map) {
+    //! TODO: assert the implementaton is non-null and complete ?
     // Find the first available slot
     for (FwSizeType i = 0; i < MAX_FILESYSTEMS; i++) {
         if (OsalRegistry::s_implMappings[i] == nullptr) {
@@ -40,6 +41,8 @@ OsalImplSet* OsalRegistry::routePathToImplementation(const char* path, FwIndexTy
 
     // NOTE: routing algo works for prototyping, should be tested thoroughly
 
+    // TODO: should likely pass a path_len parameter not to read out of bounds on path[j]
+
     // Iterate through registered implementations and find the first matching path prefix
     for (FwSizeType i = 0; i < MAX_FILESYSTEMS; i++) {
         if (OsalRegistry::s_implMappings[i] == nullptr) {
@@ -47,7 +50,7 @@ OsalImplSet* OsalRegistry::routePathToImplementation(const char* path, FwIndexTy
         }
 
         OsalImplSet* impl = OsalRegistry::s_implMappings[i]->impl_set;
-        if (impl->filesystem != nullptr) {
+        if (impl != nullptr && impl->filesystem != nullptr) {
             // Check if path starts with the implementation's path prefix
             // Manual character-by-character comparison to verify prefix match
             const char* prefix = OsalRegistry::s_implMappings[i]->mount_path;
@@ -60,8 +63,8 @@ OsalImplSet* OsalRegistry::routePathToImplementation(const char* path, FwIndexTy
                 j++;
             }
 
-            // If we reached the end of prefix (null terminator), it's a match
-            if (j < MAX_MULTIFS_PATH_PREFIX_LENGTH && prefix[j] == '\0') {
+            // If we reached the end of prefix (null terminator) and path continues with '/' or ends, it's a match
+            if (j < MAX_MULTIFS_PATH_PREFIX_LENGTH && prefix[j] == '\0' && (path[j] == '\0' || path[j] == '/')) {
                 FW_ASSERT_NO_OVERFLOW(j, FwIndexType);     // Ensure no overflow in prefix length calculation
                 prefix_len = static_cast<FwIndexType>(j);  // Set the output parameter for prefix length
                 return impl;

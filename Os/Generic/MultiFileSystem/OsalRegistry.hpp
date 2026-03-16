@@ -83,8 +83,8 @@ class OsalRegistry {
     //! \brief Route a path to the appropriate backing implementation set
     //!
     //! Routes a path to the appropriate backing implementation set based on the path prefix.
-    //! Special prefixes like "/Z" route to specific backing implementation sets, otherwise the
-    //! root backing implementation set is used.
+    //! Special prefixes like "/mnt/abc" route to specific backing implementation sets, as defined
+    //! by the user during registration. If none found, the root backing implementation set is used.
     //!
     //! It is invalid to pass `nullptr` as the path.
     //!
