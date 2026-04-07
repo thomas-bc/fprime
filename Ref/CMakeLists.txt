@@ -37,6 +37,7 @@ add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/SendBuffApp/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/SignalGen/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/TypeDemo/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/DpDemo/")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/FsComp/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BlockDriver/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Top/")
 
@@ -45,6 +46,9 @@ register_fprime_deployment(
         "${CMAKE_CURRENT_LIST_DIR}/Main.cpp"
     DEPENDS
         ${PROJECT_NAME}_Top
+        Os_File_Posix_Implementation
+        Os_File_Stub_Implementation
+        Os_Generic_OsalRegistry
 )
 # The following compile options will only apply to the deployment executable.
 # The extra warnings trigger in core F Prime so we don't apply them there.

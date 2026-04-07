@@ -16,6 +16,7 @@ enum DirectoryStatus : U8 {
     BAD_DESCRIPTOR, @<  Directory stream descriptor is invalid
     ALREADY_EXISTS, @<  Directory already exists
     NOT_SUPPORTED,  @<  Operation is not supported by the current implementation
+    BAD_ROUTE,        @< Path routing failed in multi-filesystem implementations
     OTHER_ERROR,    @<  A catch-all for other errors. Have to look in implementation-specific code
 }
 

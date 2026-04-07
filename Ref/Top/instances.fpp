@@ -63,6 +63,11 @@ module Ref {
     stack size Default.STACK_SIZE \
     priority 19
 
+  instance multiFs: Ref.FsComp base id 0x10007000 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 19
+
   # ----------------------------------------------------------------------
   # Queued component instances
   # ----------------------------------------------------------------------

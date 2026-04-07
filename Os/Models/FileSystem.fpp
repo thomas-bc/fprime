@@ -22,6 +22,7 @@ enum FileSystemStatus : U8 {
         EXDEV_ERROR,      @<  Operation not supported across devices (e.g. rename)
         OVERFLOW_ERROR,   @<  Operation failed due to overflow in calculation of the result
         NOT_SUPPORTED,    @<  Operation is not supported by the current implementation
+        BAD_ROUTE,        @< Path routing failed in multi-filesystem implementations
         OTHER_ERROR,      @<  other OS-specific error
 }
 

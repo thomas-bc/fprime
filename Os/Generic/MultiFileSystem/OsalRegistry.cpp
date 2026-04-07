@@ -41,7 +41,8 @@ OsalImplSet* OsalRegistry::routePathToImplementation(const char* path, FwIndexTy
 
     // NOTE: routing algo works for prototyping, should be tested thoroughly
 
-    // TODO: should likely pass a path_len parameter not to read out of bounds on path[j]
+    //! TODO: should likely pass a path_len parameter not to read out of bounds on path[j]
+    //! YES!
 
     // Iterate through registered implementations and find the first matching path prefix
     for (FwSizeType i = 0; i < MAX_FILESYSTEMS; i++) {
@@ -56,6 +57,7 @@ OsalImplSet* OsalRegistry::routePathToImplementation(const char* path, FwIndexTy
             const char* prefix = OsalRegistry::s_implMappings[i]->mount_path;
             FwSizeType j = 0;
 
+            // TODO: for-loop instead
             while (j < MAX_MULTIFS_PATH_PREFIX_LENGTH && prefix[j] != '\0') {
                 if (path[j] != prefix[j]) {
                     break;

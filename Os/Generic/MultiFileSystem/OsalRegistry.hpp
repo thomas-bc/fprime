@@ -16,10 +16,10 @@ namespace Generic {
 
 enum class RegistryStatus { SUCCESS, INVALID_PATH, OTHER_ERROR };
 
-static constexpr FwSizeType MAX_MULTIFS_PATH_PREFIX_LENGTH = 10;
+static constexpr FwSizeType MAX_MULTIFS_PATH_PREFIX_LENGTH = 10;  //! TODO: configurable
 static constexpr FwSizeType NESTED_INTERFACE_STORAGE_OVERHEAD = sizeof(void*) + sizeof(void*);
 
-// TODO: potentially need more static asserts here to ensure storage sizes
+// TODO: !YES! need more static asserts here to ensure storage sizes
 
 //! \brief Storage for nested FileInterface delegate implementations (e.g., MultiFileSystem)
 typedef U8 MultiFsFileInterfaceStorage[FW_FILE_HANDLE_MAX_SIZE - NESTED_INTERFACE_STORAGE_OVERHEAD];
@@ -99,6 +99,7 @@ class OsalRegistry {
 
     //! Array of registered backing implementation sets with their mount paths
     static Fw::Array<OsalImplMapping*, MAX_FILESYSTEMS> s_implMappings;
+    // there may be benefits to using Map not to do
 
 };  // class OsalRegistry
 

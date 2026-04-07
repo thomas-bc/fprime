@@ -19,6 +19,57 @@
 // Used to get the Os::Console
 #include <Os/Os.hpp>
 
+#include "Os/Delegate.hpp"
+#include "Os/Generic/MultiFileSystem/OsalRegistry.hpp"
+#include "Os/Posix/Directory.hpp"
+#include "Os/Posix/File.hpp"
+#include "Os/Posix/FileSystem.hpp"
+#include "Os/Stub/Directory.hpp"
+#include "Os/Stub/File.hpp"
+#include "Os/Stub/FileSystem.hpp"
+
+// ------------------------------------------------------------
+// Quirks
+// ------------------------------------------------------------
+// - MultiFsFileInterfaceStorage thing, because one FileInterface needs to contain another
+// - This whole file/dir factory business... should OSALs provide a .clone() method?
+//
+// Generally have a weird feeling where I'm re-implementing most of the architecture/concept of the lower-level
+// OSAL architecutre, but re-implementing here myself. See e.g.:
+// - MultiFsFileInterfaceStorage
+// - Factory functions / makeDelegate
+// - testing; I want to test the "interface" just like in StubFile tests
+
+// Static (global) storage for filesystem implementations
+static Os::Posix::FileSystem::PosixFileSystem s_posixFileSystem;
+static Os::Stub::FileSystem::StubFileSystem s_stubFileSystem;
+
+static Os::Generic::OsalImplSet s_posixImplSet = {
+    &s_posixFileSystem,
+    Os::Delegate::makeDelegate<Os::FileInterface, Os::Posix::File::PosixFile, Os::Generic::MultiFsFileInterfaceStorage>,
+    Os::Delegate::makeDelegate<Os::DirectoryInterface,
+                               Os::Posix::Directory::PosixDirectory,
+                               Os::Generic::MultiFsDirectoryInterfaceStorage>,
+};
+
+static Os::Generic::OsalImplSet s_stubImplSet = {
+    &s_stubFileSystem,
+    Os::Delegate::makeDelegate<Os::FileInterface, Os::Stub::File::StubFile, Os::Generic::MultiFsFileInterfaceStorage>,
+    Os::Delegate::makeDelegate<Os::DirectoryInterface,
+                               Os::Stub::Directory::StubDirectory,
+                               Os::Generic::MultiFsDirectoryInterfaceStorage>,
+};
+
+static Os::Generic::OsalImplMapping s_stubImplMapping = {
+    .mount_path = "/mnt/stub",
+    .impl_set = &s_stubImplSet,
+};
+
+// static Os::Generic::OsalImplMapping s_posixImplMapping = {
+//     .mount_path = "/mnt/p",
+//     .impl_set = &s_posixImplSet,
+// };
+
 /**
  * \brief print commandline help message
  *
@@ -79,6 +130,10 @@ int main(int argc, char* argv[]) {
                 return (option == 'h') ? 0 : 1;
         }
     }
+
+    Os::Generic::OsalRegistry::registerRootImplementation(&s_posixImplSet);
+    Os::Generic::OsalRegistry::registerMountedImplementation(&s_stubImplMapping);
+
     // Object for communicating state to the reference topology
     Ref::TopologyState inputs;
     inputs.hostname = hostname;

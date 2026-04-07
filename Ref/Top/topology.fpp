@@ -45,6 +45,7 @@ module Ref {
     instance linuxTimer
     instance comDriver
     instance cmdSeq
+    instance multiFs
 
     # ----------------------------------------------------------------------
     # Pattern graph specifiers
