@@ -47,9 +47,9 @@ The design of `DpCatalog` assumes the following:
 2. The contents of the data product files match the data product specification.
 3. The file downlink will acknowledge completion of each file
 
-### 3.3 Ports
+### 3.2 Ports
 
-#### 3.3.1 Role Ports
+#### 3.2.1 Role Ports
 
 These ports will be automatically connected in the topology to F Prime services.
 
@@ -63,16 +63,17 @@ These ports will be automatically connected in the topology to F Prime services.
 |Time|Gets time for time tags|
 |Tlm|Outputs telemetry|
 
-#### 3.3.2 Component-Specific Ports
+#### 3.2.2 Component-Specific Ports
 
 Name | Type | Kind | Purpose
 ---- | ---- | ---- | ---
-pingIn|async input|Svc.Ping|Ping from Health
-pingOut|output|Svc.Ping|Ping response to Health
-fileOut|SendFileRequest|output|Send next file to downlink
-fileDone|SendFileComplete|async input|Last requested file is complete
+pingIn|Svc.Ping|async input|Ping from Health
+pingOut|Svc.Ping|output|Ping response to Health
+fileOut|Svc.SendFileRequest|output|Send next file to downlink
+fileDone|Svc.SendFileComplete|async input|Last requested file is complete
+addToCat|Svc.DpWritten|async input|Insert a newly written data product into the catalog
 
-### 3.4 Constants
+### 3.3 Constants
 
 `DpCatalog` can be statically configured with the following constants:
 
@@ -83,14 +84,13 @@ fileDone|SendFileComplete|async input|Last requested file is complete
 
 These constants are located in `DpCatalogCfg.hpp` in the `config` directory.
 
-### 3.5 Configuration
+### 3.4 Configuration
 
 During initialization, the configuration function takes a set of parameters:
 
 ```c++
         void configure(
-            Fw::FileNameString directories[DP_MAX_DIRECTORIES],
-            FwSizeType numDirs,
+            const Fw::ExternalArray<Fw::FileNameString>& directories,
             Fw::FileNameString& stateFile,
             FwEnumStoreType memId,
             Fw::MemAllocator& allocator
@@ -99,30 +99,29 @@ During initialization, the configuration function takes a set of parameters:
 
 |Parameter|Purpose|
 |---|---|
-|`directories`|A set of strings up to `DP_MAX_DIRECTORIES` that are directory names where DPs are written
-|`numDirs`|The number of supplied directories
+|`directories`|An array of strings up to `DP_MAX_DIRECTORIES` that are directory names where DPs are written
 |`stateFile`|The location of the file tracking product downlink state
 |`memId`|The id of the RAM memory segment used to store catalog state. Not needed for heap allocation.
 |`allocator`|Memory allocator for RAM memory storage
 
 
-### 3.6 Commands
+### 3.5 Commands
 
 |Command|Arguments|Description|
 |---|---|---|
 |`BUILD_CATALOG`|none|Builds the in-RAM catalog by scanning the directories provided during initialization. Downlink state file will be read in to set downlink state for products|Prerequisite for executing `START_XMIT_CATALOG` command
 |`START_XMIT_CATALOG`| |Start transmitting the catalog to the ground in priority order
 | |wait|Wait for the transmission to complete before sending command completion status. Used when a sequence wishes to wait for completion before issuing subsequent commands.
-|`STOP_XMIT_CATALOG`|none|Stop existing catalog transmission. Will be completed when the current file is done transmitting.
-|`CLEAR_CATALOG`|none|Clears existing RAM catalog and resets downlink state. Should be followed by `BUILD_CATALOG`. Used for recovery if state file gets corrupted or out of sync with file system contents. |
+|`STOP_XMIT_CATALOG`|none|Stop existing catalog transmission. The command completes immediately and no further files are started; the file in flight completes normally and is recorded. Its bytes are counted in neither `CatalogXmitStopped` (emitted before that completion) nor a later `CatalogXmitCompleted` (a `START_XMIT_CATALOG` issued after the completion starts a fresh tally); reconstruct them from `ProductComplete`. A `START_XMIT_CATALOG` (or a runtime `addToCat` with `remainActive`) issued before that completion resumes the transmission without re-sending the file: no new send is started until its completion arrives, which then continues the catalog walk, and the session's byte tally reported by `CatalogXmitCompleted` is kept. As with any send, the resumed transmission stays in progress until FileDownlink delivers that completion; if it never arrives, `STOP_XMIT_CATALOG` (then `BUILD_CATALOG`) or `CLEAR_CATALOG` is the recovery, as for a stalled send started normally. A `BUILD_CATALOG` or `CLEAR_CATALOG` issued before that completion abandons the file: its late completion is reported as `StaleFileDone` and it is re-sent on the next `START_XMIT_CATALOG`.
+|`CLEAR_CATALOG`|none|Clears existing RAM catalog and resets downlink state, reporting the pending products and bytes dropped with `CatalogCleared`. A transmission in progress is aborted (a waited `START_XMIT_CATALOG` is answered with `EXECUTION_ERROR`). Should be followed by `BUILD_CATALOG`. Used for recovery if state file gets corrupted or out of sync with file system contents. |
 
 #### Sequence of Commands
 
 When the software is first started, the catalog data structure is empty. The catalog must be built before starting downlink. The `BUILD_CATALOG` command was implemented separately from the `START_XMIT_CATALOG` command to start downlinking so the software could build the catalog prior to a communication session and execute the downlink during communication. Downlink can be halted by issuing the `STOP_XMIT_COMMAND` in the middle of the downlink. If for some reason the state in the state file, the contents of the tree and the data products get out of sync, a `CLEAR_CATALOG` command can be issued. Then the `BUILD_CATALOG` command can be invoked to rebuild the state based on the existing set of data product files only. This will caused downlinked state to be lost, so data products not deleted after downlink would be readded to the pending list of downlinks.
 
-### 3.7 Algorithms
+### 3.6 Algorithms
 
-#### 3.7.1 Data Product Sorting
+#### 3.6.1 Data Product Sorting
 
 Overall priority is determined by comparing two records' priority, timestamp, and id in that order with lower numerical values holding higher priority (see `DpCatalog::DpStateEntry::compareEntries`). The following logic is implemented:
 
@@ -130,21 +129,28 @@ Overall priority is determined by comparing two records' priority, timestamp, an
 2. Data Product Generation Time - If priorities are the same, the older data is prioritized over the newer.
 3. Data Product ID - If priorities and time are the same (highly unlikely), then lower IDs are prioritized first.
 
-#### 3.7.2 Reading Files
+#### 3.6.2 Reading Files
 
-The `initialize()` function is provided an array of directories where data product files are generated by `Svc/DpWriter`. When the `BUILD_CATALOG` command is executed, the headers of the data product files are read and the metadata in their headers is processed and stored as a data structure for sorting. The file name is not stored to conserve memory.
+The `configure()` function is provided an array of directories where data product files are generated by `Svc/DpWriter`. When the `BUILD_CATALOG` command is executed, the headers of the data product files are read and the metadata in their headers is processed and stored as a data structure for sorting. The file name is not stored to conserve memory.
 
-#### 3.7.2 Sorting Algorithm
+#### 3.6.3 Sorting Algorithm
 
-The data products are sorted using an unbalanced, non-recursive binary tree algorithm. The node to be inserted is placed into the tree according to its priority. Higher priority nodes are left children, while lower (and unlikely, equal) priority nodes are placed as right children. No rotations or rebalancing is performed, so all new nodes will be initially be leaves.
+The data products are sorted using a `Fw::RedBlackTreeSet` (a self-balancing binary search tree). Entries are ordered by the priority comparison described above, so the highest priority entry is always first in the set.
 
-#### 3.7.2 Tree Traversal for Downlink
+#### 3.6.4 Tree Traversal for Downlink
 
-When data products are downlinked, the tree is traversed in priority order. As each node is visited, the file is downlinked and the node is removed from the tree upon completion. The current node to be explored is always checked for left children to ensure the highest priority node is transmitted. Afterward, the right child and, ultimately, the parent are transmitted. If a node is added to the tree with a higher priority than the node to be explored, the added node becomes the node to be explored.
+When data products are downlinked, entries are retrieved in priority order by calling `begin()` on the set, which always yields the highest priority entry. As each file completes downlink, its entry is removed from the set. Entries inserted while a downlink is in progress (e.g. via `addToCat`) are placed in priority order and picked up by subsequent `begin()` calls.
 
-#### 3.7.3 State File
+#### 3.6.5 State File
 
 When a data product is downlinked, it is marked in the node as completed, but the state is also written to a file so that downlinked state is preserved across restarts of the software. When the catalog is built, the state file is first read into a data structure in memory.
+Entries whose state-file record is `TRANSMITTED` are skipped during catalog build, emit a `DpFileSkipped` event, and are not counted as pending.
 
-## 6 Unit Testing
+#### 3.6.6 FileDone Handling
+
+Every `sendFile` call returns a `SendFileResponse` whose `context` FileDownlink assigns to that send and echoes back in `fileDone`. `DpCatalog` keeps the context of the send in flight and applies a `fileDone` only while a send is in flight and the context matches. Anything else is a late callback from a send abandoned by `BUILD_CATALOG` or `CLEAR_CATALOG` (`STOP_XMIT_CATALOG` alone keeps the send in flight, so its completion is still recorded, and a `START_XMIT_CATALOG` issued before it arrives starts no new send until then, so the file is not sent twice): it is reported with `StaleFileDone` (`WARNING_LO`, id 50, an expected consequence of an operator command rather than a fault) and the transmit in flight, if any, is left untouched. `CLEAR_CATALOG` issued mid-transmit closes the transmit session itself, as `STOP_XMIT_CATALOG` does: a waited `START_XMIT_CATALOG` is answered with `EXECUTION_ERROR` at that point, so a later `BUILD_CATALOG` or `START_XMIT_CATALOG` is not refused as in progress and the late callback is only reported. This replaces the `FW_ASSERT` that made a late `fileDone` FATAL (#5777). The discrimination requires the provider to assign a distinct `context` to every send, as `Svc/FileDownlink` does; a provider that echoes a constant context (for example `Svc/Ccsds/CfdpManager`, which returns the port number) cannot distinguish a late callback from the current send and is not supported on this port. Note: `FileComplete` must not be shared with other `SendFile` clients on the same FileDownlink; foreign completions would be reported as `StaleFileDone`.
+
+## 4 Unit Testing
+
+Unit tests are located in `Svc/DpCatalog/test/ut`.
 

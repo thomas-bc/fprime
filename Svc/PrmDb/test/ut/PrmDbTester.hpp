@@ -32,6 +32,7 @@ class PrmDbTester : public PrmDbGTestBase {
     void runPrmFileLoadNominal();
     void runPrmFileLoadWithErrors();
     void runPrmFileLoadIllegal();
+    void runPrmFileLoadEmptyFileName();
     void runPrmFileLoadSandboxViolation();
     void runShorterSaveDoesNotCorrupt();
 
@@ -77,8 +78,6 @@ class PrmDbTester : public PrmDbGTestBase {
         static void setTester(PrmDbTester* tester);
         static PrmDbTester* s_tester;
     };
-
-    void printDb(PrmDb_PrmDbType dbType);
 
     //! Expose PrmDbImpl::computeCrc for hardcoded CRC value testing
 };

@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------
 
 #include "RateLimiterTester.hpp"
+#include "STest/Random/Random.hpp"
 #include "TokenBucketTester.hpp"
 
 TEST(RateLimiterTest, TestCounterTriggering) {
@@ -18,6 +19,11 @@ TEST(RateLimiterTest, TestTimeTriggering) {
 TEST(RateLimiterTest, TestCounterAndTimeTriggering) {
     Utils::RateLimiterTester tester;
     tester.testCounterAndTimeTriggering();
+}
+
+TEST(RateLimiterTest, TestTimeBase) {
+    Utils::RateLimiterTester tester;
+    tester.testTimeBase();
 }
 
 TEST(RateLimiterTest, TestDefaultConstructorAndSetters) {
@@ -40,12 +46,18 @@ TEST(TokenBucketTest, TestInitialSettings) {
     tester.testInitialSettings();
 }
 
+TEST(TokenBucketTest, TestTimeBase) {
+    Utils::TokenBucketTester tester;
+    tester.testTimeBase();
+}
+
 TEST(TokenBucketTest, TestReplenishAndEdgeCases) {
     Utils::TokenBucketTester tester;
     tester.testReplenishAndEdgeCases();
 }
 
 int main(int argc, char** argv) {
+    STest::Random::seed();
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

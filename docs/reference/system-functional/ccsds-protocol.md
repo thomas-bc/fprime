@@ -13,6 +13,8 @@
 - [F Prime CcsdsSdlsDeframer SDD](https://github.com/nasa/fprime/blob/devel/Svc/Ccsds/CcsdsSdlsDeframer/docs/sdd.md)
 - [F Prime SdlsSaRouter SDD](https://github.com/nasa/fprime/blob/devel/Svc/Ccsds/SdlsSaRouter/docs/sdd.md)
 - [F Prime SdlsFileKeyManager SDD](https://github.com/nasa/fprime/blob/devel/Svc/Ccsds/SdlsFileKeyManager/docs/sdd.md)
+- [F Prime AesGcmEncryptor SDD](https://github.com/nasa/fprime/blob/devel/Svc/Ccsds/AesGcmEncryptor/docs/sdd.md)
+- [F Prime AesGcmDecryptor SDD](https://github.com/nasa/fprime/blob/devel/Svc/Ccsds/AesGcmDecryptor/docs/sdd.md)
 - [CCSDS Space Packet Protocol (133.0-B-2)](https://ccsds.org/Pubs/133x0b2e2.pdf)
 - [CCSDS TM Space Data Link Protocol (132.0-B-3)](https://ccsds.org/Pubs/132x0b3.pdf)
 - [CCSDS TC Space Data Link Protocol (232.0-B-4)](https://ccsds.org/Pubs/232x0b4e1c1.pdf)
@@ -33,11 +35,11 @@ The Space Packet layer provides application-level packet framing per CCSDS 133.0
 
 The APID Manager tracks per-APID sequence counts for both outgoing and incoming Space Packets. It provides incrementing sequence counts to the Space Packet Framer for each APID and validates received sequence counts in the Space Packet Deframer to detect packet loss.
 
-By default, APIDs are assigned based on the F Prime data descriptor type (commands, telemetry, events, files, packetized telemetry). Missions requiring custom APID assignments can replace the default APID Manager component with a project-specific implementation.
+By default, APIDs are assigned based on the F Prime data descriptor type (commands, telemetry, events, files, packetized telemetry). Missions requiring custom APID assignments can replace the default APID Manager component with a project-specific implementation. To add project-specific data types with their own APIDs, see the [Add Custom Uplink and Downlink Data Types](../../how-to/develop/custom-uplink-downlink-data.md) guide.
 
 ### TM Space Data Link Protocol
 
-The TM Framer implements the CCSDS Telemetry (TM) Space Data Link Protocol (132.0-B-3) for downlink. It wraps payload data (such as Space Packets) into TM Transfer Frames for transmission over the space link. The current implementation supports a single Virtual Channel Identifier (VCID).
+The TM Framer implements the CCSDS Telemetry (TM) Space Data Link Protocol (132.0-B-3) for downlink. It wraps payload data (such as Space Packets) into TM Transfer Frames for transmission over the space link. The current implementation supports a single Virtual Channel Identifier (VCID). The frame data field is delivered complete by the upstream [ComAggregator](https://github.com/nasa/fprime/blob/devel/Svc/ComAggregator/docs/sdd.md), which is configured per instance with the aggregate size (`ComCcsdsConfig.Aggregator.aggregationSize`, `Svc.Ccsds.TmDataFieldSize` by default) and fills any residual space with a Space Packet Idle Packet before the data reaches any intermediate layer such as SDLS encryption. When packet spanning is enabled in the upstream [ComAggregator](https://github.com/nasa/fprime/blob/devel/Svc/ComAggregator/docs/sdd.md) (`ComCcsdsConfig.Aggregator.enablePacketSpanning`), Space Packets may span consecutive TM Transfer Frames and the First Header Pointer in each frame locates the first packet header, per 132.0-B-3 section 4.1.2.7.6; spanning is disabled by default. Enabling it requires a ground deframer that reassembles spanned packets using the First Header Pointer.
 
 ### TC Space Data Link Protocol
 
@@ -55,11 +57,12 @@ An optional SDLS layer provides per-frame encryption and decryption keyed by a 1
 - **CcsdsSdlsDeframer** — Extracts the SA index from incoming frames and delegates decryption (uplink).
 - **SdlsSaRouter** — Routes encryption/decryption requests to downstream crypto components based on the SA index.
 - **SdlsFileKeyManager** — Supplies encryption keys read from a configured file.
-- **ClearTextEncryptor / ClearTextDecryptor** — Pass-through default crypto components (**no security**), for use until a real algorithm is integrated.
+- **ClearTextEncryptor / ClearTextDecryptor** — Pass-through default crypto components (**no security**); the defaults selected by the `Svc.ComCcsdsSdls` subtopology configuration.
+- **AesGcmEncryptor / AesGcmDecryptor** — AES-256-GCM authenticated encryption (OpenSSL 3.x), producing/consuming an `IV (12) | ciphertext | MAC (16)` security payload with the VC and SA index authenticated as additional data. The decryptor reports a failed MAC check as `MAC_VERIFICATION_FAILURE`, distinct from `DECRYPTION_FAILURE`. Each frame's 28-byte overhead must be subtracted from `ComCcsdsConfig.Aggregator.aggregationSize` (see the `Svc.ComCcsdsSdls` SDD).
 
 ### Protocol Layering
 
-The CCSDS components can be stacked to provide multiple protocol layers. A typical downlink path might be: data source → Space Packet Framer → TM Framer → byte stream driver. A typical uplink path: byte stream driver → Frame Accumulator → TC Deframer → Space Packet Deframer → Router. The optional SDLS layer sits between the Space Packet layer and the transfer frame layer in both directions (see the `Svc.ComCcsdsSdls` subtopology). The modular design allows missions to select the specific protocol layers they require.
+The CCSDS components can be stacked to provide multiple protocol layers. A typical downlink path might be: data source → Space Packet Framer → ComAggregator → TM Framer → byte stream driver (the TM Framer requires complete, idle-filled data fields from `Svc.ComAggregator`). A typical uplink path: byte stream driver → Frame Accumulator → TC Deframer → Space Packet Deframer → Router. The optional SDLS layer sits between the aggregator and the transfer frame layer on downlink, and between the transfer frame layer and the Space Packet layer on uplink (see the `Svc.ComCcsdsSdls` subtopology). The modular design allows missions to select the specific protocol layers they require.
 
 ### Unsupported Features
 

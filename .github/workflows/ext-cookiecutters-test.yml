@@ -70,9 +70,10 @@ jobs:
           python-version: '3.11'
 
       - name: "Install expect and fprime-bootstrap"
+        timeout-minutes: 10
         run: |
-             sudo apt-get update
-             sudo apt-get install expect
+             sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+             sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install expect
              pip install git+https://github.com/fprime-community/fprime-bootstrap@${BOOTSTRAP_BRANCH}
 
       - name: "Bootstrap Project"
@@ -88,6 +89,12 @@ jobs:
           path: ./my-project/lib/fprime
           fetch-depth: 0
           filter: blob:none
+
+      # Runner images pre-set JAVA_HOME to a system JDK; clear it so fpp resolves
+      # the fprime-jre java from the bootstrapped venv. No other setup is done here
+      # on purpose: this job validates an unassisted fprime-bootstrap.
+      - name: "Clear JAVA_HOME"
+        run: echo "JAVA_HOME=" >> "${GITHUB_ENV}"
 
       - name: "Update dependencies and install fprime-tools"
         run: |

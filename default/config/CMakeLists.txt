@@ -9,6 +9,7 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/AsyncI2cCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/CfdpCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/ComCfg.fpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ComLoggerDpCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/DpCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/FileDispatcherCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/FpConfig.fpp"
@@ -22,6 +23,7 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/PlatformCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/PolyDbCfg.fpp"
         "${CMAKE_CURRENT_LIST_DIR}/VersionCfg.fpp"
+        "${CMAKE_CURRENT_LIST_DIR}/WasmSequencerCfg.fpp"
     HEADERS
         "${CMAKE_CURRENT_LIST_DIR}/MemoryAllocation.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/EventManagerCfg.hpp"
@@ -29,6 +31,7 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/ActiveRateGroupCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/ActiveTextLoggerCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/BufferManagerComponentImplCfg.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ComLoggerDpCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/CfdpCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/CircularBufferCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/CommandDispatcherImplCfg.hpp"
@@ -41,6 +44,7 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/IpCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/LocklessQueueCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/OsDelegateRawTime.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/OsDelegateMutex.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/PassiveTextLoggerCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/PrmDbImplCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/PrmDbImplTesterCfg.hpp"
@@ -48,8 +52,10 @@ register_fprime_config(
         "${CMAKE_CURRENT_LIST_DIR}/TlmChanImplCfg.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/CRCCheckerConfig.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/FileManagerConfig.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/WasmSequencerConfig.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/WasmSequencerSpacewasmConfig.h"
         "${CMAKE_CURRENT_LIST_DIR}/Os/RawTimeSource.hpp"
-    BASE_CONFIG
+    GLOBAL_IMPLICIT_DEPENDENCY
     DEPENDS
         "${FPRIME_GLOBAL_INTERFACE_TARGET}"
 )

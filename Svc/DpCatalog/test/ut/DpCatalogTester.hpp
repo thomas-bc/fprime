@@ -70,6 +70,9 @@ class DpCatalogTester : public DpCatalogGTestBase {
                  FwSizeType stopAfter = 0,
                  Fw::Wait wait = Fw::Wait::NO_WAIT);
 
+    //! Verify transmitted state is preserved across catalog rebuilds
+    void stateFileSkipsTransmitted();
+
     //! Generate some data product files
     Fw::String genDP(FwDpIdType id,
                      FwDpPriorityType prio,
@@ -130,6 +133,12 @@ class DpCatalogTester : public DpCatalogGTestBase {
     //! When true, from_fileOut_handler invokes a successful fileDone automatically
     bool m_autoFileDone = true;
 
+    //! Context handed back by from_fileOut_handler for each send, as FileDownlink does
+    U32 m_nextContext = 1;
+
+    //! Context of the most recent send, so tests can build matching or stale fileDone responses
+    U32 m_lastContext = 0;
+
   public:
     // ----------------------------------------------------------------------
     // Moved Tests due to private/protected access
@@ -151,6 +160,12 @@ class DpCatalogTester : public DpCatalogGTestBase {
     void test_CompareEntries();
     void test_PingIn();
     void test_BadFileDone();
+    void test_StaleFileDoneAfterStopBuild();
+    void test_StaleFileDoneAfterClear();
+    void test_LateFileDoneNotAppliedToNewSend();
+    void test_StopRecordsInFlightCompletion();
+    void test_StartAfterStopResumesInFlight();
+    void test_StopThenErrorCompletion();
     void test_ProcessFileInvalidDir();
     void test_MalformedFile();
     void test_TruncatedDpRejected();

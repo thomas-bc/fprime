@@ -185,11 +185,16 @@ option(FPRIME_ENABLE_TEXT_LOGGERS "Enable text loggers in build" ON)
 ####
 # `FPRIME_ENABLE_JSON_MODEL_GENERATION`:
 #
+# **Deprecated:** the FPP JSON model is deprecated in favor of the native FPP Python bindings
+# (`fprime-fpp-python`). FPP 3.4.0, shipped alongside F Prime 4.4.0, is the final version that supports the JSON
+# model. Users of `fprime-python-model` should follow the migration guide to `fprime-fpp-python`. Enabling this
+# option emits a deprecation warning at configure time.
+#
 # Turns on the generation of JSON models for all modules in the build system. This will run `fpp-to-json` and may
 # require the user to install `java` and the .jar variants of FPP.
 #
 # **Values:**
-# - ON: enable JSON model generation
+# - ON: enable JSON model generation (deprecated)
 # - OFF: (default) disable JSON model generation
 #
 # e.g. `-DFPRIME_ENABLE_JSON_MODEL_GENERATION=ON`
@@ -331,7 +336,7 @@ include(CTest)
 # includes, etc. Default is FPRIME_FRAMEWORK_PATH if the PROJECT_SOURCE_DIR is a child of FPRIME_FRAMEWORK_PATH
 # otherwise PROJECT_SOURCE_DIR is used as the project root.
 #
-# e.g. `-DFPRIME_FRAMEWORK_PATH=/path/to/fprime/project`
+# e.g. `-DFPRIME_PROJECT_ROOT=/path/to/fprime/project`
 #
 # FPRIME_LIBRARY_LOCATIONS: locations of libraries included in the build. CMake list supplied in ; separated format like
 # other CMake lists. Default: "", no libraries available.

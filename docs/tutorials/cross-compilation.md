@@ -64,13 +64,14 @@ Choose the operating system you are using to install F Prime:
     >[!TIP]
     > On newer macOS systems you may need to clear the quarantine flag on the download.
 
-   **Example Commands:** Assuming download of `LLVM-22.1.8-macOS-ARM64.tar.xz`
+    **Example Commands:** Assuming download of `LLVM-22.1.8-macOS-ARM64.tar.xz`
     ```bash
     xattr -d com.apple.quarantine LLVM-22.1.8-macOS-ARM64.tar.xz
     tar -xf LLVM-22.1.8-macOS-ARM64.tar.xz
     export PATH="`pwd`/LLVM-22.1.8-macOS-ARM64/bin:${PATH}"
     export LLVM_TOOLS_PATH="`pwd`/LLVM-22.1.8-macOS-ARM64/bin:${PATH}"
     ```
+
 
 === "Ubuntu 20.04 / 22.04 / Generic Linux"
 
@@ -87,12 +88,13 @@ Choose the operating system you are using to install F Prime:
     may be downloaded and extracted anywhere; point your PATH and LLVM_TOOLS_PATH to the extracted
     folder.
 
-   **Example Commands:** Assuming download of LLVM-22.1.8-Linux-X64.tar.xz
+    **Example Commands:** Assuming download of LLVM-22.1.8-Linux-X64.tar.xz
     ```bash
     tar -xf LLVM-22.1.8-Linux-X64.tar.xz
     export PATH="`pwd`/LLVM-22.1.8-Linux-X64/bin:${PATH}"
     export LLVM_TOOLS_PATH="`pwd`/LLVM-22.1.8-Linux-X64/bin:${PATH}"
     ```
+
 
 To verify the tools are available, run:
 
@@ -126,7 +128,7 @@ The sysroot contains no host binaries, so the same download works from Linux and
 
 ## Cross-Compilation Tutorial - Compiling for ARM
 
-In this section, we will learn how to cross-compile for different architectures. This tutorial will use the Raspberry Pi ARM x64 as an example. In order to fully benefit from this tutorial, the user should acquire a Raspberry Pi.
+In this section, we will learn how to cross-compile for different architectures. This tutorial will use the 64-bit ARM (aarch64) Raspberry Pi as an example. In order to fully benefit from this tutorial, the user should acquire a Raspberry Pi.
 
 The user should also have an understanding of the Raspberry Pi and specifically how to SSH into the Pi and run applications.
 
@@ -165,7 +167,7 @@ fprime-util build aarch64-clang-linux
 
 ## F´ Running on ARM Linux Tutorial
 
-For this tutorial, the assumption is that the ARM Linux machine is available on the network, is running SSH, and the username, password, device address, and host address are known. Without this configuration, users should skip to the next section of the tutorial.
+For this tutorial, the assumption is that the ARM Linux machine is available on the network, is running SSH, and the username, password, device address, and host address are known. Without this configuration, users will not be able to complete this section of the tutorial.
 
 First, in a terminal upload the software to hardware platform. This is done with:
 
@@ -176,7 +178,7 @@ scp build-artifacts/aarch64-clang-linux/<name-of-deployment>/bin/<name-of-deploy
 > Users must fill in the username and device address above.
 
 Next run the F´ GDS without launching the native compilation (`-n`) and with the 
-dictionary from the build above (`--dictionary ../build-artifacts/<platform name>/<name-of-deployment>/dict/<.json document>`).
+dictionary from the build above (`--dictionary build-artifacts/<platform name>/<name-of-deployment>/dict/<.json document>`).
 
 ```sh
 # In: project root folder

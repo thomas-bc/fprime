@@ -65,6 +65,11 @@ TEST(NominalManual, OneDp) {
     tester.readDps(&dir, 1, stateFile, &dpSet, 1);
 }
 
+TEST(NominalManual, StateFileSkipsTransmitted) {
+    Svc::DpCatalogTester tester;
+    tester.stateFileSkipsTransmitted();
+}
+
 TEST(NominalManual, FiveDp) {
     Svc::DpCatalogTester tester;
     Fw::FileNameString dirs[2];
@@ -298,6 +303,36 @@ TEST(NominalManual, PingIn) {
 TEST(NominalManual, BadFileDone) {
     Svc::DpCatalogTester tester;
     tester.test_BadFileDone();
+}
+
+TEST(NominalManual, StaleFileDoneAfterStopBuild) {
+    Svc::DpCatalogTester tester;
+    tester.test_StaleFileDoneAfterStopBuild();
+}
+
+TEST(NominalManual, StaleFileDoneAfterClear) {
+    Svc::DpCatalogTester tester;
+    tester.test_StaleFileDoneAfterClear();
+}
+
+TEST(NominalManual, LateFileDoneNotAppliedToNewSend) {
+    Svc::DpCatalogTester tester;
+    tester.test_LateFileDoneNotAppliedToNewSend();
+}
+
+TEST(NominalManual, StopRecordsInFlightCompletion) {
+    Svc::DpCatalogTester tester;
+    tester.test_StopRecordsInFlightCompletion();
+}
+
+TEST(NominalManual, StartAfterStopResumesInFlight) {
+    Svc::DpCatalogTester tester;
+    tester.test_StartAfterStopResumesInFlight();
+}
+
+TEST(NominalManual, StopThenErrorCompletion) {
+    Svc::DpCatalogTester tester;
+    tester.test_StopThenErrorCompletion();
 }
 
 TEST(OffNominal, ProcessFileInvalidDir) {

@@ -86,7 +86,12 @@ relevant one instead of improvising:
   sequences `fprime-component-requirements`,
   `fprime-component-design-fpp`, `fprime-component-implementation`,
   `fprime-component-unit-test`, `fprime-component-integration-test`.
+- Modifying pre-existing code (bug fixes, small changes, cleanup):
+  `fprime-maintenance` — the doctrine of minimal effect.
 - Writing unit tests: `fprime-unit-testing`.
+- Driving development to convergence through local test-and-review
+  iterations: `fprime-iterative-development` (requires explicit user
+  approval before use).
 - C/C++ design rules: `fprime-cpp-design`.
 - Tracing untrusted inputs: `fprime-ground-input-tracing`,
   `fprime-hardware-input-tracing`.
@@ -95,7 +100,9 @@ relevant one instead of improvising:
 
 Pull-request review is performed by the multi-agent flow in
 [`.github/agents/`](.github/agents/), entered through
-`review-orchestrator.agent.md`.
+`review-orchestrator.agent.md`. Development work (components,
+topologies, build system) is entered through
+`fprime-development.agent.md`, which sequences the skills above.
 
 ## Contributing
 

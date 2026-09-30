@@ -66,14 +66,17 @@ void SpacePacketFramerTester::testNominalFraming() {
         GTEST_SKIP() << "Could not find a valid APID\n";
     }
     const auto apid = apidOption.value();
+    // Set packet type to SPP_COMMAND
+    ComCfg::SppPacketType::T pktType = ComCfg::SppPacketType::SPP_COMMAND;
     // Choose a random 14-bit sequence count
-    U16 seqCount = static_cast<U8>(STest::Random::lowerUpper(0, 0x3FFF));
+    U16 seqCount = static_cast<U16>(STest::Random::lowerUpper(0, 0x3FFF));
     // Choose a random secondary header flag
     bool hasSecHdr = static_cast<bool>(STest::Random::lowerUpper(0, 1));
     // Choose random 2-bit sequence flags
     U8 seqFlags = static_cast<U8>(STest::Random::lowerUpper(0, 3));
     ComCfg::FrameContext context;
     context.set_apid(apid);
+    context.set_pktType(pktType);
     context.set_hasSecHdr(hasSecHdr);
     context.set_sequenceFlags(seqFlags);
     this->m_nextSeqCount = seqCount;  // seqCount to be returned by getApidSeqCount output port
@@ -92,6 +95,11 @@ void SpacePacketFramerTester::testNominalFraming() {
     // Verify APID in packetIdentification
     U16 extractedApid = header.get_packetIdentification() & SpacePacketSubfields::ApidMask;
     ASSERT_EQ(extractedApid, apid);
+
+    // Verify SPP packet type in packetIdentification
+    U16 extractedPktType = static_cast<U16>((header.get_packetIdentification() & SpacePacketSubfields::PktTypeMask) >>
+                                            SpacePacketSubfields::PktTypeOffset);
+    ASSERT_EQ(extractedPktType, static_cast<U16>(pktType));
 
     // Verify secondary header flag in packetIdentification
     U16 extractedSecHdr = static_cast<U16>((header.get_packetIdentification() & SpacePacketSubfields::SecHdrMask) >>
@@ -142,6 +150,46 @@ void SpacePacketFramerTester ::testOversizedAllocatorBufferIsTrimmed() {
     // If setSize() is missing from SpacePacketFramer, getSize() returns the
     // oversized allocation (2 * expectedFrameSize) and this assertion fails.
     ASSERT_EQ(outBuffer.getSize(), expectedFrameSize);
+    ASSERT_from_comStatusOut_SIZE(0);  // Frame produced: status is reported by the downstream component
+}
+
+void SpacePacketFramerTester ::testInvalidAllocationEmitsComStatus() {
+    U8 payload[16] = {0};
+    Fw::Buffer data(payload, sizeof(payload));
+    ComCfg::FrameContext context;
+
+    this->m_useInvalidAlloc = true;
+    this->invoke_to_dataIn(0, data, context);
+    this->m_useInvalidAlloc = false;
+
+    ASSERT_from_dataOut_SIZE(0);           // No frame produced
+    ASSERT_from_bufferDeallocate_SIZE(0);  // Nothing to deallocate for an invalid buffer
+    ASSERT_from_dataReturnOut_SIZE(1);     // Input buffer returned to sender
+    ASSERT_from_dataReturnOut(0, data, context);
+    ASSERT_EVENTS_NoBufferAvailable_SIZE(1);
+    // Zero frames produced: exactly one SUCCESS so ComQueue keeps sending
+    ASSERT_from_comStatusOut_SIZE(1);
+    ASSERT_from_comStatusOut(0, Fw::Success(Fw::Success::SUCCESS));
+}
+
+void SpacePacketFramerTester ::testUndersizedAllocationEmitsComStatus() {
+    U8 payload[16] = {0};
+    Fw::Buffer data(payload, sizeof(payload));
+    ComCfg::FrameContext context;
+
+    this->m_useUndersizedAlloc = true;
+    this->invoke_to_dataIn(0, data, context);
+    this->m_useUndersizedAlloc = false;
+
+    ASSERT_from_dataOut_SIZE(0);           // No frame produced
+    ASSERT_from_bufferDeallocate_SIZE(1);  // Undersized but valid buffer is returned to the allocator
+    ASSERT_from_bufferDeallocate(
+        0, Fw::Buffer(this->m_internalDataBuffer, sizeof(payload) + SpacePacketHeader::SERIALIZED_SIZE - 1));
+    ASSERT_from_dataReturnOut_SIZE(1);  // Input buffer returned to sender
+    ASSERT_from_dataReturnOut(0, data, context);
+    ASSERT_EVENTS_NoBufferAvailable_SIZE(1);
+    ASSERT_from_comStatusOut_SIZE(1);
+    ASSERT_from_comStatusOut(0, Fw::Success(Fw::Success::SUCCESS));
 }
 
 // ----------------------------------------------------------------------
@@ -155,7 +203,14 @@ U16 SpacePacketFramerTester ::from_getApidSeqCount_handler(FwIndexType portNum,
 }
 
 Fw::Buffer SpacePacketFramerTester ::from_bufferAllocate_handler(FwIndexType portNum, FwSizeType size) {
+    if (this->m_useInvalidAlloc) {
+        // Simulate an exhausted pool: return an invalid (empty) buffer
+        return Fw::Buffer();
+    }
     FwSizeType allocation = (this->m_useOversizedAlloc) ? sizeof(this->m_internalDataBuffer) : size;
+    if (this->m_useUndersizedAlloc) {
+        allocation = size - 1;
+    }
     return Fw::Buffer(this->m_internalDataBuffer, allocation);
 }
 

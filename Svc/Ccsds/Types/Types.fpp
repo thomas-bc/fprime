@@ -28,10 +28,15 @@ module Ccsds {
         ENCRYPTION_FAILURE = 3  @< Encryption operation failed
         DECRYPTION_FAILURE = 4  @< Decryption operation failed
         KEY_ERROR = 5           @< Key retrieval failed
+        MAC_VERIFICATION_FAILURE = 6 @< Frame failed its authentication check
     }
 
     @ An on-stack buffer sized to hold an SDLS key
     type SdlsKeyBuffer
+
+    @ Size in bytes of the security association index Svc.Ccsds.CcsdsSdlsFramer prepends to each frame
+    @ (static_asserted there against the serialized size of ComCfg.FrameContext.saIndex)
+    constant SdlsSaIndexSize = 2
 
     @ A single security association index to port index mapping entry
     struct SaMapEntry {
@@ -139,12 +144,22 @@ module Ccsds {
     struct TMTrailer {
         fecf: U16             @< 16 bit Frame Error Control Field (CRC16)
     }
+    @ Serialized size of TMHeader in bytes; Svc.Ccsds.TmFramer static_asserts it against TMHeader::SERIALIZED_SIZE
+    constant TmHeaderSize = 6
+    @ Serialized size of TMTrailer in bytes; Svc.Ccsds.TmFramer static_asserts it against TMTrailer::SERIALIZED_SIZE
+    constant TmTrailerSize = 2
+    @ Size in bytes of the TM Transfer Frame Data Field: the payload Svc.Ccsds.TmFramer expects on each frame
+    constant TmDataFieldSize = ComCfg.TmFrameFixedSize - TmHeaderSize - TmTrailerSize
     @ Offsets for serializing individual sub-fields in TM headers
     module TMSubfields {
         constant frameVersionOffset = 14
         constant spacecraftIdOffset = 4
         constant virtualChannelIdOffset = 1
         constant segLengthOffset = 11
+        constant fhpMask = 0x07FF                @< 11 bit First Header Pointer field of Data Field Status
+        # Special First Header Pointer values per CCSDS 132.0-B-3 Sections 4.1.2.7.6.4 & 4.1.2.7.6.5
+        constant FHP_NO_PACKET_START = 0x7FF     @< No packet starts in this frame (continuation data only)
+        constant FHP_IDLE_DATA_ONLY = 0x7FE      @< Frame contains only idle data
     }
 
     # ------------------------------------------------
